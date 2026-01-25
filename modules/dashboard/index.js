@@ -93,8 +93,8 @@ function statCard(title, value, change, color, iconPath) {
                 </div>
             </div>
             <div>
-                <div class="text-[0.75rem] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">${title}</div>
-                <div class="text-2xl font-semibold flex items-center gap-1 text-slate-900 dark:text-white">${value}</div>
+                <div class="text-[0.75rem] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">${title}</div>
+                <div class="text-2xl font-bold flex items-center gap-1 text-slate-900 dark:text-white leading-none">${value}</div>
             </div>
         </div>
     `;
