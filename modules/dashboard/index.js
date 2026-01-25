@@ -5,7 +5,7 @@ export const dashboardModule = {
         return `
             <!-- Welcome Header -->
             <div class="mb-8">
-                <h1 class="text-2xl font-black mb-1 text-slate-900 dark:text-white">${i18n.t('welcomeBack')}</h1>
+                <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('welcomeBack')}</h1>
                 <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('dashboardSubtitle')}</p>
             </div>
 
@@ -23,8 +23,8 @@ export const dashboardModule = {
                 <!-- Pillar 1: Activity (2/5) -->
                 <div class="lg:col-span-2 premium-card !p-6 flex flex-col">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-[0.9375rem] font-black text-slate-700 dark:text-slate-200">${i18n.t('recentActivity')}</h3>
-                        <button class="text-[0.75rem] font-bold text-vision-gold hover:underline">المزيد</button>
+                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('recentActivity')}</h3>
+                        <button class="text-[0.75rem] font-semibold text-vision-gold hover:underline">المزيد</button>
                     </div>
                     <div class="space-y-4 flex-1">
                         ${activityItem(i18n.t('newUserAdded'), i18n.t('5minsAgo'), 'bg-blue-500')}
@@ -36,7 +36,7 @@ export const dashboardModule = {
 
                 <!-- Pillar 2: Distribution Chart (1/5) -->
                 <div class="lg:col-span-1 premium-card !p-6 flex flex-col items-center justify-center text-center">
-                    <h3 class="text-[0.75rem] font-bold text-slate-500 uppercase tracking-widest mb-6 w-full text-center">الإحصائيات</h3>
+                    <h3 class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-6 w-full text-center">الإحصائيات</h3>
                     
                     <div class="relative w-32 h-32 flex items-center justify-center mb-6">
                         <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -45,25 +45,25 @@ export const dashboardModule = {
                             <circle cx="18" cy="18" r="16" fill="none" stroke="currentColor" stroke-width="3" stroke-dasharray="100" stroke-dashoffset="85" class="text-blue-500 opacity-80"></circle>
                         </svg>
                         <div class="absolute flex flex-col items-center">
-                            <span class="text-xl font-black font-nums leading-none text-slate-900 dark:text-white">82%</span>
+                            <span class="text-xl font-bold font-nums leading-none text-slate-800 dark:text-white">82%</span>
                         </div>
                     </div>
 
                     <div class="space-y-3 w-full">
                         <div class="flex items-center justify-between">
-                            <span class="text-[0.75rem] font-bold text-slate-500">Sales</span>
-                            <span class="text-[0.8125rem] font-semibold font-nums text-slate-800 dark:text-slate-200">65%</span>
+                            <span class="text-[0.75rem] font-semibold text-slate-500">Sales</span>
+                            <span class="text-[0.8125rem] font-semibold font-nums text-slate-700 dark:text-slate-200">65%</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-[0.75rem] font-bold text-slate-500">Users</span>
-                            <span class="text-[0.8125rem] font-semibold font-nums text-slate-800 dark:text-slate-200">17%</span>
+                            <span class="text-[0.75rem] font-semibold text-slate-500">Users</span>
+                            <span class="text-[0.8125rem] font-semibold font-nums text-slate-700 dark:text-slate-200">17%</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Pillar 3: System Status / Quick Actions (2/5) -->
                 <div class="lg:col-span-2 premium-card !p-6">
-                    <h3 class="text-[0.9375rem] font-black mb-6 text-slate-700 dark:text-slate-200">حالة النظام والأداء</h3>
+                    <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">حالة النظام والأداء</h3>
                     <div class="space-y-6">
                         ${performanceItem('سرعة المعالجة', `<span class="font-nums">98%</span>`, 'bg-emerald-500')}
                         ${performanceItem('استخدام الذاكرة', `<span class="font-nums">42%</span>`, 'bg-blue-500')}
@@ -93,8 +93,8 @@ function statCard(title, value, change, color, iconPath) {
                 </div>
             </div>
             <div>
-                <div class="text-[0.75rem] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">${title}</div>
-                <div class="text-2xl font-bold flex items-center gap-1 text-slate-900 dark:text-white leading-none">${value}</div>
+                <div class="text-[0.75rem] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">${title}</div>
+                <div class="text-2xl font-semibold flex items-center gap-1 text-slate-800 dark:text-white leading-none">${value}</div>
             </div>
         </div>
     `;
