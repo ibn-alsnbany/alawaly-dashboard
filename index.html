@@ -7,12 +7,18 @@
     <title data-i18n="title">تيربو 2030</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        inter: ['Inter', 'sans-serif'],
+                    },
                     colors: {
                         'vision-gold': '#C5A059',
                         'vision-surface': 'var(--vision-surface)',
@@ -36,11 +42,12 @@
         <!-- Sidebar -->
         <aside id="sidebar" class="shadow-premium">
             <!-- Branding Header -->
-            <div class="h-28 flex items-center justify-center shrink-0 relative px-6 border-b border-slate-50 dark:border-slate-800/50">
+            <div
+                class="h-28 flex items-center justify-center shrink-0 relative px-6 border-b border-slate-50 dark:border-slate-800/50">
                 <div class="branding-container transition-all duration-300 w-full">
                     <!-- Expanded: Horizontal Full Logo -->
                     <div class="branding-full"></div>
-                    
+
                     <!-- Collapsed: Vertical Icon + Subtitle -->
                     <div class="branding-compact">
                         <div class="branding-compact-logo"></div>
@@ -51,7 +58,7 @@
 
             <!-- Sidebar Button (Outer Edge) -->
             <button id="collapse-btn" onclick="toggleSidebarCollapse()"
-                class="absolute start-2 top-8 w-7 h-7 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center text-slate-500 hover:text-vision-gold shadow-md z-50 transition-all hover:scale-110 active:scale-95">
+                class="absolute start-2 top-8 w-7 h-7 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center text-slate-500 hover:text-vision-gold shadow-md z-50 transition-all">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                         d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
@@ -182,11 +189,11 @@
                     <!-- Profile Context -->
                     <div class="flex items-center gap-3 ms-2 cursor-pointer group">
                         <div
-                            class="w-10 h-10 rounded-xl bg-vision-gold/10 flex items-center justify-center text-vision-gold font-bold transition-transform group-hover:scale-105">
+                            class="w-10 h-10 rounded-xl bg-vision-gold/10 flex items-center justify-center text-vision-gold font-bold transition-transform">
                             ع</div>
                         <div class="hidden md:block text-start">
                             <div class="text-sm font-bold leading-none mb-1" data-i18n="userName">محمد علي</div>
-                            <div class="text-[10px] opacity-50 font-medium leading-none" data-i18n="userRole">مدير
+                            <div class="text-[0.625rem] opacity-50 font-medium leading-none" data-i18n="userRole">مدير
                                 النظام</div>
                         </div>
                     </div>

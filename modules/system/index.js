@@ -4,54 +4,65 @@ export const systemModule = {
     render: () => {
         return `
             <div class="mb-8">
-                <h1 class="text-3xl font-black text-vision-text mb-2">${i18n.t('system')}</h1>
-                <p class="text-gray-400 text-sm font-medium">${i18n.t('systemSubtitle') || 'مراقبة صحة النظام والتحديثات التقنية.'}</p>
+                <h1 class="text-3xl font-black text-slate-900 dark:text-white mb-2">${i18n.t('system')}</h1>
+                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('systemSubtitle') || 'مراقبة صحة النظام والتحديثات التقنية.'}</p>
             </div>
 
-            <div class="bg-vision-surface p-10 rounded-[2.5rem] border border-gray-100 dark:border-vision-border shadow-vision">
-                <h3 class="text-xl font-bold text-vision-text mb-10">${i18n.t('systemStatus')}</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                    ${statusItem('Server Load', '24%', 'Excellent', 'text-green-500', 'M5 12h14M5 12a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2 M5 12a2 2 0 00-2 2v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 00-2-2')}
-                    ${statusItem('Memory Usage', '4.2GB / 16GB', 'Steady', 'text-blue-500', 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z')}
-                    ${statusItem('Database', 'Online', 'Perfect', 'text-purple-500', 'M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4')}
-                    ${statusItem('API Latency', '45ms', 'Ultra Fast', 'text-orange-500', 'M13 10V3L4 14h7v7l9-11h-7z')}
+            <div class="bg-white dark:bg-vision-surface p-10 rounded-[2.5rem] border border-slate-100 dark:border-vision-border shadow-soft">
+                <div class="flex items-center justify-between mb-10">
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">نظرة عامة على النظام</h3>
+                    <div class="flex gap-4">
+                        <span class="flex items-center gap-2 px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[0.75rem] font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            النظام مستقر
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                    ${systemItem('حمولة المعالج', `<span class="font-nums">24%</span>`, 'bg-emerald-500', 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'Optimized', 'text-emerald-500')}
+                    ${systemItem('التخزين السحابي', `<span class="font-nums">1.2 TB</span>`, 'bg-blue-500', 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z', 'Efficient', 'text-blue-500')}
+                    ${systemItem('وقت التشغيل', `<span class="font-nums">362 Days</span>`, 'bg-purple-500', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'Continuous', 'text-purple-500')}
+                    ${systemItem('زمن الاستجابة', `<span class="font-nums">12ms</span>`, 'bg-amber-500', 'M13 10V3L4 14h7v7l9-11h-7z', 'Excellent', 'text-amber-500')}
                 </div>
             </div>
 
-            <div class="mt-8 bg-vision-surface p-8 rounded-[2.5rem] border border-gray-100 dark:border-vision-border shadow-vision">
-                <h3 class="text-xl font-bold text-vision-text mb-8">${i18n.t('recentUpdates')}</h3>
-                <div class="space-y-4">
-                    ${updateItem('v2.4.0 Premium', 'Implemented ultra-high-end design system based on Cubic Saudi tokens.', '2024-05-24')}
-                    ${updateItem('v2.3.9 Core', 'Enhanced routing performance and multi-language engine stability.', '2024-05-22')}
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="premium-card !p-8">
+                    <h3 class="text-xl font-bold mb-8 text-slate-900 dark:text-white">سجل التحديثات</h3>
+                    <div class="space-y-6">
+                        ${updateItem('v2.4.0', '25 Jan 2026', 'تحسينات أمنية شاملة وتحديث الواجهة الرسومية.')}
+                        ${updateItem('v2.3.8', '12 Jan 2026', 'إصلاحات تقنية في نظام المبيعات والتقارير.')}
+                    </div>
                 </div>
             </div>
         `;
     }
 };
 
-function statusItem(label, value, status, colorClass, iconPath) {
+function systemItem(label, value, color, iconPath, status, colorClass) {
     return `
-        <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-gray-400">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="${iconPath}"></path></svg>
+        <div class="flex items-start gap-5">
+            <div class="w-12 h-12 rounded-2xl ${color}/10 flex items-center justify-center text-${color.replace('bg-', 'text-')}">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
             </div>
             <div>
-                <div class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">${label}</div>
-                <div class="text-lg font-black text-vision-text">${value}</div>
-                <div class="text-[10px] font-black ${colorClass} uppercase">${status}</div>
+                <div class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-1">${label}</div>
+                <div class="text-xl font-semibold text-slate-900 dark:text-white font-nums">${value}</div>
+                <div class="text-[0.75rem] font-bold ${colorClass} uppercase mt-1 tracking-wider">${status}</div>
             </div>
         </div>
     `;
 }
 
-function updateItem(version, desc, date) {
+function updateItem(version, date, desc) {
     return `
-        <div class="p-6 bg-gray-50 dark:bg-gray-800/40 rounded-3xl border border-gray-100 dark:border-vision-border hover:border-vision-gold transition-all">
-            <div class="flex justify-between items-center mb-2">
-                <span class="text-sm font-black text-vision-gold">${version}</span>
-                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">${date}</span>
+        <div class="p-6 bg-slate-50/50 dark:bg-slate-800/40 rounded-3xl border border-slate-100 dark:border-vision-border hover:border-vision-gold transition-all duration-300">
+            <div class="flex justify-between items-center mb-3">
+                <span class="text-[0.9375rem] font-bold text-vision-gold font-nums">${version}</span>
+                <span class="text-[0.75rem] font-bold text-slate-500 uppercase tracking-widest font-nums">${date}</span>
             </div>
-            <div class="text-sm text-vision-text opacity-70 font-medium">${desc}</div>
+            <div class="text-[0.875rem] text-slate-600 dark:text-slate-300 font-medium leading-relaxed">${desc}</div>
         </div>
     `;
 }
