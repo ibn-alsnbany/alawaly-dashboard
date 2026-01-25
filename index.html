@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">تيربو 2030</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'vision-gold': '#C5A059',
+                        'vision-surface': 'var(--vision-surface)',
+                        'vision-bg': 'var(--vision-bg)',
+                    },
+                    fontFamily: {
+                        arabic: ['"Cairo"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="font-arabic text-slate-800 dark:text-slate-100 overflow-hidden bg-vision-bg">
+    <!-- Overlay for mobile sidebar -->
+    <div id="sidebar-overlay" onclick="toggleSidebar()"
+        class="fixed inset-0 z-40 hidden transition-opacity duration-300"></div>
+
+    <div id="app" class="flex h-screen w-full relative">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="shadow-premium">
+            <!-- Branding Header -->
+            <div class="h-28 flex items-center justify-center shrink-0 relative px-6 border-b border-slate-50 dark:border-slate-800/50">
+                <div class="branding-container transition-all duration-300 w-full">
+                    <!-- Expanded: Horizontal Full Logo -->
+                    <div class="branding-full"></div>
+                    
+                    <!-- Collapsed: Vertical Icon + Subtitle -->
+                    <div class="branding-compact">
+                        <div class="branding-compact-logo"></div>
+                        <div class="branding-compact-name"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Button (Outer Edge) -->
+            <button id="collapse-btn" onclick="toggleSidebarCollapse()"
+                class="absolute start-2 top-8 w-7 h-7 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-full flex items-center justify-center text-slate-500 hover:text-vision-gold shadow-md z-50 transition-all hover:scale-110 active:scale-95">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                        d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
+                </svg>
+            </button>
+
+            <!-- Navigation Links -->
+            <nav class="flex-1 p-4 space-y-2 overflow-y-auto" id="main-nav">
+                <a href="#dashboard"
+                    class="nav-link flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all hover:bg-slate-50 dark:hover:bg-slate-800"
+                    data-nav="dashboard" title="لوحة التحكم">
+                    <svg class="w-6 h-6 shrink-0 transition-colors" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                        </path>
+                    </svg>
+                    <span class="nav-label nav-text font-bold text-sm whitespace-nowrap" data-i18n="dashboard">لوحة
+                        التحكم</span>
+                </a>
+                <a href="#analytics"
+                    class="nav-link flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all hover:bg-slate-50 dark:hover:bg-slate-800"
+                    data-nav="analytics" title="أداة التحليل">
+                    <svg class="w-6 h-6 shrink-0 transition-colors" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                        </path>
+                    </svg>
+                    <span class="nav-label nav-text font-bold text-sm whitespace-nowrap" data-i18n="analytics">أداة
+                        التحليل</span>
+                </a>
+                <a href="#users"
+                    class="nav-link flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all hover:bg-slate-50 dark:hover:bg-slate-800"
+                    data-nav="users" title="إدارة المستخدمين">
+                    <svg class="w-6 h-6 shrink-0 transition-colors" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                        </path>
+                    </svg>
+                    <span class="nav-label nav-text font-bold text-sm whitespace-nowrap" data-i18n="users">إدارة
+                        المستخدمين</span>
+                </a>
+                <a href="#settings"
+                    class="nav-link flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all hover:bg-slate-50 dark:hover:bg-slate-800 border-t border-slate-50 dark:border-slate-800 mt-4 pt-4"
+                    data-nav="settings" title="Settings">
+                    <svg class="w-6 h-6 shrink-0 transition-colors" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <span class="nav-label nav-text font-bold text-sm whitespace-nowrap"
+                        data-i18n="settings">الإعدادات</span>
+                </a>
+            </nav>
+
+            <!-- Sidebar Footer -->
+            <div class="p-4 border-t border-slate-50 dark:border-slate-800 shrink-0">
+                <div
+                    class="bg-slate-50 dark:bg-slate-800/80 rounded-2xl p-2 flex gap-2 toggles-container transition-all duration-300">
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle-btn" onclick="toggleTheme()"
+                        class="flex-1 flex items-center justify-center p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-700 transition-all text-slate-400 hover:text-vision-gold btn-toggle gap-2 overflow-hidden">
+                        <svg id="theme-icon" class="w-5 h-5 shrink-0" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
+                        <span id="theme-text" class="text-xs font-bold nav-text" data-i18n="themeNight">ليلي</span>
+                    </button>
+                    <!-- Divider -->
+                    <div
+                        class="w-px h-6 bg-slate-200 dark:bg-slate-700 self-center hidden-collapsed transition-opacity">
+                    </div>
+                    <!-- Language Toggle -->
+                    <button id="lang-toggle-btn" onclick="toggleLanguage()"
+                        class="flex-1 min-w-0 flex items-center justify-center rounded-xl hover:bg-white dark:hover:bg-slate-700 transition-all font-black text-slate-500 uppercase tracking-tighter whitespace-nowrap btn-toggle overflow-hidden">
+                        <span id="lang-text" class="text-xs" data-i18n="langNameLarge">English</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main id="main-content-wrapper" class="bg-pattern transition-all duration-300">
+            <!-- Topbar -->
+            <header
+                class="h-20 bg-vision-surface border-b border-slate-100 dark:border-slate-800/80 flex items-center justify-between px-6 md:px-10 shrink-0 z-40 transition-all duration-300">
+                <div class="flex items-center gap-6 flex-1">
+                    <button onclick="toggleSidebar()"
+                        class="md:hidden p-2 rounded-xl bg-slate-50 dark:bg-slate-800 text-slate-400">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                    <!-- Search Bar Refined -->
+                    <div class="hidden sm:flex items-center relative group w-full max-w-md">
+                        <svg class="w-4 h-4 absolute start-4 text-slate-400 group-focus-within:text-vision-gold transition-colors"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" data-i18n-placeholder="search" placeholder="Search..."
+                            class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-xl py-2.5 ps-11 pe-4 text-sm text-slate-600 dark:text-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:ring-2 focus:ring-vision-gold/20 focus:border-vision-gold/30 transition-all outline-none">
+                    </div>
+                </div>
+
+                <!-- Topbar Actions -->
+                <div class="flex items-center gap-2 border-s border-slate-100 dark:border-slate-800 ps-6 ms-4">
+                    <!-- Notifications -->
+                    <button
+                        class="w-10 h-10 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-vision-gold transition-all relative group">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                            </path>
+                        </svg>
+                        <span
+                            class="absolute top-2.5 end-2.5 w-2 h-2 bg-red-500 rounded-full border-2 border-vision-surface"></span>
+                    </button>
+
+                    <!-- Profile Context -->
+                    <div class="flex items-center gap-3 ms-2 cursor-pointer group">
+                        <div
+                            class="w-10 h-10 rounded-xl bg-vision-gold/10 flex items-center justify-center text-vision-gold font-bold transition-transform group-hover:scale-105">
+                            ع</div>
+                        <div class="hidden md:block text-start">
+                            <div class="text-sm font-bold leading-none mb-1" data-i18n="userName">محمد علي</div>
+                            <div class="text-[10px] opacity-50 font-medium leading-none" data-i18n="userRole">مدير
+                                النظام</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dynamic Module Content -->
+            <div id="module-container" class="flex-grow p-6 md:p-10 overflow-y-auto transition-opacity duration-300">
+                <!-- Content injected here -->
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>

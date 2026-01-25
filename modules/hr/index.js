@@ -1,0 +1,68 @@
+import { i18n } from '../../core/i18n.js';
+
+export const hrModule = {
+    render: () => {
+        return `
+            <div class="mb-8">
+                <h1 class="text-3xl font-black text-vision-text mb-2">${i18n.t('hr')}</h1>
+                <p class="text-gray-400 text-sm font-medium">${i18n.t('hrSubtitle') || 'إدارة الكوادر البشرية والنمو الوظيفي.'}</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 w-full">
+                ${statCard(i18n.t('employees'), '154', '+2 New', 'vision-blue', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z')}
+                ${statCard(i18n.t('attendance'), '94%', '-1%', 'vision-orange', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
+                ${statCard(i18n.t('leaves'), '8', 'Active', 'vision-purple', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')}
+                ${statCard(i18n.t('salaries'), '480k', '+5%', 'vision-green', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
+            </div>
+            
+            <div class="bg-vision-surface p-8 rounded-[2rem] border border-gray-100 dark:border-vision-border shadow-vision">
+                <h3 class="text-xl font-bold text-vision-text mb-8">${i18n.t('employeeList')}</h3>
+                <div class="space-y-3">
+                    ${employeeRow('خالد محمد', 'مدير تقني', 'نشط', 'bg-green-100 text-green-600')}
+                    ${employeeRow('ريم علي', 'مصممة واجهات', 'نشط', 'bg-green-100 text-green-600')}
+                    ${employeeRow('عمر فاروق', 'مطور فرونت إند', 'في إجازة', 'bg-orange-100 text-orange-600')}
+                </div>
+            </div>
+        `;
+    }
+};
+
+function statCard(title, value, change, color, iconPath) {
+    const isPositive = change.startsWith('+') || change === 'Active';
+    return `
+        <div class="bg-vision-surface p-8 rounded-[2rem] border border-gray-100 dark:border-vision-border shadow-vision hover:shadow-lg transition-all">
+            <div class="flex justify-between items-start mb-6">
+                <div class="w-14 h-14 rounded-2xl bg-${color}/10 flex items-center justify-center text-${color}">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="${iconPath}"></path></svg>
+                </div>
+                <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'} text-[10px] font-black uppercase">
+                    ${change}
+                </div>
+            </div>
+            <div>
+                <div class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">${title}</div>
+                <div class="text-2xl font-black text-vision-text tracking-tight">${value}</div>
+            </div>
+        </div>
+    `;
+}
+
+function employeeRow(name, role, status, statusClass) {
+    return `
+        <div class="p-5 border border-gray-50 dark:border-vision-border rounded-3xl hover:bg-gray-50 dark:hover:bg-vision-gold/5 transition-all flex items-center justify-between group">
+            <div class="flex items-center gap-5">
+                <div class="w-14 h-14 rounded-2xl bg-vision-gold/5 border border-vision-gold/10 flex items-center justify-center text-vision-gold font-black text-lg group-hover:scale-105 transition-transform">${name[0]}</div>
+                <div>
+                    <div class="text-md font-black text-vision-text mb-0.5">${name}</div>
+                    <div class="text-xs text-gray-400 font-bold uppercase tracking-tighter">${role}</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <span class="${statusClass} px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider">${status}</span>
+                <button class="p-2.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+        </div>
+    `;
+}
