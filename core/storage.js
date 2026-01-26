@@ -46,7 +46,9 @@ export const storage = {
         { id: 'INV-002', customer: 'مؤسسة الرياض', amount: '8,200', date: '2023-10-05', status: 'Pending', statusClass: 'bg-amber-50 text-amber-600' },
         { id: 'INV-003', customer: 'متجر الوفاء', amount: '3,450', date: '2023-10-08', status: 'Overdue', statusClass: 'bg-rose-50 text-rose-600' }
     ]),
+    getInvoiceById: (id) => storage.getInvoices().find(inv => inv.id === id),
     addInvoice: (inv) => storage.add('vision_invoices', inv, storage.getInvoices()),
+    updateInvoice: (id, data) => storage.update('vision_invoices', id, data, storage.getInvoices()),
     deleteInvoice: (id) => storage.delete('vision_invoices', id, storage.getInvoices()),
 
     // ORDERS (Sales)
@@ -56,7 +58,9 @@ export const storage = {
         { id: '#ORD-443', customer: 'بدر الحربي', amount: '350', status: 'Completed', statusClass: 'bg-green-50 text-green-600' },
         { id: '#ORD-444', customer: 'ليلى القحطاني', amount: '890', status: 'Cancelled', statusClass: 'bg-red-50 text-red-600' }
     ]),
+    getOrderById: (id) => storage.getOrders().find(ord => ord.id === id),
     addOrder: (ord) => storage.add('vision_orders', ord, storage.getOrders()),
+    updateOrder: (id, data) => storage.update('vision_orders', id, data, storage.getOrders()),
     deleteOrder: (id) => storage.delete('vision_orders', id, storage.getOrders()),
 
     // EMPLOYEES (HR)
@@ -66,6 +70,7 @@ export const storage = {
         { id: 3, name: 'عمر فهد', role: 'محلل بيانات', status: 'نشط', statusClass: 'bg-green-100 text-green-600' }
     ]),
     addEmployee: (emp) => storage.add('vision_employees', emp, storage.getEmployees()),
+    updateEmployee: (id, data) => storage.update('vision_employees', id, data, storage.getEmployees()),
     deleteEmployee: (id) => storage.delete('vision_employees', id, storage.getEmployees()),
 
     // PROFILE

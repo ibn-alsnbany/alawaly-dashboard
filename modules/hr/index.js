@@ -76,21 +76,70 @@ window.addEmployeePrompt = () => {
     `, 'توظيف الآن', 'submitNewEmployee()'));
 };
 
-window.submitNewEmployee = () => {
+window.editEmployeePrompt = (id) => {
+    const emp = storage.getEmployees().find(e => e.id == id);
+    if (!emp) return;
+
+    showModal(modalForm('تعديل سجل الموظف', `
+    <div class="space-y-5">
+        ${modalInput('الاسم الثنائي', 'emp-name', 'الاسم...', 'text')}
+        ${modalInput('المسمى الوظيفي', 'emp-role', 'المسمى الوظيفي...')}
+        <input type="hidden" id="emp-id" value="${id}">
+    </div>
+    `, 'تطبيق التحديث', 'submitUpdateEmployee()'));
+
+    // Fill values
+    document.getElementById('emp-name').value = emp.name;
+    document.getElementById('emp-role').value = emp.role;
+};
+
+window.submitUpdateEmployee = () => {
+    const id = document.getElementById('emp-id').value;
     const name = document.getElementById('emp-name').value;
     const role = document.getElementById('emp-role').value;
 
-    if (!name || !role) return alert('يرجى إكمال بيانات السجل الوظيفي');
+    if (!name || !role) return alert('يرجى إكمال البيانات');
 
-    storage.addEmployee({
-        name,
-        role,
-        status: 'نشط',
-        statusClass: 'bg-green-100 text-green-600'
-    });
+    storage.updateEmployee(id, { name, role });
     closeModal();
-    showToast('تمت إضافة الموظف بنجاح للسجل');
+    showToast('تم تحديث سجل الموظف بنجاح');
     refreshModule();
+};
+
+window.viewEmployee = (id) => {
+    const emp = storage.getEmployees().find(e => e.id == id);
+    if (!emp) return;
+
+    showModal(`
+        <div class="premium-card !p-8 md:!p-10 shadow-2xl relative w-full max-w-md mx-auto animate-enter text-right">
+            <button onclick="closeModal()" class="absolute top-8 left-8 p-2 text-slate-400 hover:text-rose-500 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-8">
+                <div class="w-24 h-24 rounded-full bg-vision-gold/5 border-4 border-vision-gold/10 flex items-center justify-center mx-auto mb-6 text-vision-gold text-4xl font-black">
+                    ${emp.name[0]}
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">${emp.name}</h3>
+                <p class="text-slate-500 font-medium">${emp.role}</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-3xl border border-slate-100 dark:border-slate-700/50 text-center">
+                    <span class="block text-slate-400 text-[0.65rem] font-bold uppercase tracking-widest mb-1">حالة العمل</span>
+                    <span class="${emp.statusClass} px-3 py-1 rounded-lg text-[0.7rem] font-bold">${emp.status}</span>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-3xl border border-slate-100 dark:border-slate-700/50 text-center">
+                    <span class="block text-slate-400 text-[0.65rem] font-bold uppercase tracking-widest mb-1">رقم الموظف</span>
+                    <span class="text-slate-800 dark:text-slate-100 font-bold font-nums">#ID-${emp.id}</span>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="editEmployeePrompt('${emp.id}')" class="flex-1 bg-vision-gold text-white py-4 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20">تحرير السجل</button>
+                <button onclick="closeModal()" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 py-4 rounded-2xl font-bold text-[0.875rem]">إغلاق</button>
+            </div>
+        </div>
+    `);
 };
 
 window.deleteEmployee = (id) => {
@@ -133,11 +182,14 @@ function employeeRow(id, name, role, status, statusClass) {
             </div>
             <div class="flex items-center gap-8">
                 <span class="${statusClass} px-3.5 py-1.5 rounded-xl text-[0.75rem] font-bold uppercase tracking-wider">${status}</span>
-                <div class="flex gap-2">
-                    <button class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-300 hover:text-vision-gold transition-colors">
+                <div class="flex gap-2 transition-all">
+                    <button onclick="viewEmployee(${id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-blue-500 hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all shadow-sm" title="عرض السجل">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </button>
+                    <button onclick="editEmployeePrompt(${id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-vision-gold hover:border-vision-gold/30 hover:bg-amber-50 dark:hover:bg-vision-gold/10 transition-all shadow-sm" title="تعديل السجل">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                     </button>
-                    <button onclick="deleteEmployee(${id})" class="p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-300 hover:text-rose-500 transition-colors">
+                    <button onclick="deleteEmployee(${id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-rose-500 hover:border-rose-200 dark:hover:border-rose-500/30 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all shadow-sm" title="حذف">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>

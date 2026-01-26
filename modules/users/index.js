@@ -103,18 +103,79 @@ window.addNewUserPrompt = () => {
     `, 'إضافة الآن', 'submitNewUser()'));
 };
 
-window.submitNewUser = () => {
+window.editUserPrompt = (id) => {
+    const user = storage.getUsers().find(u => u.id == id);
+    if (!user) return;
+
+    showModal(modalForm('تعديل بيانات الموظف', `
+    <div class="space-y-5">
+        ${modalInput('الاسم الكامل', 'user-name', 'الاسم...', 'text')}
+        ${modalInput('البريد الإلكتروني', 'user-email', 'email@vision.sa')}
+        <div class="grid grid-cols-2 gap-4">
+            ${modalInput('القسم', 'user-dept', 'القسم...')}
+            ${modalInput('المسمى الوظيفي', 'user-role', 'المسمى...')}
+        </div>
+        <input type="hidden" id="user-id" value="${id}">
+    </div>
+    `, 'حفظ التغييرات', 'submitUpdateUser()'));
+
+    // Fill values
+    document.getElementById('user-name').value = user.name;
+    document.getElementById('user-email').value = user.email;
+    document.getElementById('user-dept').value = user.dept;
+    document.getElementById('user-role').value = user.role;
+};
+
+window.submitUpdateUser = () => {
+    const id = document.getElementById('user-id').value;
     const name = document.getElementById('user-name').value;
     const email = document.getElementById('user-email').value;
-    const dept = document.getElementById('user-dept').value || 'القسم العام';
-    const role = document.getElementById('user-role').value || 'كادر فني';
+    const dept = document.getElementById('user-dept').value;
+    const role = document.getElementById('user-role').value;
 
-    if (!name || !email) return alert('يرجى تعبئة الحقول الأساسية');
+    if (!name || !email) return alert('يرجى تعبئة كافة الحقول');
 
-    storage.addUser({ name, email, dept, role, status: 'bg-emerald-500' });
+    storage.updateUser(id, { name, email, dept, role });
     closeModal();
-    showToast('تمت إضافة الموظف بنجاح');
+    showToast('تم تحديث بيانات الموظف بنجاح');
     refreshModule();
+};
+
+window.viewUser = (id) => {
+    const user = storage.getUsers().find(u => u.id == id);
+    if (!user) return;
+
+    showModal(`
+        <div class="premium-card !p-8 md:!p-10 shadow-2xl relative w-full max-w-md mx-auto animate-enter text-right">
+            <button onclick="closeModal()" class="absolute top-8 left-8 p-2 text-slate-400 hover:text-rose-500 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-8">
+                <div class="w-24 h-24 rounded-3xl bg-vision-gold/10 flex items-center justify-center mx-auto mb-6 text-vision-gold text-3xl font-black shadow-inner">
+                    ${user.name[0]}
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">${user.name}</h3>
+                <span class="px-5 py-1.5 rounded-full bg-slate-50 dark:bg-slate-800 text-[0.75rem] font-bold text-slate-500 uppercase tracking-widest border border-slate-100 dark:border-slate-700">${user.role}</span>
+            </div>
+
+            <div class="space-y-5 bg-slate-50 dark:bg-slate-800/40 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 mb-8 text-[0.875rem]">
+                <div class="flex justify-between items-center h-8">
+                    <span class="text-slate-400 font-bold uppercase text-[0.7rem] tracking-widest">البريد الإلكتروني</span>
+                    <span class="text-slate-700 dark:text-slate-200 font-medium">${user.email}</span>
+                </div>
+                <div class="w-full h-px bg-slate-100 dark:bg-slate-700/50"></div>
+                <div class="flex justify-between items-center h-8">
+                    <span class="text-slate-400 font-bold uppercase text-[0.7rem] tracking-widest">القسم الحالي</span>
+                    <span class="text-slate-800 dark:text-slate-100 font-bold">${user.dept}</span>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="editUserPrompt('${user.id}')" class="flex-1 bg-vision-gold text-white py-4 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20 hover:brightness-110">تعديل الملف</button>
+                <button onclick="closeModal()" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 py-4 rounded-2xl font-bold text-[0.875rem]">إغلاق</button>
+            </div>
+        </div>
+    `);
 };
 
 window.deleteUserItem = (id) => {
@@ -145,11 +206,14 @@ function userRow(id, name, email, dept, role, statusColor) {
                     <span class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest leading-none">${role}</span>
                 </div>
                 <div class="w-px h-8 bg-slate-100 dark:bg-slate-800 hidden md:block"></div>
-                <div class="flex gap-2">
-                    <button class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-400 hover:text-vision-gold transition-colors" onclick="alert('تعديل: ' + '${name}')">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                <div class="flex gap-2 transition-all">
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-blue-500 hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all" onclick="viewUser(${id})" title="عرض التفاصيل">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                     </button>
-                    <button onclick="deleteUserItem(${id})" class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-400 hover:text-rose-500 transition-colors">
+                    <button class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-vision-gold hover:border-vision-gold/30 hover:bg-amber-50 dark:hover:bg-vision-gold/10 transition-all" onclick="editUserPrompt(${id})" title="تعديل">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </button>
+                    <button onclick="deleteUserItem(${id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-rose-500 hover:border-rose-200 dark:hover:border-rose-500/30 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all" title="حذف">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>
