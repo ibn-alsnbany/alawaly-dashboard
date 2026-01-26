@@ -4,7 +4,7 @@ export const settingsModule = {
     render: () => {
         return `
             <div class="mb-8">
-                <h1 class="text-3xl font-black text-slate-900 dark:text-white mb-2">${i18n.t('settings')}</h1>
+                <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('settings')}</h1>
                 <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">تخصيص الهوية الرقمية وإعدادات الحماية.</p>
             </div>
 
@@ -18,7 +18,7 @@ export const settingsModule = {
                         <div class="flex flex-col md:flex-row items-start gap-10 mb-10">
                             <div class="relative group">
                                 <div class="w-24 h-24 rounded-3xl bg-vision-gold/5 flex items-center justify-center border-2 border-slate-100 dark:border-slate-800 shadow-lg overflow-hidden group-hover:border-vision-gold transition-colors">
-                                    <span class="text-3xl font-black text-vision-gold font-nums">AT</span>
+                                    <span class="text-3xl font-bold text-vision-gold font-nums">AT</span>
                                     <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity cursor-pointer">
                                         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z m5 0a3 3 0 110 6 3 3 0 010-6z"></path></svg>
                                     </div>

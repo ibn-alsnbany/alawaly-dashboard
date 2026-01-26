@@ -4,13 +4,13 @@ export const systemModule = {
     render: () => {
         return `
             <div class="mb-8">
-                <h1 class="text-3xl font-black text-slate-900 dark:text-white mb-2">${i18n.t('system')}</h1>
+                <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('system')}</h1>
                 <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('systemSubtitle') || 'مراقبة صحة النظام والتحديثات التقنية.'}</p>
             </div>
 
             <div class="bg-white dark:bg-vision-surface p-10 rounded-[2.5rem] border border-slate-100 dark:border-vision-border shadow-soft">
                 <div class="flex items-center justify-between mb-10">
-                    <h3 class="text-xl font-bold text-slate-900 dark:text-white">نظرة عامة على النظام</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white">نظرة عامة على النظام</h3>
                     <div class="flex gap-4">
                         <span class="flex items-center gap-2 px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[0.75rem] font-bold">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -29,7 +29,7 @@ export const systemModule = {
 
             <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="premium-card !p-8">
-                    <h3 class="text-xl font-bold mb-8 text-slate-900 dark:text-white">سجل التحديثات</h3>
+                    <h3 class="text-xl font-bold mb-8 text-slate-800 dark:text-white">سجل التحديثات</h3>
                     <div class="space-y-6">
                         ${updateItem('v2.4.0', '25 Jan 2026', 'تحسينات أمنية شاملة وتحديث الواجهة الرسومية.')}
                         ${updateItem('v2.3.8', '12 Jan 2026', 'إصلاحات تقنية في نظام المبيعات والتقارير.')}
@@ -48,7 +48,7 @@ function systemItem(label, value, color, iconPath, status, colorClass) {
             </div>
             <div>
                 <div class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-1">${label}</div>
-                <div class="text-xl font-semibold text-slate-900 dark:text-white font-nums">${value}</div>
+                <div class="text-xl font-bold text-slate-800 dark:text-white font-nums">${value}</div>
                 <div class="text-[0.75rem] font-bold ${colorClass} uppercase mt-1 tracking-wider">${status}</div>
             </div>
         </div>

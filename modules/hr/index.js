@@ -4,19 +4,19 @@ export const hrModule = {
     render: () => {
         return `
             <div>
-                <h1 class="text-3xl font-black text-vision-text mb-2 text-slate-900 dark:text-white">${i18n.t('hr')}</h1>
+                <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('hr')}</h1>
                 <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('hrSubtitle') || 'إدارة الكوادر البشرية والنمو الوظيفي.'}</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 mt-8 w-full">
-                ${statCard(i18n.t('employees'), `<span class="font-nums">154</span>`, `<span class="font-nums">+2 New</span>`, 'vision-blue', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z')}
-                ${statCard(i18n.t('attendance'), `<span class="font-nums">94%</span>`, `<span class="font-nums">-1%</span>`, 'vision-orange', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
-                ${statCard(i18n.t('leaves'), `<span class="font-nums">8</span>`, `<span class="font-nums">Active</span>`, 'vision-purple', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')}
-                ${statCard(i18n.t('salaries'), `<span class="font-nums">480k</span>`, `<span class="font-nums">+5%</span>`, 'vision-green', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
+                ${statCard(i18n.t('employees'), `<span class="font-nums">154</span>`, `<span class="font-nums">+2 New</span>`, 'bg-blue-500', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z')}
+                ${statCard(i18n.t('attendance'), `<span class="font-nums">94%</span>`, `<span class="font-nums">-1%</span>`, 'bg-orange-500', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
+                ${statCard(i18n.t('leaves'), `<span class="font-nums">8</span>`, `<span class="font-nums">Active</span>`, 'bg-purple-500', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')}
+                ${statCard(i18n.t('salaries'), `<span class="font-nums">480k</span>`, `<span class="font-nums">+5%</span>`, 'bg-emerald-500', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
             </div>
             
             <div class="bg-white dark:bg-vision-surface p-8 rounded-[2rem] border border-slate-100 dark:border-vision-border shadow-soft">
-                <h3 class="text-xl font-bold text-vision-text mb-8 text-slate-900 dark:text-white">${i18n.t('employeeList')}</h3>
+                <h3 class="text-xl font-bold text-slate-800 mb-8 dark:text-white">${i18n.t('employeeList')}</h3>
                 <div class="space-y-4">
                     ${employeeRow('خالد محمد', 'مدير تقني', 'نشط', 'bg-green-100 text-green-600')}
                     ${employeeRow('ريم علي', 'مصممة واجهات', 'نشط', 'bg-green-100 text-green-600')}
@@ -32,7 +32,7 @@ function statCard(title, value, change, color, iconPath) {
     return `
         <div class="bg-white dark:bg-vision-surface p-7 rounded-[2rem] border border-slate-100 dark:border-vision-border shadow-soft hover:shadow-lg transition-all">
             <div class="flex justify-between items-start mb-6">
-                <div class="w-13 h-13 rounded-2xl bg-${color}/10 flex items-center justify-center text-${color}">
+                <div class="w-13 h-13 rounded-2xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')}">
                     <svg class="w-6.5 h-6.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
                 </div>
                 <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'} text-[0.75rem] font-bold uppercase">
@@ -41,7 +41,7 @@ function statCard(title, value, change, color, iconPath) {
             </div>
             <div>
                 <div class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-1">${title}</div>
-                <div class="text-2xl font-semibold text-slate-900 dark:text-white tracking-tight">${value}</div>
+                <div class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">${value}</div>
             </div>
         </div>
     `;

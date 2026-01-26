@@ -4,7 +4,7 @@ export const analyticsModule = {
     render: () => {
         return `
             <div class="mb-6">
-                <h1 class="text-2xl font-black mb-1 text-slate-900 dark:text-white">${i18n.t('analytics')}</h1>
+                <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('analytics')}</h1>
                 <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">قراءة وتحليل البيانات في الوقت الحقيقي.</p>
             </div>
 
@@ -21,7 +21,7 @@ export const analyticsModule = {
                 <div class="lg:col-span-2 premium-card !p-8">
                     <div class="flex items-center justify-between mb-8">
                         <div>
-                            <h3 class="text-[0.9375rem] font-black text-slate-700 dark:text-slate-200">تحليل النمو الأسبوعي</h3>
+                            <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">تحليل النمو الأسبوعي</h3>
                             <p class="text-[0.75rem] text-slate-500 font-medium opactiy-80">مقارنة أداء الزيارات والتحويلات</p>
                         </div>
                         <div class="flex gap-4">
@@ -39,7 +39,7 @@ export const analyticsModule = {
 
                 <!-- Workforce / Staff Analytics (1/3) -->
                 <div class="lg:col-span-1 premium-card !p-6">
-                    <h3 class="text-[0.9375rem] font-black mb-6 text-slate-700 dark:text-slate-200">أداء الفريق</h3>
+                    <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">أداء الفريق</h3>
                     <div class="space-y-5">
                         ${staffItem('أحمد عبدالله', `<span class="font-nums">98%</span>`, 'bg-emerald-500')}
                         ${staffItem('سارة علي', `<span class="font-nums">92%</span>`, 'bg-emerald-400')}
@@ -64,8 +64,8 @@ function analyticsStatCard(title, value, change, color, iconPath) {
                 <span class="text-[0.75rem] font-bold ${isPositive ? 'text-emerald-500' : 'text-rose-500'} font-nums">${change}</span>
             </div>
             <div>
-                <div class="text-[0.75rem] font-semibold text-slate-500 dark:text-slate-400 uppercase mb-1">${title}</div>
-                <div class="text-2xl font-semibold text-slate-900 dark:text-white font-nums">${value}</div>
+                <div class="text-[0.75rem] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">${title}</div>
+                <div class="text-2xl font-bold text-slate-800 dark:text-white font-nums">${value}</div>
             </div>
         </div>
     `;
