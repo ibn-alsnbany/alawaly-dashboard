@@ -76,25 +76,25 @@ window.submitNewOrder = () => {
     const customer = document.getElementById('ord-customer').value;
     const amount = document.getElementById('ord-amount').value;
 
-    if (!customer || !amount) return alert('يرجى إدخال كافة البيانات');
+    if (!customer || !amount) return alert('يرجى إدخال كافة البيانات لإتمام عملية التسجيل');
 
     storage.addOrder({
         id: '#ORD-' + Math.floor(400 + Math.random() * 100),
         customer,
         amount: Number(amount).toLocaleString(),
-        status: 'Processing',
+        status: 'قيد المعالجة',
         statusClass: 'bg-blue-50 text-blue-600'
     });
     closeModal();
-    showToast('تم تسجيل الطلب في النظام');
-    navigateTo('sales');
+    showToast('تم تسجيل الطلب في النظام وتحديث القائمة');
+    refreshModule();
 };
 
 window.deleteOrderItem = (id) => {
     if (confirm('حذف هذا الطلب؟')) {
         storage.deleteOrder(id);
         showToast('تم إلغاء الطلب بنجاح');
-        navigateTo('sales');
+        refreshModule();
     }
 };
 

@@ -266,6 +266,21 @@
         </main>
     </div>
 
+    <!-- Global Interaction Layers -->
+    <div id="modal-overlay" onclick="if(event.target === this) closeModal()" class="modal-overlay">
+        <div id="modal-content" class="w-full max-w-lg px-6"></div>
+    </div>
+
+    <!-- Success Feedback Layer -->
+    <div id="toast-container" class="toast-container">
+        <div class="bg-emerald-500 text-white px-8 py-4 rounded-2xl shadow-2xl flex items-center gap-4 animate-enter">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span id="toast-message" class="text-[0.9375rem] font-bold">تمت العملية بنجاح</span>
+        </div>
+    </div>
+
     <script type="module" src="main.js"></script>
 </body>
 

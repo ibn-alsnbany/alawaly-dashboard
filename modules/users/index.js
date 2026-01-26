@@ -106,22 +106,22 @@ window.addNewUserPrompt = () => {
 window.submitNewUser = () => {
     const name = document.getElementById('user-name').value;
     const email = document.getElementById('user-email').value;
-    const dept = document.getElementById('user-dept').value || 'General';
-    const role = document.getElementById('user-role').value || 'Staff';
+    const dept = document.getElementById('user-dept').value || 'القسم العام';
+    const role = document.getElementById('user-role').value || 'كادر فني';
 
-    if (!name || !email) return alert('يرجى تعبئة الاسم والبريد');
+    if (!name || !email) return alert('يرجى تعبئة الحقول الأساسية');
 
     storage.addUser({ name, email, dept, role, status: 'bg-emerald-500' });
     closeModal();
     showToast('تمت إضافة الموظف بنجاح');
-    navigateTo('users');
+    refreshModule();
 };
 
 window.deleteUserItem = (id) => {
     if (confirm('هل أنت متأكد من حذف هذا الموظف؟')) {
         storage.deleteUser(id);
         showToast('تم حذف الموظف بنجاح');
-        navigateTo('users');
+        refreshModule();
     }
 };
 

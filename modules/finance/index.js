@@ -90,7 +90,7 @@ window.submitNewInvoice = () => {
     const amount = document.getElementById('inv-amount').value;
     const date = document.getElementById('inv-date').value || new Date().toISOString().split('T')[0];
 
-    if (!customer || !amount) return alert('يرجى إكمال البيانات');
+    if (!customer || !amount) return alert('يرجى إكمال البيانات الأساسية للعملية');
 
     storage.addInvoice({
         id: 'INV-' + Math.floor(100 + Math.random() * 900),
@@ -101,15 +101,15 @@ window.submitNewInvoice = () => {
         statusClass: 'bg-amber-50 text-amber-600'
     });
     closeModal();
-    showToast('تم إصدار الفاتورة بنجاح');
-    navigateTo('finance');
+    showToast('تم إصدار الفاتورة وتحديث السجل');
+    refreshModule();
 };
 
 window.deleteInvoice = (id) => {
     if (confirm('حذف الفاتورة؟')) {
         storage.deleteInvoice(id);
         showToast('تم حذف الفاتورة بنجاح');
-        navigateTo('finance');
+        refreshModule();
     }
 };
 

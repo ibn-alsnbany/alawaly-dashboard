@@ -53,20 +53,31 @@ window.showToast = (message) => {
     setTimeout(() => toast.classList.remove('active'), 3000);
 };
 
+window.refreshModule = () => {
+    const hash = window.location.hash.replace('#', '') || 'dashboard';
+    const container = document.getElementById('module-container');
+    if (container) {
+        const module = routes[hash] || dashboardModule;
+        container.innerHTML = module.render();
+    }
+};
+
 // Unified Modal UI Helpers
 window.modalForm = (title, content, submitLabel, submitAction) => {
     return `
-        <div class="premium-card !p-10 shadow-[0_30px_100px_rgba(0,0,0,0.2)] border-vision-gold/10 animate-enter relative">
+        <div class="premium-card !p-8 md:!p-10 shadow-[0_30px_100px_rgba(0,0,0,0.25)] border-vision-gold/10 animate-enter relative w-full max-w-lg mx-auto">
             <button onclick="closeModal()" class="absolute top-8 left-8 p-2 text-slate-400 hover:text-rose-500 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <div class="mb-10 pb-6 border-b border-slate-50 dark:border-vision-border">
-                <h3 class="text-2xl font-bold text-slate-800 dark:text-white">${title}</h3>
+            <div class="mb-8 pb-6 border-b border-slate-50 dark:border-vision-border">
+                <h3 class="text-xl font-bold text-slate-800 dark:text-white">${title}</h3>
             </div>
-            ${content}
+            <div class="space-y-6">
+                ${content}
+            </div>
             <div class="mt-10 flex gap-4">
-                <button onclick="${submitAction}" class="flex-1 bg-vision-gold text-white py-4.5 rounded-2xl font-bold text-[1rem] transition-all shadow-xl shadow-vision-gold/20 hover:brightness-110 active:scale-[0.98]">${submitLabel}</button>
-                <button onclick="closeModal()" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 py-4.5 rounded-2xl font-bold text-[1rem] transition-all hover:bg-slate-200 dark:hover:bg-slate-700">إلغاء</button>
+                <button onclick="${submitAction}" class="flex-1 bg-vision-gold text-white py-4 rounded-2xl font-bold text-[0.875rem] transition-all shadow-xl shadow-vision-gold/20 hover:brightness-110 active:scale-[0.98]">${submitLabel}</button>
+                <button onclick="closeModal()" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 py-4 rounded-2xl font-bold text-[0.875rem] transition-all hover:bg-slate-200 dark:hover:bg-slate-700">إلغاء</button>
             </div>
         </div>
     `;
@@ -74,9 +85,9 @@ window.modalForm = (title, content, submitLabel, submitAction) => {
 
 window.modalInput = (label, id, placeholder, type = 'text') => {
     return `
-        <div class="space-y-2.5">
+        <div class="space-y-2">
             <label class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest ps-1">${label}</label>
-            <input type="${type}" id="${id}" placeholder="${placeholder}" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-6 py-4.5 text-[0.9375rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none">
+            <input type="${type}" id="${id}" placeholder="${placeholder}" class="w-full bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none">
         </div>
     `;
 };

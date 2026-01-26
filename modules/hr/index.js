@@ -80,7 +80,7 @@ window.submitNewEmployee = () => {
     const name = document.getElementById('emp-name').value;
     const role = document.getElementById('emp-role').value;
 
-    if (!name || !role) return alert('يرجى إكمال البيانات');
+    if (!name || !role) return alert('يرجى إكمال بيانات السجل الوظيفي');
 
     storage.addEmployee({
         name,
@@ -89,15 +89,15 @@ window.submitNewEmployee = () => {
         statusClass: 'bg-green-100 text-green-600'
     });
     closeModal();
-    showToast('تمت إضافة الموظف بنجاح');
-    navigateTo('hr');
+    showToast('تمت إضافة الموظف بنجاح للسجل');
+    refreshModule();
 };
 
 window.deleteEmployee = (id) => {
     if (confirm('حذف الموظف من السجل؟')) {
         storage.deleteEmployee(id);
         showToast('تم حذف سجل الموظف');
-        navigateTo('hr');
+        refreshModule();
     }
 };
 
