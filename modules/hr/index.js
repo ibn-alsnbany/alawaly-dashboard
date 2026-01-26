@@ -15,22 +15,22 @@ export const hrModule = {
             );
         }
         return `
-            <div>
-                <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('hr')}</h1>
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('hr')}</h1>
                 <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('hrSubtitle') || 'إدارة الكوادر البشرية والنمو الوظيفي.'}</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 mt-8 w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
                 ${statCard(i18n.t('employees'), `<span class="font-nums">154</span>`, `<span class="font-nums">+2 New</span>`, 'bg-vision-gold', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z')}
                 ${statCard(i18n.t('attendance'), `<span class="font-nums">94%</span>`, `<span class="font-nums">-1%</span>`, 'bg-vision-gold', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
                 ${statCard(i18n.t('leaves'), `<span class="font-nums">8</span>`, `<span class="font-nums">Active</span>`, 'bg-vision-gold', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')}
                 ${statCard(i18n.t('salaries'), `<span class="font-nums">480k</span>`, `<span class="font-nums">+5%</span>`, 'bg-vision-gold', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
             </div>
             
-            <div class="premium-card !p-8">
+            <div class="premium-card !p-6">
                 <div class="flex items-center justify-between mb-10">
                     <div class="flex items-center gap-4">
-                        <h3 class="text-xl font-bold text-slate-800 dark:text-white leading-none">${i18n.t('employeeList')}</h3>
+                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('employeeList')}</h3>
                         <span class="bg-vision-gold/10 text-vision-gold text-[0.8125rem] font-bold px-3 py-1 rounded-full font-nums">${employees.length}</span>
                     </div>
                     <div class="flex gap-4">
@@ -102,17 +102,17 @@ function statCard(title, value, change, color, iconPath) {
     const isPositive = change.includes('+') || change === 'Active';
     return `
         <div class="premium-card !p-6 group">
-            <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
+            <div class="flex justify-between items-start mb-5">
+                <div class="w-11 h-11 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg>
                 </div>
-                <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'} text-[0.75rem] font-bold uppercase">
+                <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-emerald-50 dark:bg-emerald-400/10 text-emerald-600' : 'bg-rose-50 dark:bg-rose-400/10 text-rose-600'} text-[0.75rem] font-bold">
                     ${change}
                 </div>
             </div>
             <div>
-                <div class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-1">${title}</div>
-                <div class="text-2xl font-bold text-slate-800 dark:text-white tracking-tight font-nums">${value}</div>
+                <div class="text-[0.75rem] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">${title}</div>
+                <div class="text-2xl font-semibold text-slate-800 dark:text-white font-nums leading-none">${value}</div>
             </div>
         </div>
     `;

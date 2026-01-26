@@ -19,7 +19,7 @@ export const usersModule = {
         return `
             <div class="mb-8 flex justify-between items-center">
                 <div>
-                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('users')}</h1>
+                    <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('users')}</h1>
                     <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">إدارة الكوادر البشرية وتوزيع الصلاحيات البرمجية.</p>
                 </div>
                 <button onclick="addNewUserPrompt()" class="bg-vision-gold text-white px-6 py-3 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20 hover:-translate-y-1 transition-all flex items-center gap-2 active:scale-95">
@@ -28,13 +28,13 @@ export const usersModule = {
                 </button>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 w-full">
                 <!-- User List Section (3/4) -->
-                <div class="lg:col-span-3 premium-card !p-8">
+                <div class="lg:col-span-3 premium-card !p-6">
                     <div class="flex items-center justify-between mb-10">
                         <div class="flex items-center gap-4">
-                            <h3 class="text-xl font-bold text-slate-800 dark:text-white leading-none">قائمة الكوادر</h3>
-                            <span class="bg-vision-gold/10 text-vision-gold text-[0.8125rem] font-bold px-3 py-1 rounded-full font-nums">${users.length} موظف</span>
+                            <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">قائمة الكوادر</h3>
+                            <span class="bg-vision-gold/10 text-vision-gold text-[0.8125rem] font-bold px-3 py-1 rounded-full font-nums">${users.length}</span>
                         </div>
                         <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
                             <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -53,9 +53,9 @@ export const usersModule = {
                 </div>
 
                 <!-- Sidbar Widgets (1/4) -->
-                <div class="lg:col-span-1 space-y-8">
-                    <div class="premium-card !p-7">
-                        <h3 class="text-[0.8125rem] font-bold text-slate-500 uppercase tracking-widest mb-6">تقرير الغياب اليومي</h3>
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="premium-card !p-6">
+                        <h3 class="text-[0.75rem] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-6">تقرير الغياب اليومي</h3>
                         <div class="space-y-5">
                             ${absenceItem('ليلى محمد', 'غير مسجل', 'bg-slate-400')}
                             ${absenceItem('بندر القحطاني', 'تأخر رسمي', 'bg-amber-500')}
@@ -63,8 +63,8 @@ export const usersModule = {
                         <button class="w-full mt-8 py-3 rounded-2xl bg-rose-500/5 hover:bg-rose-500/10 text-[0.8125rem] font-bold text-rose-600 transition-colors border border-rose-500/10">سجل الغياب الكامل</button>
                     </div>
 
-                    <div class="premium-card !p-7 overflow-hidden">
-                        <h3 class="text-[0.8125rem] font-bold text-slate-500 uppercase tracking-widest mb-6">توزيع الأقسام</h3>
+                    <div class="premium-card !p-6 overflow-hidden">
+                        <h3 class="text-[0.75rem] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-6">توزيع الأقسام</h3>
                         <div class="space-y-5">
                             ${deptStats('التقنية', `<span class="font-nums">40%</span>`, 'bg-blue-500')}
                             ${deptStats('المالية', `<span class="font-nums">25%</span>`, 'bg-emerald-500')}

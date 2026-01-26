@@ -15,24 +15,24 @@ export const financeModule = {
             );
         }
         return `
-            <div class="mb-8 flex justify-between items-end">
-                <div>
-                    <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('finance')}</h1>
-                    <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('financeSubtitle') || 'إدارة التدفقات المالية والميزانيات.'}</p>
-                </div>
-                <button onclick="addInvoicePrompt()" class="bg-vision-gold text-white px-6 py-3 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20 hover:-translate-y-1 transition-all active:scale-95">+ ${i18n.t('newInvoice')}</button>
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('finance')}</h1>
+                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('financeSubtitle') || 'إدارة التدفقات المالية والميزانيات.'}</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
                 ${statCard(i18n.t('revenue'), `<span class="font-nums">450,000</span> ` + currencyIcon(), `<span class="font-nums">+8%</span>`, 'bg-vision-gold', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z')}
                 ${statCard(i18n.t('profit'), `<span class="font-nums">120,500</span> ` + currencyIcon(), `<span class="font-nums">+15%</span>`, 'bg-vision-gold', 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3')}
                 ${statCard(i18n.t('expenses'), `<span class="font-nums">330,000</span> ` + currencyIcon(), `<span class="font-nums">-5%</span>`, 'bg-vision-gold', 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z')}
                 ${statCard(i18n.t('payments'), `<span class="font-nums">85</span>`, `<span class="font-nums">Stable</span>`, 'bg-vision-gold', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
             </div>
             
-            <div class="premium-card !p-8">
+            <div class="premium-card !p-6">
                 <div class="flex items-center justify-between mb-8">
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white">${i18n.t('invoices')}</h3>
+                    <div class="flex items-center gap-4">
+                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('invoices')}</h3>
+                        <button onclick="addInvoicePrompt()" class="bg-vision-gold text-white px-5 py-2 rounded-xl font-bold text-[0.75rem] shadow-lg shadow-vision-gold/10 hover:-translate-y-0.5 active:scale-95 transition-all">+ ${i18n.t('newInvoice')}</button>
+                    </div>
                     <div class="flex gap-4">
                         <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2 rounded-2xl border border-slate-100 dark:border-slate-700/50">
                             <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -119,17 +119,17 @@ function statCard(title, value, change, color, iconPath) {
     const isPositive = !change.includes('-') && !change.includes('Stable');
     return `
         <div class="premium-card !p-6 group">
-            <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
+            <div class="flex justify-between items-start mb-5">
+                <div class="w-11 h-11 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg>
                 </div>
-                <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-green-50 text-green-600' : (change.includes('Stable') ? 'bg-slate-50 text-slate-500' : 'bg-red-50 text-red-600')} text-[0.75rem] font-bold">
+                <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-emerald-50 dark:bg-emerald-400/10 text-emerald-600' : (change.includes('Stable') ? 'bg-slate-50 dark:bg-slate-800/10 text-slate-500' : 'bg-rose-50 dark:bg-rose-400/10 text-rose-600')} text-[0.75rem] font-bold">
                     ${change}
                 </div>
             </div>
             <div>
-                <div class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-1">${title}</div>
-                <div class="text-2xl font-bold text-slate-800 dark:text-white tracking-normal font-nums">${value}</div>
+                <div class="text-[0.75rem] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">${title}</div>
+                <div class="text-2xl font-semibold text-slate-800 dark:text-white tracking-normal font-nums leading-none">${value}</div>
             </div>
         </div>
     `;
