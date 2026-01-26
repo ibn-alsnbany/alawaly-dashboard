@@ -16,13 +16,13 @@ export const marketingModule = {
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="lg:col-span-2 bg-white dark:bg-vision-surface p-8 rounded-[2rem] border border-slate-100 dark:border-vision-border shadow-soft">
+                <div class="lg:col-span-2 premium-card !p-8">
                     <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-8">${i18n.t('performance')}</h3>
                     <div class="h-64 flex items-end justify-between gap-6 px-4">
                         ${bar(40)} ${bar(70)} ${bar(30)} ${bar(90)} ${bar(60)} ${bar(40)} ${bar(80)}
                     </div>
                 </div>
-                <div class="bg-white dark:bg-vision-surface p-8 rounded-[2rem] border border-slate-100 dark:border-vision-border shadow-soft">
+                <div class="premium-card !p-8">
                     <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-8">${i18n.t('channels')}</h3>
                     <div class="space-y-7">
                         ${channel('Snapchat Ads', `<span class="font-nums">55%</span>`, 'bg-yellow-400')}
@@ -38,9 +38,9 @@ export const marketingModule = {
 
 function statCard(title, value, change, color, iconPath) {
     return `
-        <div class="bg-white dark:bg-vision-surface p-7 rounded-[2rem] border border-slate-100 dark:border-vision-border shadow-soft hover:shadow-lg transition-all">
+        <div class="premium-card !p-6 group">
             <div class="flex justify-between items-start mb-6">
-                <div class="w-12 h-12 rounded-2xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')}">
+                <div class="w-12 h-12 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
                 </div>
                 <div class="px-2.5 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 text-[0.75rem] font-bold uppercase text-slate-500">

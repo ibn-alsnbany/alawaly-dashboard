@@ -8,7 +8,7 @@ export const systemModule = {
                 <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('systemSubtitle') || 'مراقبة صحة النظام والتحديثات التقنية.'}</p>
             </div>
 
-            <div class="bg-white dark:bg-vision-surface p-10 rounded-[2.5rem] border border-slate-100 dark:border-vision-border shadow-soft">
+            <div class="premium-card !p-10">
                 <div class="flex items-center justify-between mb-10">
                     <h3 class="text-xl font-bold text-slate-800 dark:text-white">نظرة عامة على النظام</h3>
                     <div class="flex gap-4">
@@ -42,8 +42,8 @@ export const systemModule = {
 
 function systemItem(label, value, color, iconPath, status, colorClass) {
     return `
-        <div class="flex items-start gap-5">
-            <div class="w-12 h-12 rounded-2xl ${color}/10 flex items-center justify-center text-${color.replace('bg-', 'text-')}">
+        <div class="premium-card !p-6 group flex items-start gap-5">
+            <div class="w-12 h-12 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
             </div>
             <div>

@@ -15,7 +15,7 @@ export const hrModule = {
                 ${statCard(i18n.t('salaries'), `<span class="font-nums">480k</span>`, `<span class="font-nums">+5%</span>`, 'bg-emerald-500', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
             </div>
             
-            <div class="bg-white dark:bg-vision-surface p-8 rounded-[2rem] border border-slate-100 dark:border-vision-border shadow-soft">
+            <div class="premium-card !p-8">
                 <h3 class="text-xl font-bold text-slate-800 mb-8 dark:text-white">${i18n.t('employeeList')}</h3>
                 <div class="space-y-4">
                     ${employeeRow('خالد محمد', 'مدير تقني', 'نشط', 'bg-green-100 text-green-600')}
@@ -30,10 +30,10 @@ export const hrModule = {
 function statCard(title, value, change, color, iconPath) {
     const isPositive = change.includes('+') || change === 'Active';
     return `
-        <div class="bg-white dark:bg-vision-surface p-7 rounded-[2rem] border border-slate-100 dark:border-vision-border shadow-soft hover:shadow-lg transition-all">
+        <div class="premium-card !p-6 group">
             <div class="flex justify-between items-start mb-6">
-                <div class="w-13 h-13 rounded-2xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')}">
-                    <svg class="w-6.5 h-6.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
+                <div class="w-12 h-12 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="${iconPath}"></path></svg>
                 </div>
                 <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'} text-[0.75rem] font-bold uppercase">
                     ${change}

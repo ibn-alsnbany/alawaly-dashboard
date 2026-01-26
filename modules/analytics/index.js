@@ -58,7 +58,7 @@ function analyticsStatCard(title, value, change, color, iconPath) {
     return `
         <div class="premium-card !p-5 group">
             <div class="flex justify-between items-start mb-4">
-                <div class="w-10 h-10 rounded-xl ${color}/10 flex items-center justify-center text-${color.replace('bg-', 'text-')} transition-colors">
+                <div class="w-10 h-10 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg>
                 </div>
                 <span class="text-[0.75rem] font-bold ${isPositive ? 'text-emerald-500' : 'text-rose-500'} font-nums">${change}</span>
