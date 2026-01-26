@@ -41,7 +41,7 @@ export const hrModule = {
                     </div>
                     <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        <input type="text" id="hr-search" oninput="handleHRSearch(this.value)" value="${hrSearchQuery}" placeholder="بحث في الكوادر..." class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-44 text-slate-700 dark:text-slate-300 font-medium outline-none">
+                        <input type="text" id="hr-search" oninput="handleHRSearch(this.value)" value="${hrSearchQuery}" placeholder="بحث في الكوادر..." class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
                     </div>
                 </div>
                 <div class="space-y-4">

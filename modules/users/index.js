@@ -37,8 +37,8 @@ export const usersModule = {
                             <span class="bg-vision-gold/10 text-vision-gold text-[0.8125rem] font-bold px-3 py-1 rounded-full font-nums">${users.length}</span>
                         </div>
                         <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                            <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            <input type="text" id="user-search" oninput="handleUserSearch(this.value)" placeholder="${i18n.t('searchUsers')}" value="${userSearchQuery}" autofocus class="bg-transparent border-none text-[0.875rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" id="user-search" oninput="handleUserSearch(this.value)" placeholder="${i18n.t('searchUsers')}" value="${userSearchQuery}" autofocus class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
                         </div>
                     </div>
 
