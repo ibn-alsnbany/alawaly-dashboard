@@ -9,10 +9,10 @@ export const salesModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 w-full">
-                ${statCard(i18n.t('orders'), `<span class="font-nums">1,840</span>`, `<span class="font-nums">+10%</span>`, 'bg-blue-500', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z')}
-                ${statCard(i18n.t('customers'), `<span class="font-nums">12,500</span>`, `<span class="font-nums">+3%</span>`, 'bg-purple-500', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z')}
-                ${statCard(i18n.t('averageOrder'), `<span class="font-nums">250</span> ` + i18n.t('sar'), `<span class="font-nums">Stable</span>`, 'bg-orange-500', 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z')}
-                ${statCard(i18n.t('totalSales'), `<span class="font-nums">460,000</span> ` + i18n.t('sar'), `<span class="font-nums">+12%</span>`, 'bg-emerald-500', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
+                ${statCard(i18n.t('orders'), `<span class="font-nums">1,840</span>`, `<span class="font-nums">+10%</span>`, 'bg-vision-gold', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z')}
+                ${statCard(i18n.t('customers'), `<span class="font-nums">12,500</span>`, `<span class="font-nums">+3%</span>`, 'bg-vision-gold', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z')}
+                ${statCard(i18n.t('averageOrder'), `<span class="font-nums">250</span> ` + i18n.t('sar'), `<span class="font-nums">Stable</span>`, 'bg-vision-gold', 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z')}
+                ${statCard(i18n.t('totalSales'), `<span class="font-nums">460,000</span> ` + i18n.t('sar'), `<span class="font-nums">+12%</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
             </div>
             
             <div class="premium-card !p-8">

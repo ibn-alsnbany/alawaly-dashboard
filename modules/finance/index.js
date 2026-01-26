@@ -12,10 +12,10 @@ export const financeModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-12 w-full">
-                ${statCard(i18n.t('revenue'), `<span class="font-nums">450,000</span> ` + i18n.t('sar'), `<span class="font-nums">+8%</span>`, 'bg-blue-500', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z')}
-                ${statCard(i18n.t('profit'), `<span class="font-nums">120,500</span> ` + i18n.t('sar'), `<span class="font-nums">+15%</span>`, 'bg-emerald-500', 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3')}
-                ${statCard(i18n.t('expenses'), `<span class="font-nums">330,000</span> ` + i18n.t('sar'), `<span class="font-nums">-5%</span>`, 'bg-purple-500', 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z')}
-                ${statCard(i18n.t('payments'), `<span class="font-nums">85</span>`, `<span class="font-nums">Stable</span>`, 'bg-orange-500', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
+                ${statCard(i18n.t('revenue'), `<span class="font-nums">450,000</span> ` + i18n.t('sar'), `<span class="font-nums">+8%</span>`, 'bg-vision-gold', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3z')}
+                ${statCard(i18n.t('profit'), `<span class="font-nums">120,500</span> ` + i18n.t('sar'), `<span class="font-nums">+15%</span>`, 'bg-vision-gold', 'M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3')}
+                ${statCard(i18n.t('expenses'), `<span class="font-nums">330,000</span> ` + i18n.t('sar'), `<span class="font-nums">-5%</span>`, 'bg-vision-gold', 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z')}
+                ${statCard(i18n.t('payments'), `<span class="font-nums">85</span>`, `<span class="font-nums">Stable</span>`, 'bg-vision-gold', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
             </div>
             
             <div class="premium-card !p-8">
