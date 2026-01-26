@@ -1,5 +1,6 @@
 import { i18n } from './core/i18n.js';
 import { theme } from './core/theme.js';
+import { storage } from './core/storage.js';
 
 // Module Dynamic Imports logic
 import { dashboardModule } from './modules/dashboard/index.js';
@@ -24,6 +25,72 @@ const routes = {
     'settings': settingsModule
 };
 
+// Global Navigation Helper
+window.navigateTo = (route) => {
+    window.location.hash = route;
+};
+
+// Global UI Helpers: Modal & Toast
+window.showModal = (html) => {
+    const overlay = document.getElementById('modal-overlay');
+    const content = document.getElementById('modal-content');
+    content.innerHTML = html;
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scroll
+};
+
+window.closeModal = () => {
+    const overlay = document.getElementById('modal-overlay');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+};
+
+window.showToast = (message) => {
+    const toast = document.getElementById('toast-container');
+    const msgEl = document.getElementById('toast-message');
+    msgEl.textContent = message;
+    toast.classList.add('active');
+    setTimeout(() => toast.classList.remove('active'), 3000);
+};
+
+// Unified Modal UI Helpers
+window.modalForm = (title, content, submitLabel, submitAction) => {
+    return `
+        <div class="premium-card !p-10 shadow-[0_30px_100px_rgba(0,0,0,0.2)] border-vision-gold/10 animate-enter relative">
+            <button onclick="closeModal()" class="absolute top-8 left-8 p-2 text-slate-400 hover:text-rose-500 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="mb-10 pb-6 border-b border-slate-50 dark:border-vision-border">
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-white">${title}</h3>
+            </div>
+            ${content}
+            <div class="mt-10 flex gap-4">
+                <button onclick="${submitAction}" class="flex-1 bg-vision-gold text-white py-4.5 rounded-2xl font-bold text-[1rem] transition-all shadow-xl shadow-vision-gold/20 hover:brightness-110 active:scale-[0.98]">${submitLabel}</button>
+                <button onclick="closeModal()" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 py-4.5 rounded-2xl font-bold text-[1rem] transition-all hover:bg-slate-200 dark:hover:bg-slate-700">إلغاء</button>
+            </div>
+        </div>
+    `;
+};
+
+window.modalInput = (label, id, placeholder, type = 'text') => {
+    return `
+        <div class="space-y-2.5">
+            <label class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest ps-1">${label}</label>
+            <input type="${type}" id="${id}" placeholder="${placeholder}" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-6 py-4.5 text-[0.9375rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none">
+        </div>
+    `;
+};
+
+// Global Currency Icon Helper
+window.currencyIcon = () => {
+    return `
+        <svg class="rial-icon" viewBox="0 0 1124.14 1256.39">
+            <path d="M699.62,1113.02h0c-20.06,44.48-33.32,92.75-38.4,143.37l424.51-90.24c20.06-44.47,33.31-92.75,38.4-143.37l-424.51,90.24Z"/>
+            <path d="M1085.73,895.8c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.33v-135.2l292.27-62.11c20.06-44.47,33.32-92.75,38.4-143.37l-330.68,70.27V66.13c-50.67,28.45-95.67,66.32-132.25,110.99v403.35l-132.25,28.11V0c-50.67,28.44-95.67,66.32-132.25,110.99v525.69l-295.91,62.88c-20.06,44.47-33.33,92.75-38.42,143.37l334.33-71.05v170.26l-358.3,76.14c-20.06,44.47-33.32,92.75-38.4,143.37l375.04-79.7c30.53-6.35,56.77-24.4,73.83-49.24l68.78-101.97v-.02c7.14-10.55,11.3-23.27,11.3-36.97v-149.98l132.25-28.11v270.4l424.53-90.28Z"/>
+        </svg>
+    `;
+};
+
 // Application Context Handler
 function handleRoute() {
     const hash = window.location.hash.replace('#', '') || 'dashboard';
@@ -40,13 +107,21 @@ function handleRoute() {
             }
         });
 
-        // Content Injection
-        container.style.opacity = 0;
+        // Content Injection with Smooth Transition
+        container.classList.add('module-exit');
+
         setTimeout(() => {
             container.innerHTML = module.render();
-            container.style.opacity = 1;
+            container.classList.remove('module-exit');
+            container.classList.add('module-enter');
+
+            // Cleanup enter class after animation
+            setTimeout(() => {
+                container.classList.remove('module-enter');
+            }, 400);
+
             i18n.translatePage(); // Refresh text context
-        }, 120);
+        }, 150);
     }
 }
 
@@ -127,6 +202,7 @@ function initApp() {
     theme.apply();  // Theme Context
     initSidebar();  // Sidebar Context
     handleRoute();  // Routing Context
+    window.dispatchEvent(new Event('profileChanged')); // Apply stored profile info
 }
 
 // Lifecycle Listeners
@@ -137,3 +213,16 @@ window.addEventListener('langChanged', (e) => {
     handleRoute();  // Rerender current view
 });
 window.addEventListener('themeChanged', () => theme.apply());
+
+// Dynamic Profile Update Listener
+window.addEventListener('profileChanged', () => {
+    const profile = storage.getProfile();
+    const topBarName = document.querySelector('[data-i18n="userName"]');
+    if (topBarName) topBarName.textContent = profile.name;
+
+    // Update initials in circle
+    const avatarCircle = topBarName.parentElement.previousElementSibling;
+    if (avatarCircle && profile.name) {
+        avatarCircle.textContent = profile.name.split(' ').map(n => n[0]).join('');
+    }
+});

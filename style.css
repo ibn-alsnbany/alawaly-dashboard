@@ -197,6 +197,16 @@ body {
     -webkit-font-smoothing: subpixel-antialiased;
 }
 
+/* Currency Icon Styling */
+.rial-icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: currentColor;
+    margin-right: 0.125rem;
+}
+
 .premium-card:hover {
     transform: translateY(-0.25rem);
     box-shadow: 0 0.75rem 1.5rem -0.625rem rgba(197, 160, 89, 0.15);

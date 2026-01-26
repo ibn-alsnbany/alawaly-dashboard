@@ -1,16 +1,30 @@
 import { i18n } from '../../core/i18n.js';
+import { storage } from '../../core/storage.js';
+
+let userSearchQuery = '';
 
 export const usersModule = {
     render: () => {
+        let users = storage.getUsers();
+
+        if (userSearchQuery) {
+            const q = userSearchQuery.toLowerCase();
+            users = users.filter(u =>
+                u.name.toLowerCase().includes(q) ||
+                u.email.toLowerCase().includes(q) ||
+                u.dept.toLowerCase().includes(q)
+            );
+        }
+
         return `
             <div class="mb-8 flex justify-between items-center">
                 <div>
                     <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('users')}</h1>
                     <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">إدارة الكوادر البشرية وتوزيع الصلاحيات البرمجية.</p>
                 </div>
-                <button class="bg-vision-gold text-white px-6 py-3 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20 hover:-translate-y-1 transition-all flex items-center gap-2">
+                <button onclick="addNewUserPrompt()" class="bg-vision-gold text-white px-6 py-3 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20 hover:-translate-y-1 transition-all flex items-center gap-2 active:scale-95">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
-                    ${i18n.t('addUser')}
+                    أضف كادر جديد
                 </button>
             </div>
 
@@ -20,19 +34,21 @@ export const usersModule = {
                     <div class="flex items-center justify-between mb-10">
                         <div class="flex items-center gap-4">
                             <h3 class="text-xl font-bold text-slate-800 dark:text-white leading-none">قائمة الكوادر</h3>
-                            <span class="bg-vision-gold/10 text-vision-gold text-[0.8125rem] font-bold px-3 py-1 rounded-full font-nums">48 موظف</span>
+                            <span class="bg-vision-gold/10 text-vision-gold text-[0.8125rem] font-bold px-3 py-1 rounded-full font-nums">${users.length} موظف</span>
                         </div>
                         <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
                             <svg class="w-4.5 h-4.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            <input type="text" placeholder="${i18n.t('searchUsers')}" class="bg-transparent border-none text-[0.875rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
+                            <input type="text" id="user-search" oninput="handleUserSearch(this.value)" placeholder="${i18n.t('searchUsers')}" value="${userSearchQuery}" autofocus class="bg-transparent border-none text-[0.875rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
                         </div>
                     </div>
 
                     <div class="space-y-4">
-                        ${userRow('أحمد عبدالله', 'ahmed@vision.sa', 'IT Department', 'Developer', 'bg-emerald-500')}
-                        ${userRow('سارة محمد', 'sara@vision.sa', 'Marketing', 'Lead', 'bg-blue-500')}
-                        ${userRow('فيصل بن علي', 'faisal@vision.sa', 'HR Office', 'Manager', 'bg-amber-500')}
-                        ${userRow('نورة السعد', 'noura@vision.sa', 'Finance', 'Analyst', 'bg-amber-500')}
+                        ${users.length > 0 ? users.map(u => userRow(u.id, u.name, u.email, u.dept, u.role, u.status)).join('') : `
+                            <div class="text-center py-20">
+                                <div class="text-slate-300 mb-4 scale-150">🔍</div>
+                                <div class="text-slate-400 font-bold">لا يوجد نتائج لهذا البحث</div>
+                            </div>
+                        `}
                     </div>
                 </div>
 
@@ -61,9 +77,57 @@ export const usersModule = {
     }
 };
 
-function userRow(name, email, dept, role, statusColor) {
+window.handleUserSearch = (val) => {
+    userSearchQuery = val;
+    const container = document.getElementById('module-container');
+    if (container) {
+        container.innerHTML = usersModule.render();
+        const input = document.getElementById('user-search');
+        if (input) {
+            input.focus();
+            input.setSelectionRange(val.length, val.length);
+        }
+    }
+};
+
+window.addNewUserPrompt = () => {
+    showModal(modalForm('أضف كادر جديد', `
+        <div class="space-y-5">
+            ${modalInput('الاسم الكامل', 'user-name', 'أدخل اسم الموظف...')}
+            ${modalInput('البريد الإلكتروني', 'user-email', 'example@vision.sa')}
+            <div class="grid grid-cols-2 gap-4">
+                ${modalInput('القسم', 'user-dept', 'Marketing')}
+                ${modalInput('المسمى الوظيفي', 'user-role', 'Manager')}
+            </div>
+        </div>
+    `, 'إضافة الآن', 'submitNewUser()'));
+};
+
+window.submitNewUser = () => {
+    const name = document.getElementById('user-name').value;
+    const email = document.getElementById('user-email').value;
+    const dept = document.getElementById('user-dept').value || 'General';
+    const role = document.getElementById('user-role').value || 'Staff';
+
+    if (!name || !email) return alert('يرجى تعبئة الاسم والبريد');
+
+    storage.addUser({ name, email, dept, role, status: 'bg-emerald-500' });
+    closeModal();
+    showToast('تمت إضافة الموظف بنجاح');
+    navigateTo('users');
+};
+
+window.deleteUserItem = (id) => {
+    if (confirm('هل أنت متأكد من حذف هذا الموظف؟')) {
+        storage.deleteUser(id);
+        showToast('تم حذف الموظف بنجاح');
+        navigateTo('users');
+    }
+};
+
+function userRow(id, name, email, dept, role, statusColor) {
     return `
-        <div class="p-5 border border-slate-50 dark:border-vision-border rounded-3xl hover:bg-slate-50 dark:hover:bg-vision-gold/5 transition-all flex items-center justify-between group">
+        <div class="p-5 border border-slate-50 dark:border-vision-border rounded-3xl hover:bg-slate-50 dark:hover:bg-vision-gold/5 transition-all flex items-center justify-between group animate-enter">
             <div class="flex items-center gap-5">
                 <div class="relative">
                     <div class="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-700 dark:text-slate-200 font-bold text-xl">${name[0]}</div>
@@ -81,9 +145,14 @@ function userRow(name, email, dept, role, statusColor) {
                     <span class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest leading-none">${role}</span>
                 </div>
                 <div class="w-px h-8 bg-slate-100 dark:bg-slate-800 hidden md:block"></div>
-                <button class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-400 hover:text-vision-gold transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-                </button>
+                <div class="flex gap-2">
+                    <button class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-400 hover:text-vision-gold transition-colors" onclick="alert('تعديل: ' + '${name}')">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                    </button>
+                    <button onclick="deleteUserItem(${id})" class="p-2.5 rounded-xl bg-white dark:bg-slate-800 shadow-sm border border-slate-100 dark:border-slate-700 text-slate-400 hover:text-rose-500 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </div>
             </div>
         </div>
     `;
