@@ -22,7 +22,7 @@ export const systemModule = {
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                     ${systemItem('حمولة المعالج', `<span class="font-nums">24%</span>`, 'bg-vision-gold', 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'Optimized', 'text-emerald-500')}
                     ${systemItem('التخزين السحابي', `<span class="font-nums">1.2 TB</span>`, 'bg-vision-gold', 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z', 'Efficient', 'text-blue-500')}
-                    ${systemItem('وقت التشغيل', `<span class="font-nums">362 Days</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'Continuous', 'text-purple-500')}
+                    ${systemItem('وقت التشغيل', `<span class="font-nums">362 Days</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'Continuous', 'text-amber-500')}
                     ${systemItem('زمن الاستجابة', `<span class="font-nums">12ms</span>`, 'bg-vision-gold', 'M13 10V3L4 14h7v7l9-11h-7z', 'Excellent', 'text-amber-500')}
                 </div>
             </div>

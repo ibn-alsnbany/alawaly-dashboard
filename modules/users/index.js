@@ -32,7 +32,7 @@ export const usersModule = {
                         ${userRow('أحمد عبدالله', 'ahmed@vision.sa', 'IT Department', 'Developer', 'bg-emerald-500')}
                         ${userRow('سارة محمد', 'sara@vision.sa', 'Marketing', 'Lead', 'bg-blue-500')}
                         ${userRow('فيصل بن علي', 'faisal@vision.sa', 'HR Office', 'Manager', 'bg-amber-500')}
-                        ${userRow('نورة السعد', 'noura@vision.sa', 'Finance', 'Analyst', 'bg-purple-500')}
+                        ${userRow('نورة السعد', 'noura@vision.sa', 'Finance', 'Analyst', 'bg-amber-500')}
                     </div>
                 </div>
 
