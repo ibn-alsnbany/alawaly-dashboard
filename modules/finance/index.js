@@ -15,9 +15,12 @@ export const financeModule = {
             );
         }
         return `
-            <div class="mb-8">
-                <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('finance')}</h1>
-                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('financeSubtitle') || 'إدارة التدفقات المالية والميزانيات.'}</p>
+            <div class="mb-8 flex justify-between items-end">
+                <div>
+                    <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('finance')}</h1>
+                    <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('financeSubtitle') || 'إدارة التدفقات المالية والميزانيات.'}</p>
+                </div>
+                <button onclick="addInvoicePrompt()" class="bg-vision-gold text-white px-6 py-3 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20 hover:-translate-y-1 active:scale-95 transition-all">+ ${i18n.t('newInvoice')}</button>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
@@ -29,15 +32,10 @@ export const financeModule = {
             
             <div class="premium-card !p-6">
                 <div class="flex items-center justify-between mb-8">
-                    <div class="flex items-center gap-4">
-                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('invoices')}</h3>
-                        <button onclick="addInvoicePrompt()" class="bg-vision-gold text-white px-5 py-2 rounded-xl font-bold text-[0.75rem] shadow-lg shadow-vision-gold/10 hover:-translate-y-0.5 active:scale-95 transition-all">+ ${i18n.t('newInvoice')}</button>
-                    </div>
-                    <div class="flex gap-4">
-                        <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            <input type="text" id="finance-search" oninput="handleFinanceSearch(this.value)" value="${financeSearchQuery}" placeholder="بحث في الفواتير..." class="bg-transparent border-none text-[0.75rem] focus:ring-0 w-40 text-slate-700 dark:text-slate-300 font-medium outline-none">
-                        </div>
+                    <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('invoices')}</h3>
+                    <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        <input type="text" id="finance-search" oninput="handleFinanceSearch(this.value)" value="${financeSearchQuery}" placeholder="بحث في الفواتير..." class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -58,7 +56,7 @@ export const financeModule = {
                     </table>
                 </div>
             </div>
-        `;
+`;
     }
 };
 
@@ -77,13 +75,13 @@ window.handleFinanceSearch = (val) => {
 
 window.addInvoicePrompt = () => {
     showModal(modalForm('فاتورة جديدة', `
-        <div class="space-y-5">
-            ${modalInput('اسم العميل', 'inv-customer', 'اسم الشركة أو المنشأة...')}
-            <div class="grid grid-cols-2 gap-4">
-                ${modalInput('المبلغ (SAR)', 'inv-amount', '0.00', 'number')}
-                ${modalInput('تاريخ الاستحقاق', 'inv-date', '', 'date')}
-            </div>
-        </div>
+    < div class="space-y-5" >
+        ${modalInput('اسم العميل', 'inv-customer', 'اسم الشركة أو المنشأة...')}
+<div class="grid grid-cols-2 gap-4">
+    ${modalInput('المبلغ (SAR)', 'inv-amount', '0.00', 'number')}
+    ${modalInput('تاريخ الاستحقاق', 'inv-date', '', 'date')}
+</div>
+        </div >
     `, 'إصدار الفاتورة', 'submitNewInvoice()'));
 };
 
@@ -118,7 +116,7 @@ window.deleteInvoice = (id) => {
 function statCard(title, value, change, color, iconPath) {
     const isPositive = !change.includes('-') && !change.includes('Stable');
     return `
-        <div class="premium-card !p-6 group">
+    < div class="premium-card !p-6 group" >
             <div class="flex justify-between items-start mb-5">
                 <div class="w-11 h-11 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg>
@@ -131,13 +129,13 @@ function statCard(title, value, change, color, iconPath) {
                 <div class="text-[0.75rem] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5">${title}</div>
                 <div class="text-2xl font-semibold text-slate-800 dark:text-white tracking-normal font-nums leading-none">${value}</div>
             </div>
-        </div>
+        </div >
     `;
 }
 
 function row(id, customer, amount, status, statusClass) {
     return `
-        <tr class="hover:bg-slate-50 dark:hover:bg-vision-gold/5 transition-colors group">
+    < tr class="hover:bg-slate-50 dark:hover:bg-vision-gold/5 transition-colors group" >
             <td class="py-6 px-5 text-[0.875rem] font-bold text-slate-700 dark:text-slate-200 font-nums">${id}</td>
             <td class="py-6 px-5 text-[0.875rem] font-medium text-slate-600 dark:text-slate-300">${customer}</td>
             <td class="py-6 px-5 text-[0.875rem] font-semibold text-vision-gold font-nums">${amount} ${currencyIcon()}</td>
@@ -147,6 +145,6 @@ function row(id, customer, amount, status, statusClass) {
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
             </td>
-        </tr>
+        </tr >
     `;
 }
