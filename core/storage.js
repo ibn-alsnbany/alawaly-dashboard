@@ -80,5 +80,20 @@ export const storage = {
         email: 'hamza@alawaly.sa',
         phone: '+966 50 XXX XXXX'
     }),
-    setProfile: (profile) => storage.set('vision_profile', profile)
+    setProfile: (profile) => storage.set('vision_profile', profile),
+
+    // NOTIFICATIONS
+    getNotifications: () => storage.getAll('vision_notifications', [
+        { id: 1, type: 'info', message: 'System initialized successfully.', time: new Date().toISOString() }
+    ]),
+    addNotification: (type, message) => {
+        const notifications = storage.getNotifications();
+        notifications.unshift({
+            id: Date.now(),
+            type, // 'add', 'edit', 'delete', 'info'
+            message,
+            time: new Date().toISOString()
+        });
+        storage.set('vision_notifications', notifications.slice(0, 50)); // Keep last 50
+    }
 };

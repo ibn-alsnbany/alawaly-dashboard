@@ -152,6 +152,7 @@ window.submitUpdateOrder = () => {
         amount: Number(amount).toLocaleString()
     });
     closeModal();
+    logAction('edit', `تحديث بيانات الطلب: ${id}`);
     showToast('تم تحديث الطلب وتحديث السجل');
     refreshModule();
 };
@@ -199,7 +200,7 @@ window.viewOrder = (id) => {
 window.deleteOrderItem = (id) => {
     const title = i18n.t('deleteRecord') || 'حذف السجل';
     const message = (i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذا الطلب؟') + ' (' + id + ')';
-    showConfirmModal(title, message, `storage.deleteOrder('${id}'); showToast('🗑️ تم حذف الطلب ${id}'); refreshModule();`);
+    showConfirmModal(title, message, `storage.deleteOrder('${id}'); logAction('delete', 'تم إلغاء الطلب: ${id}'); showToast('🗑️ تم حذف الطلب ${id}'); refreshModule();`);
 };
 
 function statCard(title, value, change, color, iconPath) {

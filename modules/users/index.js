@@ -148,6 +148,7 @@ window.submitNewUser = () => {
 
     storage.addUser(newUser);
     closeModal();
+    logAction('add', `تم إضافة موظف جديد: ${name}`);
     showToast(`✅ ${i18n.t('newUserAdded')}`);
     refreshModule();
 };
@@ -187,6 +188,7 @@ window.submitUpdateUser = () => {
 
     storage.updateUser(id, { name, email, dept, role });
     closeModal();
+    logAction('edit', `تعديل بيانات الموظف: ${name}`);
     showToast(`✅ ${i18n.t('systemUpdated')}`);
     refreshModule();
 };
@@ -243,7 +245,7 @@ window.deleteUserItem = (id) => {
     const name = user ? user.name : id;
     const title = i18n.t('deleteRecord');
     const message = i18n.t('confirmDeleteUser') + ' (' + name + ')';
-    showConfirmModal(title, message, `storage.deleteUser(${id}); showToast('🗑️ ' + i18n.t('deleteRecord') + ': ${name}'); refreshModule();`);
+    showConfirmModal(title, message, `storage.deleteUser(${id}); logAction('delete', 'حذف المستخدم: ${name}'); showToast('🗑️ ' + i18n.t('deleteRecord') + ': ${name}'); refreshModule();`);
 };
 
 function userRow(id, name, email, dept, role, statusColor) {

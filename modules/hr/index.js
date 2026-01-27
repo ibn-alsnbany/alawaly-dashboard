@@ -108,6 +108,7 @@ window.submitNewEmployee = () => {
 
     storage.addEmployee(newEmployee);
     closeModal();
+    logAction('add', `توظيف كادر جديد: ${name}`);
     showToast(`✅ ${i18n.t('systemUpdated')}`);
     refreshModule();
 };
@@ -139,6 +140,7 @@ window.submitUpdateEmployee = () => {
 
     storage.updateEmployee(id, { name, role });
     closeModal();
+    logAction('edit', `تحديث بيانات الموظف: ${name}`);
     showToast(`✅ ${i18n.t('systemUpdated')}`);
     refreshModule();
 };
@@ -194,7 +196,7 @@ window.deleteEmployee = (id) => {
     const name = emp ? emp.name : id;
     const title = i18n.t('deleteRecord');
     const message = i18n.t('confirmDeleteEmployee') + ' (' + name + ')';
-    showConfirmModal(title, message, `storage.deleteEmployee(${id}); showToast('🗑️ ' + i18n.t('deleteRecord') + ': ${name}'); refreshModule();`);
+    showConfirmModal(title, message, `storage.deleteEmployee(${id}); logAction('delete', 'تم حذف الموظف: ${name}'); showToast('🗑️ ' + i18n.t('deleteRecord') + ': ${name}'); refreshModule();`);
 };
 
 function statCard(title, value, change, color, iconPath) {

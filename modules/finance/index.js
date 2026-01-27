@@ -120,6 +120,7 @@ window.submitNewInvoice = () => {
 
     storage.addInvoice(newInvoice);
     closeModal();
+    logAction('add', `إصدار فاتورة جديدة للعميل: ${customer}`);
     showToast('✅ تم إصدار الفاتورة بنجاح');
     refreshModule();
 };
@@ -160,6 +161,7 @@ window.submitUpdateInvoice = () => {
         date
     });
     closeModal();
+    logAction('edit', `تحديث بيانات الفاتورة: ${id}`);
     showToast(`✅ ${i18n.t('invoiceUpdated')}`);
     refreshModule();
 };
@@ -213,7 +215,7 @@ window.viewInvoice = (id) => {
 window.deleteInvoice = (id) => {
     const title = i18n.t('deleteRecord') || 'حذف السجل';
     const message = (i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذه الفاتورة؟') + ' (' + id + ')';
-    showConfirmModal(title, message, `storage.deleteInvoice('${id}'); showToast('🗑️ تم حذف الفاتورة ${id}'); refreshModule();`);
+    showConfirmModal(title, message, `storage.deleteInvoice('${id}'); logAction('delete', 'تم حذف الفاتورة: ${id}'); showToast('🗑️ تم حذف الفاتورة ${id}'); refreshModule();`);
 };
 
 function statCard(title, value, change, color, iconPath) {

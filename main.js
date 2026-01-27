@@ -12,11 +12,18 @@ import { analyticsModule } from './modules/analytics/index.js';
 import { systemModule } from './modules/system/index.js';
 import { usersModule } from './modules/users/index.js';
 import { settingsModule } from './modules/settings/index.js';
+import { notificationsModule } from './modules/notifications/index.js';
 
 // Expose Core to Global Scope for HTML Event Handlers
 window.storage = storage;
 window.i18n = i18n;
 window.theme = theme;
+
+window.logAction = (type, message) => {
+    storage.addNotification(type, message);
+    const bell = document.querySelector('.topbar-bell-badge');
+    if (bell) bell.classList.remove('hidden');
+};
 
 const routes = {
     'dashboard': dashboardModule,
@@ -27,7 +34,8 @@ const routes = {
     'analytics': analyticsModule,
     'system': systemModule,
     'users': usersModule,
-    'settings': settingsModule
+    'settings': settingsModule,
+    'notifications': notificationsModule
 };
 
 // Global Navigation Helper
