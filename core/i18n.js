@@ -94,7 +94,12 @@ const translations = {
         current: "الحالي",
         previous: "السابق",
         teamPerformance: "أداء الفريق",
-        fullStaffReport: "تقرير الموظفين الكامل"
+        fullStaffReport: "تقرير الموظفين الكامل",
+        // Employee names
+        employee1: "أحمد عبدالله",
+        employee2: "سارة علي",
+        employee3: "خالد الحربي",
+        employee4: "نورة السويدي"
     },
     en: {
         title: "Al-Awali 2030",
@@ -191,7 +196,12 @@ const translations = {
         current: "Current",
         previous: "Previous",
         teamPerformance: "Team Performance",
-        fullStaffReport: "Full Staff Report"
+        fullStaffReport: "Full Staff Report",
+        // Employee names
+        employee1: "Ahmed Abdullah",
+        employee2: "Sarah Ali",
+        employee3: "Khaled Al-Harbi",
+        employee4: "Noura Al-Suwaidi"
     }
 };
 

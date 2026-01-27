@@ -41,10 +41,10 @@ export const analyticsModule = {
                 <div class="lg:col-span-1 premium-card !p-6">
                     <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">${i18n.t('teamPerformance')}</h3>
                     <div class="space-y-5">
-                        ${staffItem('أحمد عبدالله', `<span class="font-nums">98%</span>`, 'bg-emerald-500')}
-                        ${staffItem('سارة علي', `<span class="font-nums">92%</span>`, 'bg-emerald-400')}
-                        ${staffItem('خالد الحربي', `<span class="font-nums">85%</span>`, 'bg-amber-400')}
-                        ${staffItem('نورة السويدي', `<span class="font-nums">79%</span>`, 'bg-blue-400')}
+                        ${staffItem(i18n.t('employee1'), `<span class="font-nums">98%</span>`, 'bg-emerald-500')}
+                        ${staffItem(i18n.t('employee2'), `<span class="font-nums">92%</span>`, 'bg-emerald-400')}
+                        ${staffItem(i18n.t('employee3'), `<span class="font-nums">85%</span>`, 'bg-amber-400')}
+                        ${staffItem(i18n.t('employee4'), `<span class="font-nums">79%</span>`, 'bg-blue-400')}
                     </div>
                     <button class="w-full mt-6 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-[0.75rem] font-bold text-slate-500 hover:text-vision-gold transition-colors border border-slate-100 dark:border-slate-700">${i18n.t('fullStaffReport')}</button>
                 </div>
