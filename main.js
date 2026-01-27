@@ -2,6 +2,24 @@ import { i18n } from './core/i18n.js';
 import { theme } from './core/theme.js';
 import { storage } from './core/storage.js';
 
+// Cross-Tab Synchronization Layer
+const settingsChannel = new BroadcastChannel('app_settings_channel');
+let isSyncing = false;
+
+settingsChannel.onmessage = (event) => {
+    const { type, value } = event.data;
+    isSyncing = true;
+    if (type === 'theme' && theme.theme !== value) {
+        theme.toggle();
+        updateDynamicLabels();
+    } else if (type === 'language' && i18n.lang !== value) {
+        i18n.toggle();
+        updateDynamicLabels();
+    }
+    isSyncing = false;
+};
+
+
 // Module Dynamic Imports logic
 import { dashboardModule } from './modules/dashboard/index.js';
 import { financeModule } from './modules/finance/index.js';
@@ -262,8 +280,18 @@ window.addEventListener('hashchange', handleRoute);
 window.addEventListener('langChanged', (e) => {
     i18n.apply();   // Fully refresh context
     handleRoute();  // Rerender current view
+    if (!isSyncing) {
+        settingsChannel.postMessage({ type: 'language', value: e.detail });
+    }
 });
-window.addEventListener('themeChanged', () => theme.apply());
+
+window.addEventListener('themeChanged', (e) => {
+    theme.apply();
+    if (!isSyncing) {
+        settingsChannel.postMessage({ type: 'theme', value: e.detail });
+    }
+});
+
 
 // Dynamic Profile Update Listener
 window.addEventListener('profileChanged', () => {
