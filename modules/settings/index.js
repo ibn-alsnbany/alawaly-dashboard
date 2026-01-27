@@ -37,15 +37,26 @@ export const settingsModule = {
                     </div>
                 </div>
 
-                <div class="flex justify-end pt-6 border-t border-slate-50 dark:border-slate-800">
-                     <button onclick="saveProfile()" class="bg-vision-gold text-white px-8 py-3 rounded-2xl font-bold text-[0.875rem] shadow-lg shadow-vision-gold/10 transition-all hover:-translate-y-1 active:scale-95">${i18n.t('saveChanges')}</button>
-                </div>
+                <!-- Side Info (1/3) -->
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="premium-card !p-8 bg-gradient-to-br from-vision-gold to-amber-600 border-none">
+                        <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-white mb-6 backdrop-blur-md">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">${i18n.t('systemOverview')}</h3>
+                        <p class="text-white/80 text-[0.875rem] leading-relaxed mb-8">قم بتحديث بياناتك الشخصية باستمرار لضمان دقة التقارير والتواصل الفعال مع الفريق.</p>
+                        <button onclick="saveProfile()" class="w-full bg-white text-vision-gold py-4 rounded-2xl font-bold text-[0.875rem] shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                            ${i18n.t('saveChanges')}
+                        </button>
+                    </div>
 
-                <div class="premium-card !p-8">
-                    <h3 class="text-[0.8125rem] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-8 text-start">${i18n.t('securitySettings')}</h3>
-                    <div class="space-y-6 text-start">
-                        ${toggleItem(i18n.t('twoFactorAuth'), i18n.t('twoFactorDesc'), true)}
-                        ${toggleItem(i18n.t('loginNotifications'), i18n.t('loginNotifDesc'), false)}
+                    <div class="premium-card !p-8">
+                        <h3 class="text-[0.8125rem] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-8 text-start">${i18n.t('securitySettings')}</h3>
+                        <div class="space-y-6 text-start">
+                            ${toggleItem(i18n.t('twoFactorAuth'), i18n.t('twoFactorDesc'), true)}
+                            ${toggleItem(i18n.t('loginNotifications'), i18n.t('loginNotifDesc'), false)}
+                        </div>
                     </div>
                 </div>
             </div>
