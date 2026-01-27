@@ -155,7 +155,30 @@ const translations = {
         deleteRecord: "حذف السجل",
         workingStatus: "حالة العمل",
         employeeId: "رقم الموظف",
-        confirmDeleteEmployee: "هل أنت متأكد من حذف الموظف من السجل؟"
+        confirmDeleteEmployee: "هل أنت متأكد من حذف الموظف من السجل؟",
+        // Users specific
+        userList: "قائمة الكوادر",
+        noUsersFound: "لا يوجد نتائج لهذا البحث",
+        absenceReport: "تقرير الغياب اليومي",
+        notRegistered: "غير مسجل",
+        late: "تأخر رسمي",
+        fullAbsenceLog: "سجل الغياب الكامل",
+        deptDistribution: "توزيع الأقسام",
+        tech: "التقنية",
+        itDept: "قسم تقنية المعلومات",
+        marketingDept: "قسم التسويق",
+        hrDept: "مكتب الموارد البشرية",
+        financeDept: "قسم المالية",
+        developer: "مطور",
+        lead: "رئيس فريق",
+        manager: "مدير",
+        analyst: "محلل",
+        enterEmail: "أدخل البريد الإلكتروني...",
+        hireUser: "إضافة الكادر",
+        editUserRecord: "تعديل بيانات الموظف",
+        currentDept: "القسم الحالي",
+        editProfile: "تعديل الملف",
+        confirmDeleteUser: "هل أنت متأكد من حذف هذا الموظف؟"
     },
     en: {
         title: "Al-Awali 2030",
@@ -313,7 +336,30 @@ const translations = {
         deleteRecord: "Delete Record",
         workingStatus: "Working Status",
         employeeId: "Employee ID",
-        confirmDeleteEmployee: "Are you sure you want to delete this employee from the record?"
+        confirmDeleteEmployee: "Are you sure you want to delete this employee from the record?",
+        // Users specific
+        userList: "Staff List",
+        noUsersFound: "No results found for this search",
+        absenceReport: "Daily Absence Report",
+        notRegistered: "Not Registered",
+        late: "Official Late",
+        fullAbsenceLog: "Full Absence Log",
+        deptDistribution: "Dept. Distribution",
+        tech: "Technical",
+        itDept: "IT Department",
+        marketingDept: "Marketing",
+        hrDept: "HR Office",
+        financeDept: "Finance",
+        developer: "Developer",
+        lead: "Lead",
+        manager: "Manager",
+        analyst: "Analyst",
+        enterEmail: "Enter email address...",
+        hireUser: "Add Staff Member",
+        editUserRecord: "Edit Employee Record",
+        currentDept: "Current Department",
+        editProfile: "Edit Profile",
+        confirmDeleteUser: "Are you sure you want to delete this employee?"
     }
 };
 

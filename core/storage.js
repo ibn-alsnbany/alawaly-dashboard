@@ -31,10 +31,10 @@ export const storage = {
 
     // USERS
     getUsers: () => storage.getAll('vision_users', [
-        { id: 1, name: 'أحمد عبدالله', email: 'ahmed@vision.sa', dept: 'IT Department', role: 'Developer', status: 'bg-emerald-500' },
-        { id: 2, name: 'سارة محمد', email: 'sara@vision.sa', dept: 'Marketing', role: 'Lead', status: 'bg-blue-500' },
-        { id: 3, name: 'فيصل بن علي', email: 'faisal@vision.sa', dept: 'HR Office', role: 'Manager', status: 'bg-amber-500' },
-        { id: 4, name: 'نورة السعد', email: 'noura@vision.sa', dept: 'Finance', role: 'Analyst', status: 'bg-amber-500' }
+        { id: 1, name: 'Ahmed Abdullah', email: 'ahmed@vision.sa', dept: 'IT Department', role: 'Developer', status: 'bg-emerald-500' },
+        { id: 2, name: 'Sarah Mohammed', email: 'sara@vision.sa', dept: 'Marketing', role: 'Lead', status: 'bg-blue-500' },
+        { id: 3, name: 'Faisal bin Ali', email: 'faisal@vision.sa', dept: 'HR Office', role: 'Manager', status: 'bg-amber-500' },
+        { id: 4, name: 'Noura Al-Saad', email: 'noura@vision.sa', dept: 'Finance', role: 'Analyst', status: 'bg-amber-500' }
     ]),
     addUser: (u) => storage.add('vision_users', u, storage.getUsers()),
     updateUser: (id, u) => storage.update('vision_users', id, u, storage.getUsers()),
