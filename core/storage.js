@@ -42,9 +42,9 @@ export const storage = {
 
     // INVOICES (Finance)
     getInvoices: () => storage.getAll('vision_invoices', [
-        { id: 'INV-001', customer: 'شركة الأمل', amount: '12,500', date: '2023-10-01', status: 'Paid', statusClass: 'bg-emerald-50 text-emerald-600' },
-        { id: 'INV-002', customer: 'مؤسسة الرياض', amount: '8,200', date: '2023-10-05', status: 'Pending', statusClass: 'bg-amber-50 text-amber-600' },
-        { id: 'INV-003', customer: 'متجر الوفاء', amount: '3,450', date: '2023-10-08', status: 'Overdue', statusClass: 'bg-rose-50 text-rose-600' }
+        { id: 'INV-001', customer: 'Al-Amal Company', amount: '12,500', date: '2023-10-01', status: 'Paid', statusClass: 'bg-emerald-50 text-emerald-600' },
+        { id: 'INV-002', customer: 'Riyadh Organization', amount: '8,200', date: '2023-10-05', status: 'Pending', statusClass: 'bg-amber-50 text-amber-600' },
+        { id: 'INV-003', customer: 'Al-Wafa Store', amount: '3,450', date: '2023-10-08', status: 'Overdue', statusClass: 'bg-rose-50 text-rose-600' }
     ]),
     getInvoiceById: (id) => storage.getInvoices().find(inv => inv.id === id),
     addInvoice: (inv) => storage.add('vision_invoices', inv, storage.getInvoices()),
@@ -53,10 +53,10 @@ export const storage = {
 
     // ORDERS (Sales)
     getOrders: () => storage.getAll('vision_orders', [
-        { id: '#ORD-441', customer: 'أحمد السلمي', amount: '500', status: 'Completed', statusClass: 'bg-green-50 text-green-600' },
-        { id: '#ORD-442', customer: 'نورة العتيبي', amount: '1,200', status: 'Processing', statusClass: 'bg-blue-50 text-blue-600' },
-        { id: '#ORD-443', customer: 'بدر الحربي', amount: '350', status: 'Completed', statusClass: 'bg-green-50 text-green-600' },
-        { id: '#ORD-444', customer: 'ليلى القحطاني', amount: '890', status: 'Cancelled', statusClass: 'bg-red-50 text-red-600' }
+        { id: '#ORD-441', customer: 'Ahmed Al-Salmi', amount: '500', status: 'Completed', statusClass: 'bg-green-50 text-green-600' },
+        { id: '#ORD-442', customer: 'Noura Al-Otaibi', amount: '1,200', status: 'Processing', statusClass: 'bg-blue-50 text-blue-600' },
+        { id: '#ORD-443', customer: 'Badr Al-Harbi', amount: '350', status: 'Completed', statusClass: 'bg-green-50 text-green-600' },
+        { id: '#ORD-444', customer: 'Layla Al-Qahtani', amount: '890', status: 'Cancelled', statusClass: 'bg-red-50 text-red-600' }
     ]),
     getOrderById: (id) => storage.getOrders().find(ord => ord.id === id),
     addOrder: (ord) => storage.add('vision_orders', ord, storage.getOrders()),
@@ -65,9 +65,9 @@ export const storage = {
 
     // EMPLOYEES (HR)
     getEmployees: () => storage.getAll('vision_employees', [
-        { id: 1, name: 'خالد محمد', role: 'مدير تقني', status: 'نشط', statusClass: 'bg-green-100 text-green-600' },
-        { id: 2, name: 'ريم العلي', role: 'مصممة واجهات', status: 'في إجازة', statusClass: 'bg-amber-100 text-amber-600' },
-        { id: 3, name: 'عمر فهد', role: 'محلل بيانات', status: 'نشط', statusClass: 'bg-green-100 text-green-600' }
+        { id: 1, name: 'Khaled Mohammed', role: 'Tech Manager', status: 'Active', statusClass: 'bg-green-100 text-green-600' },
+        { id: 2, name: 'Reem Al-Ali', role: 'UI Designer', status: 'On Leave', statusClass: 'bg-amber-100 text-amber-600' },
+        { id: 3, name: 'Omar Fahad', role: 'Data Analyst', status: 'Active', statusClass: 'bg-green-100 text-green-600' }
     ]),
     addEmployee: (emp) => storage.add('vision_employees', emp, storage.getEmployees()),
     updateEmployee: (id, data) => storage.update('vision_employees', id, data, storage.getEmployees()),
