@@ -24,19 +24,19 @@ export const dashboardModule = {
                 <div class="lg:col-span-2 premium-card !p-6 flex flex-col">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('recentActivity')}</h3>
-                        <button class="text-[0.75rem] font-semibold text-vision-gold hover:underline">المزيد</button>
+                        <button class="text-[0.75rem] font-semibold text-vision-gold hover:underline">${i18n.t('viewMore')}</button>
                     </div>
                     <div class="space-y-4 flex-1">
                         ${activityItem(i18n.t('newUserAdded'), i18n.t('5minsAgo'), 'bg-blue-500')}
                         ${activityItem(i18n.t('saleCompleted'), i18n.t('15minsAgo'), 'bg-emerald-500')}
                         ${activityItem(i18n.t('systemUpdated'), i18n.t('1hourAgo'), 'bg-amber-500')}
-                        ${activityItem('تحديث الأسعار المالية', 'منذ يومين', 'bg-purple-500')}
+                        ${activityItem(i18n.t('priceUpdate'), i18n.t('twoDaysAgo'), 'bg-purple-500')}
                     </div>
                 </div>
 
                 <!-- Pillar 2: Distribution Chart (1/5) -->
                 <div class="lg:col-span-1 premium-card !p-6 flex flex-col items-center justify-center text-center">
-                    <h3 class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-6 w-full text-center">الإحصائيات</h3>
+                    <h3 class="text-[0.75rem] font-semibold text-slate-500 uppercase tracking-widest mb-6 w-full text-center">${i18n.t('statistics')}</h3>
                     
                     <div class="relative w-32 h-32 flex items-center justify-center mb-6">
                         <svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
@@ -51,11 +51,11 @@ export const dashboardModule = {
 
                     <div class="space-y-3 w-full">
                         <div class="flex items-center justify-between">
-                            <span class="text-[0.75rem] font-semibold text-slate-500">Sales</span>
+                            <span class="text-[0.75rem] font-semibold text-slate-500">${i18n.t('sales')}</span>
                             <span class="text-[0.8125rem] font-semibold font-nums text-slate-700 dark:text-slate-200">65%</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-[0.75rem] font-semibold text-slate-500">Users</span>
+                            <span class="text-[0.75rem] font-semibold text-slate-500">${i18n.t('users')}</span>
                             <span class="text-[0.8125rem] font-semibold font-nums text-slate-700 dark:text-slate-200">17%</span>
                         </div>
                     </div>
@@ -63,14 +63,14 @@ export const dashboardModule = {
 
                 <!-- Pillar 3: System Status / Quick Actions (2/5) -->
                 <div class="lg:col-span-2 premium-card !p-6">
-                    <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">حالة النظام والأداء</h3>
+                    <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">${i18n.t('systemPerformance')}</h3>
                     <div class="space-y-6">
-                        ${performanceItem('سرعة المعالجة', `<span class="font-nums">98%</span>`, 'bg-emerald-500')}
-                        ${performanceItem('استخدام الذاكرة', `<span class="font-nums">42%</span>`, 'bg-blue-500')}
-                        ${performanceItem('قوة الاتصال', `<span class="font-nums">94%</span>`, 'bg-amber-500')}
+                        ${performanceItem(i18n.t('processingSpeed'), `<span class="font-nums">98%</span>`, 'bg-emerald-500')}
+                        ${performanceItem(i18n.t('memoryUsage'), `<span class="font-nums">42%</span>`, 'bg-blue-500')}
+                        ${performanceItem(i18n.t('connectionStrength'), `<span class="font-nums">94%</span>`, 'bg-amber-500')}
                         <div class="pt-4 grid grid-cols-2 gap-3">
-                            <button class="bg-slate-50 dark:bg-slate-800/50 py-2.5 rounded-xl border border-slate-100 dark:border-slate-700 text-[0.75rem] font-bold transition-all hover:border-vision-gold hover:text-vision-gold">تقرير شهري</button>
-                            <button class="bg-slate-50 dark:bg-slate-800/50 py-2.5 rounded-xl border border-slate-100 dark:border-slate-700 text-[0.75rem] font-bold transition-all hover:border-vision-gold hover:text-vision-gold">إعدادات الأمان</button>
+                            <button class="bg-slate-50 dark:bg-slate-800/50 py-2.5 rounded-xl border border-slate-100 dark:border-slate-700 text-[0.75rem] font-bold transition-all hover:border-vision-gold hover:text-vision-gold">${i18n.t('monthlyReport')}</button>
+                            <button class="bg-slate-50 dark:bg-slate-800/50 py-2.5 rounded-xl border border-slate-100 dark:border-slate-700 text-[0.75rem] font-bold transition-all hover:border-vision-gold hover:text-vision-gold">${i18n.t('securitySettings')}</button>
                         </div>
                     </div>
                 </div>

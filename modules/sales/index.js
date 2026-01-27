@@ -85,6 +85,34 @@ window.addOrderPrompt = () => {
     `, 'تأكيد الطلب', 'submitNewOrder()'));
 };
 
+window.submitNewOrder = () => {
+    const customer = document.getElementById('ord-customer').value.trim();
+    const amount = document.getElementById('ord-amount').value;
+
+    if (!customer) {
+        showToast('⚠️ يرجى إدخال اسم العميل');
+        return;
+    }
+    if (!amount || Number(amount) <= 0) {
+        showToast('⚠️ يرجى إدخال مبلغ صحيح');
+        return;
+    }
+
+    const newOrder = {
+        id: `#ORD-${Date.now()}`,
+        customer,
+        amount: Number(amount).toLocaleString(),
+        status: 'Processing',
+        statusClass: 'bg-blue-50 text-blue-600'
+    };
+
+    storage.addOrder(newOrder);
+    closeModal();
+    showToast('✅ تم إنشاء الطلب بنجاح');
+    refreshModule();
+};
+
+
 window.editOrderPrompt = (id) => {
     const ord = storage.getOrders().find(o => o.id === id);
     if (!ord) return;

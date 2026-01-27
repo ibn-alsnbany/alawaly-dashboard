@@ -5,7 +5,7 @@ export const analyticsModule = {
         return `
             <div class="mb-6">
                 <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('analytics')}</h1>
-                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">قراءة وتحليل البيانات في الوقت الحقيقي.</p>
+                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('analyticsSubtitle')}</p>
             </div>
 
             <!-- Stats Grid: 4 Columns for better density -->
@@ -13,7 +13,7 @@ export const analyticsModule = {
                 ${analyticsStatCard(i18n.t('visitors'), `<span class="font-nums">145.2k</span>`, `<span class="font-nums">+18%</span>`, 'bg-vision-gold', 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z')}
                 ${analyticsStatCard(i18n.t('bounceRate'), `<span class="font-nums">32%</span>`, `<span class="font-nums">-5%</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
                 ${analyticsStatCard(i18n.t('sessionDuration'), `<span class="font-nums">4m 32s</span>`, `<span class="font-nums">+12%</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z')}
-                ${analyticsStatCard('متوسط النقر', `<span class="font-nums">12.4%</span>`, `<span class="font-nums">+2.1%</span>`, 'bg-vision-gold', 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5')}
+                ${analyticsStatCard(i18n.t('avgClickRate'), `<span class="font-nums">12.4%</span>`, `<span class="font-nums">+2.1%</span>`, 'bg-vision-gold', 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5')}
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
@@ -21,32 +21,32 @@ export const analyticsModule = {
                 <div class="lg:col-span-2 premium-card !p-8">
                     <div class="flex items-center justify-between mb-8">
                         <div>
-                            <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">تحليل النمو الأسبوعي</h3>
-                            <p class="text-[0.75rem] text-slate-500 font-medium opactiy-80">مقارنة أداء الزيارات والتحويلات</p>
+                            <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('weeklyGrowthAnalysis')}</h3>
+                            <p class="text-[0.75rem] text-slate-500 font-medium opactiy-80">${i18n.t('comparePerformance')}</p>
                         </div>
                         <div class="flex gap-4">
-                             <span class="flex items-center gap-1.5 text-[0.75rem] font-bold text-slate-500"><div class="w-2 h-2 rounded-full bg-vision-gold"></div> الحالي</span>
-                             <span class="flex items-center gap-1.5 text-[0.75rem] font-bold text-slate-500"><div class="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div> السابق</span>
+                             <span class="flex items-center gap-1.5 text-[0.75rem] font-bold text-slate-500"><div class="w-2 h-2 rounded-full bg-vision-gold"></div> ${i18n.t('current')}</span>
+                             <span class="flex items-center gap-1.5 text-[0.75rem] font-bold text-slate-500"><div class="w-2 h-2 rounded-full bg-slate-200 dark:bg-slate-700"></div> ${i18n.t('previous')}</span>
                         </div>
                     </div>
                     <div class="h-40 flex items-end justify-between gap-4 px-2">
                         ${analyticsBar(35)} ${analyticsBar(65)} ${analyticsBar(45)} ${analyticsBar(95)} ${analyticsBar(75)} ${analyticsBar(50)} ${analyticsBar(85)}
                     </div>
                     <div class="flex justify-between mt-6 px-2 text-[0.75rem] font-bold text-slate-400 uppercase font-nums">
-                        <span>Sat</span><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
+                        <span>السبت</span><span>الأحد</span><span>الإثنين</span><span>الثلاثاء</span><span>الأربعاء</span><span>الخميس</span><span>الجمعة</span>
                     </div>
                 </div>
 
                 <!-- Workforce / Staff Analytics (1/3) -->
                 <div class="lg:col-span-1 premium-card !p-6">
-                    <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">أداء الفريق</h3>
+                    <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">${i18n.t('teamPerformance')}</h3>
                     <div class="space-y-5">
                         ${staffItem('أحمد عبدالله', `<span class="font-nums">98%</span>`, 'bg-emerald-500')}
                         ${staffItem('سارة علي', `<span class="font-nums">92%</span>`, 'bg-emerald-400')}
                         ${staffItem('خالد الحربي', `<span class="font-nums">85%</span>`, 'bg-amber-400')}
                         ${staffItem('نورة السويدي', `<span class="font-nums">79%</span>`, 'bg-blue-400')}
                     </div>
-                    <button class="w-full mt-6 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-[0.75rem] font-bold text-slate-500 hover:text-vision-gold transition-colors border border-slate-100 dark:border-slate-700">تقرير الموظفين الكامل</button>
+                    <button class="w-full mt-6 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 text-[0.75rem] font-bold text-slate-500 hover:text-vision-gold transition-colors border border-slate-100 dark:border-slate-700">${i18n.t('fullStaffReport')}</button>
                 </div>
             </div>
         `;

@@ -73,7 +73,28 @@ const translations = {
         langNameLarge: "English",
         langNameSmall: "EN",
         themeDay: "نهار",
-        themeNight: "ليلي"
+        themeNight: "ليلي",
+        // Dashboard specific
+        viewMore: "المزيد",
+        priceUpdate: "تحديث الأسعار المالية",
+        twoDaysAgo: "منذ يومين",
+        statistics: "الإحصائيات",
+        sales: "المبيعات",
+        systemPerformance: "حالة النظام والأداء",
+        processingSpeed: "سرعة المعالجة",
+        memoryUsage: "استخدام الذاكرة",
+        connectionStrength: "قوة الاتصال",
+        monthlyReport: "تقرير شهري",
+        securitySettings: "إعدادات الأمان",
+        // Analytics specific
+        analyticsSubtitle: "قراءة وتحليل البيانات في الوقت الحقيقي.",
+        avgClickRate: "متوسط النقر",
+        weeklyGrowthAnalysis: "تحليل النمو الأسبوعي",
+        comparePerformance: "مقارنة أداء الزيارات والتحويلات",
+        current: "الحالي",
+        previous: "السابق",
+        teamPerformance: "أداء الفريق",
+        fullStaffReport: "تقرير الموظفين الكامل"
     },
     en: {
         title: "Al-Awali 2030",
@@ -149,7 +170,28 @@ const translations = {
         langNameLarge: "العربية",
         langNameSmall: "عر",
         themeDay: "Day",
-        themeNight: "Night"
+        themeNight: "Night",
+        // Dashboard specific
+        viewMore: "View More",
+        priceUpdate: "Price update",
+        twoDaysAgo: "2 days ago",
+        statistics: "Statistics",
+        sales: "Sales",
+        systemPerformance: "System Performance",
+        processingSpeed: "Processing Speed",
+        memoryUsage: "Memory Usage",
+        connectionStrength: "Connection Strength",
+        monthlyReport: "Monthly Report",
+        securitySettings: "Security Settings",
+        // Analytics specific
+        analyticsSubtitle: "Real-time data reading and analysis.",
+        avgClickRate: "Avg Click Rate",
+        weeklyGrowthAnalysis: "Weekly Growth Analysis",
+        comparePerformance: "Compare visits and conversions performance",
+        current: "Current",
+        previous: "Previous",
+        teamPerformance: "Team Performance",
+        fullStaffReport: "Full Staff Report"
     }
 };
 

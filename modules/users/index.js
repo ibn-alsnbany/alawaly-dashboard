@@ -103,6 +103,46 @@ window.addNewUserPrompt = () => {
     `, 'إضافة الآن', 'submitNewUser()'));
 };
 
+window.submitNewUser = () => {
+    const name = document.getElementById('user-name').value.trim();
+    const email = document.getElementById('user-email').value.trim();
+    const dept = document.getElementById('user-dept').value.trim();
+    const role = document.getElementById('user-role').value.trim();
+
+    if (!name) {
+        showToast('⚠️ يرجى إدخال اسم الموظف');
+        return;
+    }
+    if (!email) {
+        showToast('⚠️ يرجى إدخال البريد الإلكتروني');
+        return;
+    }
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showToast('⚠️ يرجى إدخال بريد إلكتروني صحيح');
+        return;
+    }
+    if (!dept || !role) {
+        showToast('⚠️ يرجى إكمال جميع الحقول');
+        return;
+    }
+
+    const newUser = {
+        name,
+        email,
+        dept,
+        role,
+        status: 'bg-emerald-500'
+    };
+
+    storage.addUser(newUser);
+    closeModal();
+    showToast('✅ تم إضافة المستخدم بنجاح');
+    refreshModule();
+};
+
+
 window.editUserPrompt = (id) => {
     const user = storage.getUsers().find(u => u.id == id);
     if (!user) return;

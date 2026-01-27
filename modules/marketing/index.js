@@ -9,7 +9,7 @@ export const marketingModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 w-full">
-                ${statCard(i18n.t('activeCampaigns'), `<span class="font-nums">12</span>`, `<span class="font-nums">Stable</span>`, 'bg-vision-gold', 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z')}
+                ${statCard(i18n.t('activeCampaigns'), `<span class="font-nums">12</span>`, `<span class="font-nums">مستقر</span>`, 'bg-vision-gold', 'M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z')}
                 ${statCard(i18n.t('leads'), `<span class="font-nums">450</span>`, `<span class="font-nums">+22%</span>`, 'bg-vision-gold', 'M13 10V3L4 14h7v7l9-11h-7z')}
                 ${statCard(i18n.t('clicks'), `<span class="font-nums">12,400</span>`, `<span class="font-nums">+5%</span>`, 'bg-vision-gold', 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5')}
                 ${statCard(i18n.t('roi'), `<span class="font-nums">3.4x</span>`, `<span class="font-nums">+0.2</span>`, 'bg-vision-gold', 'M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z')}
@@ -37,7 +37,7 @@ export const marketingModule = {
 };
 
 function statCard(title, value, change, color, iconPath) {
-    const isPositive = !change.includes('-') && !change.includes('Stable');
+    const isPositive = !change.includes('-') && !change.includes('مستقر');
     return `
         <div class="premium-card !p-6 group">
             <div class="flex justify-between items-start mb-5">

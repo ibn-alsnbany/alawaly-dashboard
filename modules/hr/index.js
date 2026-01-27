@@ -76,6 +76,33 @@ window.addEmployeePrompt = () => {
     `, 'توظيف الآن', 'submitNewEmployee()'));
 };
 
+window.submitNewEmployee = () => {
+    const name = document.getElementById('emp-name').value.trim();
+    const role = document.getElementById('emp-role').value.trim();
+
+    if (!name) {
+        showToast('⚠️ يرجى إدخال اسم الموظف');
+        return;
+    }
+    if (!role) {
+        showToast('⚠️ يرجى إدخال المسمى الوظيفي');
+        return;
+    }
+
+    const newEmployee = {
+        name,
+        role,
+        status: 'نشط',
+        statusClass: 'bg-green-100 text-green-600'
+    };
+
+    storage.addEmployee(newEmployee);
+    closeModal();
+    showToast('✅ تم إضافة الموظف بنجاح');
+    refreshModule();
+};
+
+
 window.editEmployeePrompt = (id) => {
     const emp = storage.getEmployees().find(e => e.id == id);
     if (!emp) return;

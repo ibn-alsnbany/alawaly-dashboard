@@ -85,6 +85,36 @@ window.addInvoicePrompt = () => {
     `, 'إصدار الفاتورة', 'submitNewInvoice()'));
 };
 
+window.submitNewInvoice = () => {
+    const customer = document.getElementById('inv-customer').value.trim();
+    const amount = document.getElementById('inv-amount').value;
+    const date = document.getElementById('inv-date').value;
+
+    if (!customer) {
+        showToast('⚠️ يرجى إدخال اسم العميل');
+        return;
+    }
+    if (!amount || Number(amount) <= 0) {
+        showToast('⚠️ يرجى إدخال مبلغ صحيح');
+        return;
+    }
+
+    const newInvoice = {
+        id: `INV-${Date.now()}`,
+        customer,
+        amount: Number(amount).toLocaleString(),
+        date: date || new Date().toISOString().split('T')[0],
+        status: 'Pending',
+        statusClass: 'bg-amber-50 text-amber-600'
+    };
+
+    storage.addInvoice(newInvoice);
+    closeModal();
+    showToast('✅ تم إصدار الفاتورة بنجاح');
+    refreshModule();
+};
+
+
 window.editInvoicePrompt = (id) => {
     const inv = storage.getInvoices().find(i => i.id === id);
     if (!inv) return;
