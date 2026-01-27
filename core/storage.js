@@ -75,9 +75,9 @@ export const storage = {
 
     // PROFILE
     getProfile: () => storage.get('vision_profile', {
-        name: 'محمد علي',
-        username: '@mohammed_alawaly',
-        email: 'mohammed@alawaly.sa',
+        name: 'Hamza Mohammed',
+        username: '@hamza_alawaly',
+        email: 'hamza@alawaly.sa',
         phone: '+966 50 XXX XXXX'
     }),
     setProfile: (profile) => storage.set('vision_profile', profile)

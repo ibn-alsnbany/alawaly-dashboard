@@ -8,7 +8,7 @@ export const settingsModule = {
         return `
             <div class="mb-8">
                 <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('settings')}</h1>
-                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('settingsSubtitle') || 'تخصيص تجربة النظام وتحديث بياناتك الشخصية.'}</p>
+                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('settingsSubtitle')}</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
@@ -17,14 +17,14 @@ export const settingsModule = {
                     <div class="flex items-center gap-6 mb-10 pb-10 border-b border-slate-50 dark:border-vision-border">
                         <div class="relative group">
                             <div class="w-24 h-24 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-4xl font-bold text-vision-gold border-4 border-white dark:border-slate-700 shadow-xl overflow-hidden">
-                                <span class="profile-initials group-hover:scale-110 transition-transform">${storage.getProfile().name[0]}</span>
+                                <span class="profile-initials group-hover:scale-110 transition-transform">${profile.name[0]}</span>
                             </div>
                             <button class="absolute bottom-1 right-1 w-8 h-8 rounded-full bg-vision-gold text-white flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             </button>
                         </div>
                         <div>
-                            <h3 class="text-[1.0625rem] font-bold text-slate-800 dark:text-white mb-1">حمزه محمد</h3>
+                            <h3 class="text-[1.0625rem] font-bold text-slate-800 dark:text-white mb-1">${profile.name}</h3>
                             <p class="text-[0.8125rem] text-slate-500 font-medium">${i18n.t('adminRole')}</p>
                         </div>
                     </div>
@@ -42,10 +42,10 @@ export const settingsModule = {
                 </div>
 
                 <div class="premium-card !p-8">
-                    <h3 class="text-[0.8125rem] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-8">إعدادات الأمان</h3>
-                    <div class="space-y-6">
-                        ${toggleItem('التحقق الثنائي (2FA)', 'حماية إضافية لحسابك عبر الهاتف.', true)}
-                        ${toggleItem('إشعارات تسجيل الدخول', 'تنبيهك عند دخول الحساب من جهاز جديد.', false)}
+                    <h3 class="text-[0.8125rem] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-8 text-start">${i18n.t('securitySettings')}</h3>
+                    <div class="space-y-6 text-start">
+                        ${toggleItem(i18n.t('twoFactorAuth'), i18n.t('twoFactorDesc'), true)}
+                        ${toggleItem(i18n.t('loginNotifications'), i18n.t('loginNotifDesc'), false)}
                     </div>
                 </div>
             </div>
@@ -68,7 +68,7 @@ window.saveProfile = () => {
     // Quick notification animation
     const btn = event.target;
     const originalText = btn.textContent;
-    btn.textContent = 'تم الحفظ!';
+    btn.textContent = i18n.t('profileUpdated');
     btn.classList.replace('bg-vision-gold', 'bg-emerald-500');
 
     setTimeout(() => {

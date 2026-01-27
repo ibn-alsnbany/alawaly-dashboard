@@ -194,7 +194,15 @@ const translations = {
         updateLog: "سجل التحديثات",
         days: "يوم",
         securityUpdateDesc: "تحسينات أمنية شاملة وتحديث الواجهة الرسومية.",
-        salesFixDesc: "إصلاحات تقنية في نظام المبيعات والتقارير."
+        salesFixDesc: "إصلاحات تقنية في نظام المبيعات والتقارير.",
+        // Settings specific
+        settingsSubtitle: "تخصيص تجربة النظام وتحديث بياناتك الشخصية.",
+        securitySettings: "إعدادات الأمان",
+        twoFactorAuth: "التحقق الثنائي (2FA)",
+        twoFactorDesc: "حماية إضافية لحسابك عبر الهاتف.",
+        loginNotifications: "إشعارات تسجيل الدخول",
+        loginNotifDesc: "تنبيهك عند دخول الحساب من جهاز جديد.",
+        profileUpdated: "تم الحفظ!"
     },
     en: {
         title: "Al-Awali 2030",
@@ -391,7 +399,15 @@ const translations = {
         updateLog: "Update Log",
         days: "days",
         securityUpdateDesc: "Comprehensive security improvements and UI update.",
-        salesFixDesc: "Technical fixes in sales system and reporting."
+        salesFixDesc: "Technical fixes in sales system and reporting.",
+        // Settings specific
+        settingsSubtitle: "Customize system experience and update your personal data.",
+        securitySettings: "Security Settings",
+        twoFactorAuth: "Two-Factor Auth (2FA)",
+        twoFactorDesc: "Extra protection for your account via phone.",
+        loginNotifications: "Login Notifications",
+        loginNotifDesc: "Alert you when login occurs from a new device.",
+        profileUpdated: "Profile Saved!"
     }
 };
 
