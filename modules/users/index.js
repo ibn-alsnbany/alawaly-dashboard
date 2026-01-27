@@ -239,11 +239,9 @@ window.viewUser = (id) => {
 };
 
 window.deleteUserItem = (id) => {
-    if (confirm(i18n.t('confirmDeleteUser'))) {
-        storage.deleteUser(id);
-        showToast(`🗑️ ${i18n.t('deleteRecord')}`);
-        refreshModule();
-    }
+    const title = i18n.t('deleteRecord');
+    const message = i18n.t('confirmDeleteUser');
+    showConfirmModal(title, message, `storage.deleteUser(${id}); showToast('🗑️ ' + i18n.t('deleteRecord')); refreshModule();`);
 };
 
 function userRow(id, name, email, dept, role, statusColor) {

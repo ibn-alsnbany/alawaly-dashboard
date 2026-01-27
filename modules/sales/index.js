@@ -197,11 +197,9 @@ window.viewOrder = (id) => {
 };
 
 window.deleteOrderItem = (id) => {
-    if (confirm(i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذا الطلب؟')) {
-        storage.deleteOrder(id);
-        showToast('🗑️ تم حذف الطلب من السجل');
-        refreshModule();
-    }
+    const title = i18n.t('deleteRecord') || 'حذف السجل';
+    const message = i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذا الطلب؟';
+    showConfirmModal(title, message, `storage.deleteOrder('${id}'); showToast('🗑️ تم حذف الطلب من السجل'); refreshModule();`);
 };
 
 function statCard(title, value, change, color, iconPath) {

@@ -211,11 +211,9 @@ window.viewInvoice = (id) => {
 };
 
 window.deleteInvoice = (id) => {
-    if (confirm(i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذه الفاتورة؟')) {
-        storage.deleteInvoice(id);
-        showToast('🗑️ تم حذف الفاتورة');
-        refreshModule();
-    }
+    const title = i18n.t('deleteRecord') || 'حذف السجل';
+    const message = i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذه الفاتورة؟';
+    showConfirmModal(title, message, `storage.deleteInvoice('${id}'); showToast('🗑️ تم حذف الفاتورة'); refreshModule();`);
 };
 
 function statCard(title, value, change, color, iconPath) {

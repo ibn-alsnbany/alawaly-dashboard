@@ -190,11 +190,9 @@ window.viewEmployee = (id) => {
 };
 
 window.deleteEmployee = (id) => {
-    if (confirm(i18n.t('confirmDeleteEmployee'))) {
-        storage.deleteEmployee(id);
-        showToast(`🗑️ ${i18n.t('deleteRecord')}`);
-        refreshModule();
-    }
+    const title = i18n.t('deleteRecord');
+    const message = i18n.t('confirmDeleteEmployee');
+    showConfirmModal(title, message, `storage.deleteEmployee(${id}); showToast('🗑️ ' + i18n.t('deleteRecord')); refreshModule();`);
 };
 
 function statCard(title, value, change, color, iconPath) {
