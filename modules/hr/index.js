@@ -199,13 +199,18 @@ window.deleteEmployee = (id) => {
 
 function statCard(title, value, change, color, iconPath) {
     const isPositive = change.includes('+') || change === 'Active';
+    const isNegative = change.includes('-');
+    const colorClasses = isPositive
+        ? 'bg-emerald-50 dark:bg-emerald-400/10 text-emerald-600'
+        : (isNegative ? 'bg-rose-50 dark:bg-rose-400/10 text-rose-600' : 'bg-amber-50 dark:bg-amber-400/10 text-amber-600');
+
     return `
         <div class="premium-card !p-6 group">
             <div class="flex justify-between items-start mb-5">
                 <div class="w-11 h-11 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg>
                 </div>
-                <div class="px-2.5 py-1 rounded-lg ${isPositive ? 'bg-emerald-50 dark:bg-emerald-400/10 text-emerald-600' : 'bg-rose-50 dark:bg-rose-400/10 text-rose-600'} text-[0.75rem] font-bold">
+                <div class="px-2.5 py-1 rounded-lg ${colorClasses} text-[0.75rem] font-bold">
                     ${change}
                 </div>
             </div>

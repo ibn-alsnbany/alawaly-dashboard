@@ -54,14 +54,19 @@ export const analyticsModule = {
 };
 
 function analyticsStatCard(title, value, change, color, iconPath) {
-    const isPositive = !change.includes('-');
+    const isPositive = change.includes('+');
+    const isNegative = change.includes('-');
+    const colorClasses = isPositive
+        ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-400/10 px-2 py-0.5 rounded-lg'
+        : (isNegative ? 'text-rose-500 bg-rose-50 dark:bg-rose-400/10 px-2 py-0.5 rounded-lg' : 'text-amber-500 bg-amber-50 dark:bg-amber-400/10 px-2 py-0.5 rounded-lg');
+
     return `
         <div class="premium-card !p-5 group">
             <div class="flex justify-between items-start mb-4">
                 <div class="w-10 h-10 rounded-xl ${color}/10 flex items-center justify-center ${color.replace('bg-', 'text-')} transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path></svg>
                 </div>
-                <span class="text-[0.75rem] font-bold ${isPositive ? 'text-emerald-500' : 'text-rose-500'} font-nums">${change}</span>
+                <span class="text-[0.75rem] font-bold ${colorClasses} font-nums">${change}</span>
             </div>
             <div>
                 <div class="text-[0.75rem] font-bold text-slate-500 dark:text-slate-400 uppercase mb-1">${title}</div>
