@@ -239,9 +239,11 @@ window.viewUser = (id) => {
 };
 
 window.deleteUserItem = (id) => {
+    const user = storage.getUsers().find(u => u.id == id);
+    const name = user ? user.name : id;
     const title = i18n.t('deleteRecord');
-    const message = i18n.t('confirmDeleteUser');
-    showConfirmModal(title, message, `storage.deleteUser(${id}); showToast('🗑️ ' + i18n.t('deleteRecord')); refreshModule();`);
+    const message = i18n.t('confirmDeleteUser') + ' (' + name + ')';
+    showConfirmModal(title, message, `storage.deleteUser(${id}); showToast('🗑️ ' + i18n.t('deleteRecord') + ': ${name}'); refreshModule();`);
 };
 
 function userRow(id, name, email, dept, role, statusColor) {

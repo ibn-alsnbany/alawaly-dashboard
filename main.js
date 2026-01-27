@@ -13,6 +13,11 @@ import { systemModule } from './modules/system/index.js';
 import { usersModule } from './modules/users/index.js';
 import { settingsModule } from './modules/settings/index.js';
 
+// Expose Core to Global Scope for HTML Event Handlers
+window.storage = storage;
+window.i18n = i18n;
+window.theme = theme;
+
 const routes = {
     'dashboard': dashboardModule,
     'finance': financeModule,
