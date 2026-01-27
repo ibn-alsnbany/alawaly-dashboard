@@ -33,7 +33,7 @@ export const analyticsModule = {
                         ${analyticsBar(35)} ${analyticsBar(65)} ${analyticsBar(45)} ${analyticsBar(95)} ${analyticsBar(75)} ${analyticsBar(50)} ${analyticsBar(85)}
                     </div>
                     <div class="flex justify-between mt-6 px-2 text-[0.75rem] font-bold text-slate-400 uppercase font-nums">
-                        <span>السبت</span><span>الأحد</span><span>الإثنين</span><span>الثلاثاء</span><span>الأربعاء</span><span>الخميس</span><span>الجمعة</span>
+                        <span>${i18n.t('saturday')}</span><span>${i18n.t('sunday')}</span><span>${i18n.t('monday')}</span><span>${i18n.t('tuesday')}</span><span>${i18n.t('wednesday')}</span><span>${i18n.t('thursday')}</span><span>${i18n.t('friday')}</span>
                     </div>
                 </div>
 

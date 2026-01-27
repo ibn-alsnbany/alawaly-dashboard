@@ -99,7 +99,15 @@ const translations = {
         employee1: "أحمد عبدالله",
         employee2: "سارة علي",
         employee3: "خالد الحربي",
-        employee4: "نورة السويدي"
+        employee4: "نورة السويدي",
+        // Weekdays
+        saturday: "السبت",
+        sunday: "الأحد",
+        monday: "الإثنين",
+        tuesday: "الثلاثاء",
+        wednesday: "الأربعاء",
+        thursday: "الخميس",
+        friday: "الجمعة"
     },
     en: {
         title: "Al-Awali 2030",
@@ -201,7 +209,15 @@ const translations = {
         employee1: "Ahmed Abdullah",
         employee2: "Sarah Ali",
         employee3: "Khaled Al-Harbi",
-        employee4: "Noura Al-Suwaidi"
+        employee4: "Noura Al-Suwaidi",
+        // Weekdays
+        saturday: "Sat",
+        sunday: "Sun",
+        monday: "Mon",
+        tuesday: "Tue",
+        wednesday: "Wed",
+        thursday: "Thu",
+        friday: "Fri"
     }
 };
 
