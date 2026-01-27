@@ -202,7 +202,8 @@ const translations = {
         twoFactorDesc: "حماية إضافية لحسابك عبر الهاتف.",
         loginNotifications: "إشعارات تسجيل الدخول",
         loginNotifDesc: "تنبيهك عند دخول الحساب من جهاز جديد.",
-        profileUpdated: "تم الحفظ!"
+        profileUpdated: "تم الحفظ!",
+        settingsSidebarDesc: "قم بتحديث بياناتك الشخصية باستمرار لضمان دقة التقارير والتواصل الفعال مع الفريق."
     },
     en: {
         title: "Al-Awali 2030",
@@ -407,7 +408,8 @@ const translations = {
         twoFactorDesc: "Extra protection for your account via phone.",
         loginNotifications: "Login Notifications",
         loginNotifDesc: "Alert you when login occurs from a new device.",
-        profileUpdated: "Profile Saved!"
+        profileUpdated: "Profile Saved!",
+        settingsSidebarDesc: "Keep your personal data updated to ensure accurate reporting and effective team communication."
     }
 };
 
