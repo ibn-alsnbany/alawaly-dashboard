@@ -178,7 +178,23 @@ const translations = {
         editUserRecord: "تعديل بيانات الموظف",
         currentDept: "القسم الحالي",
         editProfile: "تعديل الملف",
-        confirmDeleteUser: "هل أنت متأكد من حذف هذا الموظف؟"
+        confirmDeleteUser: "هل أنت متأكد من حذف هذا الموظف؟",
+        // System specific
+        systemSubtitle: "مراقبة صحة النظام والتحديثات التقنية.",
+        systemOverview: "نظرة عامة على النظام",
+        systemStable: "النظام مستقر",
+        cpuLoad: "حمولة المعالج",
+        cloudStorage: "التخزين السحابي",
+        uptime: "وقت التشغيل",
+        responseTime: "زمن الاستجابة",
+        optimized: "محسّن",
+        efficient: "كفوء",
+        continuous: "مستمر",
+        excellent: "ممتاز",
+        updateLog: "سجل التحديثات",
+        days: "يوم",
+        securityUpdateDesc: "تحسينات أمنية شاملة وتحديث الواجهة الرسومية.",
+        salesFixDesc: "إصلاحات تقنية في نظام المبيعات والتقارير."
     },
     en: {
         title: "Al-Awali 2030",
@@ -359,7 +375,23 @@ const translations = {
         editUserRecord: "Edit Employee Record",
         currentDept: "Current Department",
         editProfile: "Edit Profile",
-        confirmDeleteUser: "Are you sure you want to delete this employee?"
+        confirmDeleteUser: "Are you sure you want to delete this employee?",
+        // System specific
+        systemSubtitle: "Monitoring system health and technical updates.",
+        systemOverview: "System Overview",
+        systemStable: "System Stable",
+        cpuLoad: "CPU Load",
+        cloudStorage: "Cloud Storage",
+        uptime: "System Uptime",
+        responseTime: "Response Time",
+        optimized: "Optimized",
+        efficient: "Efficient",
+        continuous: "Continuous",
+        excellent: "Excellent",
+        updateLog: "Update Log",
+        days: "days",
+        securityUpdateDesc: "Comprehensive security improvements and UI update.",
+        salesFixDesc: "Technical fixes in sales system and reporting."
     }
 };
 

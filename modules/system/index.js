@@ -5,34 +5,34 @@ export const systemModule = {
         return `
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-2">${i18n.t('system')}</h1>
-                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('systemSubtitle') || 'مراقبة صحة النظام والتحديثات التقنية.'}</p>
+                <p class="text-slate-500 text-[0.8125rem] font-medium opacity-80">${i18n.t('systemSubtitle')}</p>
             </div>
 
             <div class="premium-card !p-10">
                 <div class="flex items-center justify-between mb-10">
-                    <h3 class="text-xl font-bold text-slate-800 dark:text-white">نظرة عامة على النظام</h3>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white">${i18n.t('systemOverview')}</h3>
                     <div class="flex gap-4">
                         <span class="flex items-center gap-2 px-4 py-1.5 bg-emerald-50 text-emerald-600 rounded-full text-[0.75rem] font-bold">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                            النظام مستقر
+                            ${i18n.t('systemStable')}
                         </span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                    ${systemItem('حمولة المعالج', `<span class="font-nums">24%</span>`, 'bg-vision-gold', 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', 'محسّن', 'text-emerald-500')}
-                    ${systemItem('التخزين السحابي', `<span class="font-nums">1.2 TB</span>`, 'bg-vision-gold', 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z', 'كفوء', 'text-blue-500')}
-                    ${systemItem('وقت التشغيل', `<span class="font-nums">362 يوم</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'مستمر', 'text-amber-500')}
-                    ${systemItem('زمن الاستجابة', `<span class="font-nums">12ms</span>`, 'bg-vision-gold', 'M13 10V3L4 14h7v7l9-11h-7z', 'ممتاز', 'text-amber-500')}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 text-start">
+                    ${systemItem(i18n.t('cpuLoad'), `<span class="font-nums">24%</span>`, 'bg-vision-gold', 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', i18n.t('optimized'), 'text-emerald-500')}
+                    ${systemItem(i18n.t('cloudStorage'), `<span class="font-nums">1.2 TB</span>`, 'bg-vision-gold', 'M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z', i18n.t('efficient'), 'text-blue-500')}
+                    ${systemItem(i18n.t('uptime'), `<span class="font-nums">362 ${i18n.t('days')}</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', i18n.t('continuous'), 'text-amber-500')}
+                    ${systemItem(i18n.t('responseTime'), `<span class="font-nums">12ms</span>`, 'bg-vision-gold', 'M13 10V3L4 14h7v7l9-11h-7z', i18n.t('excellent'), 'text-amber-500')}
                 </div>
             </div>
 
-            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 text-start">
                 <div class="premium-card !p-8">
-                    <h3 class="text-xl font-bold mb-8 text-slate-800 dark:text-white">سجل التحديثات</h3>
+                    <h3 class="text-xl font-bold mb-8 text-slate-800 dark:text-white">${i18n.t('updateLog')}</h3>
                     <div class="space-y-6">
-                        ${updateItem('v2.4.0', '25 Jan 2026', 'تحسينات أمنية شاملة وتحديث الواجهة الرسومية.')}
-                        ${updateItem('v2.3.8', '12 Jan 2026', 'إصلاحات تقنية في نظام المبيعات والتقارير.')}
+                        ${updateItem('v2.4.0', '25 Jan 2026', i18n.t('securityUpdateDesc'))}
+                        ${updateItem('v2.3.8', '12 Jan 2026', i18n.t('salesFixDesc'))}
                     </div>
                 </div>
             </div>
