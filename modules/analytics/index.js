@@ -10,10 +10,10 @@ export const analyticsModule = {
 
             <!-- Stats Grid: 4 Columns for better density -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 w-full">
-                ${analyticsStatCard(i18n.t('visitors'), `<span class="font-nums">145.2k</span>`, `<span class="font-nums">+18%</span>`, 'bg-vision-gold', 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z')}
-                ${analyticsStatCard(i18n.t('bounceRate'), `<span class="font-nums">32%</span>`, `<span class="font-nums">-5%</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
-                ${analyticsStatCard(i18n.t('sessionDuration'), `<span class="font-nums">4m 32s</span>`, `<span class="font-nums">+12%</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z')}
-                ${analyticsStatCard(i18n.t('avgClickRate'), `<span class="font-nums">12.4%</span>`, `<span class="font-nums">+2.1%</span>`, 'bg-vision-gold', 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5')}
+                ${analyticsStatCard(i18n.t('visitors'), `<span class="font-nums">145.2k</span>`, `<span class="font-nums">18%+</span>`, 'bg-vision-gold', 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z')}
+                ${analyticsStatCard(i18n.t('bounceRate'), `<span class="font-nums">32%</span>`, `<span class="font-nums">5%-</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
+                ${analyticsStatCard(i18n.t('sessionDuration'), `<span class="font-nums">4m 32s</span>`, `<span class="font-nums">12%+</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z')}
+                ${analyticsStatCard(i18n.t('avgClickRate'), `<span class="font-nums">12.4%</span>`, `<span class="font-nums">2.1%+</span>`, 'bg-vision-gold', 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5')}
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 w-full">
