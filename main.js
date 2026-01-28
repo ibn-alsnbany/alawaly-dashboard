@@ -225,6 +225,8 @@ function initSidebar() {
 // Dynamic Toggle Labels Manager
 function updateDynamicLabels() {
     const sidebar = document.getElementById('sidebar');
+    if (!sidebar) return;
+
     const isCollapsed = sidebar.classList.contains('sidebar-collapsed');
     const lang = i18n.lang;
     const isDark = document.documentElement.classList.contains('dark');
@@ -232,25 +234,22 @@ function updateDynamicLabels() {
     // Language Toggle logic
     const langText = document.getElementById('lang-text');
     if (langText) {
-        if (isCollapsed) {
-            // Short names: ar -> EN | en -> عر
-            langText.textContent = lang === 'ar' ? 'EN' : 'عر';
-        } else {
-            // Full names: ar -> English | en -> العربية
-            langText.textContent = lang === 'ar' ? 'English' : 'العربية';
-        }
+        const key = isCollapsed ? 'langNameSmall' : 'langNameLarge';
+        langText.setAttribute('data-i18n', key);
+        langText.innerHTML = i18n.t(key);
     }
 
     // Theme Toggle logic (Show the target state)
     const themeText = document.getElementById('theme-text');
     const themeIcon = document.getElementById('theme-icon');
     if (themeText && themeIcon) {
-        // If dark, show "Day/نهار" + Sun. If light, show "Night/ليلي" + Moon.
+        const key = isDark ? 'themeDay' : 'themeNight';
+        themeText.setAttribute('data-i18n', key);
+        themeText.innerHTML = i18n.t(key);
+
         if (isDark) {
-            themeText.textContent = lang === 'ar' ? 'نهار' : 'Day';
             themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>`;
         } else {
-            themeText.textContent = lang === 'ar' ? 'ليلي' : 'Night';
             themeIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>`;
         }
     }
@@ -281,6 +280,7 @@ document.addEventListener('DOMContentLoaded', initApp);
 window.addEventListener('hashchange', handleRoute);
 window.addEventListener('langChanged', (e) => {
     i18n.apply();   // Fully refresh context
+    updateDynamicLabels(); // Fix toggle labels
     handleRoute();  // Rerender current view
     if (!isSyncing) {
         settingsChannel.postMessage({ type: 'language', value: e.detail });
@@ -289,6 +289,7 @@ window.addEventListener('langChanged', (e) => {
 
 window.addEventListener('themeChanged', (e) => {
     theme.apply();
+    updateDynamicLabels(); // Fix toggle labels
     if (!isSyncing) {
         settingsChannel.postMessage({ type: 'theme', value: e.detail });
     }
