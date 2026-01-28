@@ -5,12 +5,16 @@ let salesSearchQuery = '';
 
 // Helper function to translate status labels
 function translateStatus(status) {
+    const s = status.toLowerCase();
     const statusMap = {
-        'Processing': 'processing',
-        'Completed': 'completed',
-        'Cancelled': 'cancelled'
+        'processing': 'processing',
+        'completed': 'completed',
+        'cancelled': 'cancelled',
+        'paid': 'paid',
+        'pending': 'pending',
+        'overdue': 'overdue'
     };
-    return i18n.t(statusMap[status] || status);
+    return i18n.t(statusMap[s] || s);
 }
 
 export const salesModule = {
@@ -39,34 +43,75 @@ export const salesModule = {
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
                 ${statCard(i18n.t('orders'), `<span class="font-nums">1,840</span>`, `<span class="font-nums">+10%</span>`, 'bg-vision-gold', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z')}
                 ${statCard(i18n.t('customers'), `<span class="font-nums">12,500</span>`, `<span class="font-nums">+3%</span>`, 'bg-vision-gold', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z')}
-                ${statCard(i18n.t('averageOrder'), `<span class="font-nums">250</span> ` + currencyIcon(), `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z')}
-                ${statCard(i18n.t('totalSales'), `<span class="font-nums">460,000</span> ` + currencyIcon(), `<span class="font-nums">+12%</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
+                ${statCard(i18n.t('averageOrder'), `<span class="font-nums">${formatCurrency('250')}</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z')}
+                ${statCard(i18n.t('totalSales'), `<span class="font-nums">${formatCurrency('460,000')}</span>`, `<span class="font-nums">+12%</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
             </div>
             
-            <div class="premium-card !p-6">
-                <div class="flex items-center justify-between mb-8">
-                    <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('recentOrders')}</h3>
-                    <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        <input type="text" id="sales-search" oninput="handleSalesSearch(this.value)" value="${salesSearchQuery}" placeholder="${i18n.t('searchOrders')}" class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 premium-card !p-6">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('recentOrders')}</h3>
+                        <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" id="sales-search" oninput="handleSalesSearch(this.value)" value="${salesSearchQuery}" placeholder="${i18n.t('searchOrders')}" class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-start">
+                            <thead class="text-[0.75rem] uppercase font-bold text-slate-500 border-b border-slate-50 dark:border-vision-border">
+                                <tr>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('id')}</th>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('customer')}</th>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('amount')}</th>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('status')}</th>
+                                    <th class="pb-5 px-5 text-end">${i18n.lang === 'ar' ? 'الإجراءات' : 'Actions'}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50 dark:divide-vision-border">
+                                ${orders.length > 0 ? orders.map(ord => orderRow(ord.id, ord.customer, ord.amount, ord.status, ord.statusClass)).join('') : `
+                                    <tr><td colspan="5" class="py-12 text-center text-slate-400 font-bold">${i18n.t('noResults')}</td></tr>
+                                `}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-right">
-                        <thead class="text-[0.75rem] uppercase font-bold text-slate-500 border-b border-slate-50 dark:border-vision-border">
-                            <tr>
-                                <th class="pb-5 px-5">${i18n.t('id')}</th>
-                                <th class="pb-5 px-5">${i18n.t('customer')}</th>
-                                <th class="pb-5 px-5">${i18n.t('amount')}</th>
-                                <th class="pb-5 px-5 font-center">${i18n.t('status')}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-50 dark:divide-vision-border">
-                            ${orders.length > 0 ? orders.map(ord => orderRow(ord.id, ord.customer, ord.amount, ord.status, ord.statusClass)).join('') : `
-                                <tr><td colspan="4" class="py-12 text-center text-slate-400 font-bold">${i18n.t('noResults')}</td></tr>
-                            `}
-                        </tbody>
-                    </table>
+
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="premium-card !p-6 bg-gradient-to-br from-emerald-600 to-teal-700 border-none text-white">
+                        <h3 class="text-lg font-bold mb-6">${i18n.lang === 'ar' ? 'ملخص المبيعات' : 'Sales Summary'}</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center opacity-90">
+                                <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'طلبات قيد المعالجة' : 'Orders Processing'}</span>
+                                <span class="font-nums font-bold">${storage.getOrders().filter(o => o.status === 'Processing').length}</span>
+                            </div>
+                            <div class="flex justify-between items-center opacity-90">
+                                <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'طلبات مكتملة' : 'Orders Completed'}</span>
+                                <span class="font-nums font-bold">${storage.getOrders().filter(o => o.status === 'Completed').length}</span>
+                            </div>
+                            <div class="pt-4 border-t border-white/10 flex justify-between items-center">
+                                <span class="text-sm font-bold">${i18n.lang === 'ar' ? 'إجمالي المبيعات' : 'Total Revenue'}</span>
+                                <span class="text-lg font-bold font-nums">${formatCurrency(storage.getOrders().reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0).toLocaleString())}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="premium-card !p-6">
+                        <h3 class="text-[0.9375rem] font-bold mb-4 text-slate-700 dark:text-slate-200">${i18n.lang === 'ar' ? 'إجراءات سريعة' : 'Quick Actions'}</h3>
+                        <div class="grid grid-cols-1 gap-3">
+                            <button onclick="addOrderPrompt()" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-vision-gold/5 dark:hover:bg-vision-gold/10 transition-all group border border-transparent hover:border-vision-gold/20">
+                                <div class="w-10 h-10 rounded-lg bg-vision-gold/10 flex items-center justify-center text-vision-gold group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                                </div>
+                                <span class="text-[0.8125rem] font-bold text-slate-600 dark:text-slate-300">${i18n.t('newOrder')}</span>
+                            </button>
+                            <button onclick="navigateTo('analytics')" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-indigo-500/5 dark:hover:bg-indigo-500/10 transition-all group border border-transparent hover:border-indigo-500/20">
+                                <div class="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-500 group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                                </div>
+                                <span class="text-[0.8125rem] font-bold text-slate-600 dark:text-slate-300">${i18n.t('analytics')}</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         `;
@@ -230,23 +275,23 @@ function statCard(title, value, change, color, iconPath) {
 
 function orderRow(id, customer, amount, status, statusClass) {
     return `
-        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-            <td class="py-5 px-5 font-nums font-bold text-[0.8125rem] text-slate-700 dark:text-slate-300">${id}</td>
-            <td class="py-5 px-5 font-semibold text-[0.8125rem] text-slate-700 dark:text-slate-300">${customer}</td>
-            <td class="py-5 px-5 font-nums font-bold text-[0.8125rem] text-slate-700 dark:text-slate-300">${amount} ${currencyIcon()}</td>
-            <td class="py-5 px-5 text-center">
-                <span class="px-3 py-1.5 rounded-lg ${statusClass} text-[0.75rem] font-bold">${translateStatus(status)}</span>
+        <tr class="hover:bg-slate-50 dark:hover:bg-vision-gold/5 transition-colors group text-start">
+            <td class="py-6 px-5 text-[0.875rem] font-bold text-slate-700 dark:text-slate-200 font-nums">${id}</td>
+            <td class="py-6 px-5 text-[0.875rem] font-medium text-slate-600 dark:text-slate-300">${customer}</td>
+            <td class="py-6 px-5 text-[0.875rem] font-semibold text-vision-gold font-nums">${formatCurrency(amount)}</td>
+            <td class="py-6 px-5">
+                <span class="${statusClass} px-3.5 py-1.5 rounded-xl text-[0.75rem] font-bold uppercase tracking-wider">${translateStatus(status)}</span>
             </td>
-            <td class="py-5 px-5">
-                <div class="flex gap-2 justify-end">
-                    <button onclick="viewOrder('${id}')" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors text-slate-500 hover:text-vision-gold">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+            <td class="py-6 px-5">
+                <div class="flex items-center gap-2 justify-end">
+                    <button onclick="viewOrder('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-blue-500 hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all shadow-sm" title="${i18n.t('viewDetails')}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                     </button>
-                    <button onclick="editOrderPrompt('${id}')" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/50 transition-colors text-slate-500 hover:text-vision-gold">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    <button onclick="editOrderPrompt('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-vision-gold hover:border-vision-gold/30 hover:bg-amber-50 dark:hover:bg-vision-gold/10 transition-all shadow-sm" title="${i18n.t('edit')}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     </button>
-                    <button onclick="deleteOrderItem('${id}')" class="p-2 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-900/20 transition-colors text-slate-500 hover:text-rose-600">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    <button onclick="deleteOrderItem('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-rose-500 hover:border-rose-200 dark:hover:border-rose-500/30 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all shadow-sm" title="حذف">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>
             </td>

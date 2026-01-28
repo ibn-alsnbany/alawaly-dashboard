@@ -132,6 +132,8 @@ const translations = {
         paid: "مدفوع",
         pending: "قيد الانتظار",
         overdue: "متأخر",
+        completed: "مكتمل",
+        processing: "قيد المعالجة",
         // Finance specific
         financeSubtitle: "إدارة التدفقات المالية والميزانيات.",
         hopeCompany: "شركة الأمل",
@@ -342,6 +344,8 @@ const translations = {
         paid: "Paid",
         pending: "Pending",
         overdue: "Overdue",
+        completed: "Completed",
+        processing: "Processing",
         // Finance specific
         financeSubtitle: "Manage financial flows and budgets.",
         hopeCompany: "Al-Amal Company",
