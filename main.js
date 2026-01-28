@@ -32,6 +32,7 @@ import { usersModule } from './modules/users/index.js';
 import { settingsModule } from './modules/settings/index.js';
 import { notificationsModule } from './modules/notifications/index.js';
 import { productsModule } from './modules/products/index.js';
+import { inventoryModule } from './modules/inventory/index.js';
 
 // Expose Core to Global Scope for HTML Event Handlers
 window.storage = storage;
@@ -55,7 +56,8 @@ const routes = {
     'users': usersModule,
     'settings': settingsModule,
     'notifications': notificationsModule,
-    'products': productsModule
+    'products': productsModule,
+    'inventory': inventoryModule
 };
 
 // Global Navigation Helper

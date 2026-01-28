@@ -84,6 +84,19 @@ export const storage = {
     updateProduct: (id, data) => storage.update('vision_products', id, data, storage.getProducts()),
     deleteProduct: (id) => storage.delete('vision_products', id, storage.getProducts()),
 
+    // INVENTORY LOGS
+    getInventoryLogs: () => storage.getAll('vision_inventory_logs', [
+        { id: 1, productId: 1, productName: 'iPhone 15 Pro', type: 'in', quantity: 20, reason: 'Stock Arrival', date: '2023-10-25T10:30:00Z' },
+        { id: 2, productId: 2, productName: 'MacBook Air M2', type: 'out', quantity: 2, reason: 'Sale #ORD-442', date: '2023-10-26T14:45:00Z' },
+        { id: 3, productId: 3, productName: 'AirPods Pro 2', type: 'in', quantity: 50, reason: 'Bulk Purchase', date: '2023-10-27T09:15:00Z' },
+        { id: 4, productId: 4, productName: 'iPad Pro 11"', type: 'out', quantity: 1, reason: 'Internal Use', date: '2023-10-28T16:20:00Z' }
+    ]),
+    addInventoryLog: (log) => {
+        const logs = storage.getInventoryLogs();
+        logs.unshift({ id: Date.now(), ...log, date: new Date().toISOString() });
+        storage.set('vision_inventory_logs', logs.slice(0, 100)); // Keep last 100 logs
+    },
+
     // PROFILE
     getProfile: () => storage.get('vision_profile', {
         name: 'Hamza Mohammed',
