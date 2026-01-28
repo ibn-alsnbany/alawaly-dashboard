@@ -176,10 +176,19 @@ window.handleProductsSearch = (val) => {
 };
 
 window.addProductPrompt = () => {
+    const categories = ['Smartphones', 'Laptops', 'Accessories', 'Tablets', 'General'];
+    const categoryOptions = categories.map(cat => `<option value="${cat}">${i18n.t(cat.toLowerCase()) || cat}</option>`).join('');
+
     showModal(modalForm(i18n.t('addProduct'), `
         <div class="space-y-5 text-start">
             ${modalInput(i18n.t('productName'), 'prod-name', i18n.t('enterProductName'))}
             ${modalInput(i18n.t('sku'), 'prod-sku', 'SKU-XXXX')}
+            <div class="space-y-2">
+                <label class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest ps-1">${i18n.t('category')}</label>
+                <select id="prod-category" class="w-full bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none appearance-none">
+                    ${categoryOptions}
+                </select>
+            </div>
             ${modalInput(i18n.t('price'), 'prod-price', '1,000')}
         </div>
     `, i18n.t('confirm'), 'submitNewProduct()'));
@@ -188,6 +197,7 @@ window.addProductPrompt = () => {
 window.submitNewProduct = () => {
     const name = document.getElementById('prod-name').value.trim();
     const sku = document.getElementById('prod-sku').value.trim();
+    const category = document.getElementById('prod-category').value;
     const price = document.getElementById('prod-price').value.trim();
 
     if (!name || !sku || !price) {
@@ -195,7 +205,7 @@ window.submitNewProduct = () => {
         return;
     }
 
-    storage.addProduct({ name, sku, price, category: 'General', stock: 10, status: 'In Stock' });
+    storage.addProduct({ name, sku, price, category, stock: 10, status: 'In Stock' });
     closeModal();
     logAction('add', `إضافة منتج جديد: ${name}`);
     showToast(`✅ ${i18n.t('systemUpdated')}`);
@@ -206,9 +216,20 @@ window.editProductPrompt = (id) => {
     const p = storage.getProducts().find(x => x.id == id);
     if (!p) return;
 
+    const categories = ['Smartphones', 'Laptops', 'Accessories', 'Tablets', 'General'];
+    const categoryOptions = categories.map(cat => `
+        <option value="${cat}" ${p.category === cat ? 'selected' : ''}>${i18n.t(cat.toLowerCase()) || cat}</option>
+    `).join('');
+
     showModal(modalForm(i18n.t('editData'), `
         <div class="space-y-5 text-start">
             ${modalInput(i18n.t('productName'), 'prod-name', '', 'text')}
+            <div class="space-y-2">
+                <label class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest ps-1">${i18n.t('category')}</label>
+                <select id="prod-category" class="w-full bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none appearance-none">
+                    ${categoryOptions}
+                </select>
+            </div>
             ${modalInput(i18n.t('price'), 'prod-price', '', 'text')}
             <input type="hidden" id="prod-id" value="${id}">
         </div>
@@ -221,9 +242,10 @@ window.editProductPrompt = (id) => {
 window.submitUpdateProduct = () => {
     const id = document.getElementById('prod-id').value;
     const name = document.getElementById('prod-name').value;
+    const category = document.getElementById('prod-category').value;
     const price = document.getElementById('prod-price').value;
 
-    storage.updateProduct(id, { name, price });
+    storage.updateProduct(id, { name, category, price });
     closeModal();
     refreshModule();
 };
