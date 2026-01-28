@@ -131,6 +131,14 @@ const translations = {
         tiktokAds: "تيك توك للأعمال",
         googleAds: "بحث جوجل",
         xAds: "إعلانات إكس",
+        // HR specific
+        hrSubtitle: "إدارة الكوادر البشرية والنمو الوظيفي.",
+        hrSummary: "ملخص الموارد البشرية",
+        avgPerformance: "متوسط الأداء",
+        attendanceRate: "نسبة الحضور",
+        performanceOverview: "نظرة عامة على الأداء",
+        totalSalaries: "إجمالي الرواتب",
+        noEmployees: "لا يوجد موظفون متاحون",
         // Sales specific
         salesSubtitle: "تتبع المبيعات والطلبات والنمو السنوي.",
         newOrder: "طلب جديد",
@@ -358,6 +366,14 @@ const translations = {
         tiktokAds: "TikTok Business",
         googleAds: "Google Search",
         xAds: "X Ads",
+        // HR specific
+        hrSubtitle: "Manage human resources and career growth.",
+        hrSummary: "HR Summary",
+        avgPerformance: "Avg Performance",
+        attendanceRate: "Attendance Rate",
+        performanceOverview: "Performance Overview",
+        totalSalaries: "Total Salaries",
+        noEmployees: "No employees found",
         // Sales specific
         salesSubtitle: "Track sales, orders, and annual growth.",
         newOrder: "New Order",
