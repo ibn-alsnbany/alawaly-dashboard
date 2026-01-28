@@ -73,6 +73,17 @@ export const storage = {
     updateEmployee: (id, data) => storage.update('vision_employees', id, data, storage.getEmployees()),
     deleteEmployee: (id) => storage.delete('vision_employees', id, storage.getEmployees()),
 
+    // PRODUCTS
+    getProducts: () => storage.getAll('vision_products', [
+        { id: 1, name: 'iPhone 15 Pro', sku: 'IP15-BK-128', category: 'Smartphones', price: '4,500', stock: 15, status: 'In Stock' },
+        { id: 2, name: 'MacBook Air M2', sku: 'MBA-M2-256', category: 'Laptops', price: '5,200', stock: 8, status: 'In Stock' },
+        { id: 3, name: 'AirPods Pro 2', sku: 'APP-G2', category: 'Accessories', price: '999', stock: 0, status: 'Out of Stock' },
+        { id: 4, name: 'iPad Pro 11"', sku: 'IPP-11-M2', category: 'Tablets', price: '3,800', stock: 3, status: 'Low Stock' }
+    ]),
+    addProduct: (prod) => storage.add('vision_products', prod, storage.getProducts()),
+    updateProduct: (id, data) => storage.update('vision_products', id, data, storage.getProducts()),
+    deleteProduct: (id) => storage.delete('vision_products', id, storage.getProducts()),
+
     // PROFILE
     getProfile: () => storage.get('vision_profile', {
         name: 'Hamza Mohammed',
