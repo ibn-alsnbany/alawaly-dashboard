@@ -157,6 +157,18 @@ const translations = {
         inventoryValue: "قيمة المخزون",
         productName: "اسم المنتج",
         enterProductName: "أدخل اسم المنتج",
+        viewProduct: "عرض تفاصيل المنتج",
+        // Categories
+        smartphones: "الهواتف الذكية",
+        laptops: "أجهزة اللابتوب",
+        accessories: "الملحقات",
+        tablets: "أجهزة التابلت",
+        electronics: "الإلكترونيات",
+        general: "عام",
+        // Statuses (Lowercase for dynamic access)
+        instock: "متوفر",
+        outofstock: "نفذ",
+        lowstock: "منخفض",
         // Sales specific
         salesSubtitle: "تتبع المبيعات والطلبات والنمو السنوي.",
         newOrder: "طلب جديد",
@@ -410,6 +422,18 @@ const translations = {
         inventoryValue: "Inventory Value",
         productName: "Product Name",
         enterProductName: "Enter product name",
+        viewProduct: "View Product Details",
+        // Categories
+        smartphones: "Smartphones",
+        laptops: "Laptops",
+        accessories: "Accessories",
+        tablets: "Tablets",
+        electronics: "Electronics",
+        general: "General",
+        // Statuses (Lowercase for dynamic access)
+        instock: "In Stock",
+        outofstock: "Out of Stock",
+        lowstock: "Low Stock",
         // Sales specific
         salesSubtitle: "Track sales, orders, and annual growth.",
         newOrder: "New Order",

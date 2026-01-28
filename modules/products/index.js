@@ -69,7 +69,7 @@ export const productsModule = {
                             </div>
                             <div class="flex justify-between items-center opacity-90">
                                 <span class="text-sm font-medium">${i18n.t('topCategory')}</span>
-                                <span class="font-bold">Electronics</span>
+                                <span class="font-bold">${i18n.t('electronics')}</span>
                             </div>
                             <div class="pt-4 border-t border-white/10 flex justify-between items-center">
                                 <span class="text-sm font-bold">${i18n.t('inventoryValue')}</span>
@@ -78,12 +78,12 @@ export const productsModule = {
                         </div>
                     </div>
 
-                    <div class="premium-card !p-6">
-                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200 mb-6">${i18n.t('category')} Performance</h3>
+                    <div class="premium-card !p-6 font-arabic">
+                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200 mb-6">${i18n.t('performance')}</h3>
                         <div class="space-y-5">
-                            ${categoryBar('Smartphones', 85, 'bg-indigo-500')}
-                            ${categoryBar('Laptops', 65, 'bg-emerald-500')}
-                            ${categoryBar('Accessories', 45, 'bg-amber-500')}
+                            ${categoryBar(i18n.t('smartphones'), 85, 'bg-indigo-500')}
+                            ${categoryBar(i18n.t('laptops'), 65, 'bg-emerald-500')}
+                            ${categoryBar(i18n.t('accessories'), 45, 'bg-amber-500')}
                         </div>
                     </div>
                 </div>
@@ -138,25 +138,30 @@ function productRow(p) {
         'Low Stock': 'bg-amber-50 text-amber-600'
     };
 
+    const statusKey = p.status.toLowerCase().replace(/ /g, '');
+
     return `
         <div class="p-5 border border-slate-50 dark:border-vision-border rounded-3xl hover:bg-slate-50 dark:hover:bg-vision-gold/5 transition-all flex items-center justify-between group animate-enter text-start">
             <div class="flex items-center gap-6">
                 <div class="w-12 h-12 rounded-2xl bg-vision-gold/5 border border-vision-gold/10 flex items-center justify-center text-vision-gold font-black text-lg transition-transform group-hover:scale-105">${p.name[0]}</div>
                 <div>
                     <div class="text-[1rem] font-bold text-slate-900 dark:text-white mb-0.5">${p.name}</div>
-                    <div class="text-[0.75rem] text-slate-500 font-medium uppercase tracking-tighter">${p.sku} • ${p.category}</div>
+                    <div class="text-[0.75rem] text-slate-500 font-medium uppercase tracking-tighter">${p.sku} • ${i18n.t(p.category.toLowerCase()) || p.category}</div>
                 </div>
             </div>
             <div class="flex items-center gap-8">
                 <div class="text-end">
                     <div class="text-[1rem] font-bold text-slate-900 dark:text-white font-nums">${formatCurrency(p.price)}</div>
-                    <span class="${statusClasses[p.status] || 'bg-slate-50'} px-2.5 py-1 rounded-lg text-[0.65rem] font-bold uppercase tracking-wider">${i18n.t(p.status.toLowerCase().replace(/ /g, '')) || p.status}</span>
+                    <span class="${statusClasses[p.status] || 'bg-slate-50'} px-2.5 py-1 rounded-lg text-[0.65rem] font-bold uppercase tracking-wider">${i18n.t(statusKey)}</span>
                 </div>
                 <div class="flex gap-2">
-                    <button onclick="editProductPrompt(${p.id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-vision-gold transition-all shadow-sm">
+                    <button onclick="viewProduct(${p.id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-blue-500 transition-all shadow-sm" title="${i18n.t('viewDetails')}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </button>
+                    <button onclick="editProductPrompt(${p.id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-vision-gold transition-all shadow-sm" title="${i18n.t('editData')}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                     </button>
-                    <button onclick="deleteProduct(${p.id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-rose-500 transition-all shadow-sm">
+                    <button onclick="deleteProduct(${p.id})" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-rose-500 transition-all shadow-sm" title="${i18n.t('deleteRecord')}">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                     </button>
                 </div>
@@ -201,13 +206,13 @@ window.editProductPrompt = (id) => {
     const p = storage.getProducts().find(x => x.id == id);
     if (!p) return;
 
-    showModal(modalForm(i18n.t('edit'), `
+    showModal(modalForm(i18n.t('editData'), `
         <div class="space-y-5 text-start">
             ${modalInput(i18n.t('productName'), 'prod-name', '', 'text')}
             ${modalInput(i18n.t('price'), 'prod-price', '', 'text')}
             <input type="hidden" id="prod-id" value="${id}">
         </div>
-    `, i18n.t('confirm'), 'submitUpdateProduct()'));
+    `, i18n.t('applyUpdate'), 'submitUpdateProduct()'));
 
     document.getElementById('prod-name').value = p.name;
     document.getElementById('prod-price').value = p.price;
@@ -223,6 +228,58 @@ window.submitUpdateProduct = () => {
     refreshModule();
 };
 
+window.viewProduct = (id) => {
+    const p = storage.getProducts().find(x => x.id == id);
+    if (!p) return;
+
+    const statusClasses = {
+        'In Stock': 'bg-emerald-50 text-emerald-600',
+        'Out of Stock': 'bg-rose-50 text-rose-600',
+        'Low Stock': 'bg-amber-50 text-amber-600'
+    };
+    const statusKey = p.status.toLowerCase().replace(/ /g, '');
+
+    showModal(`
+        <div class="premium-card !p-8 md:!p-10 shadow-2xl relative w-full max-w-md mx-auto animate-enter text-start">
+            <button onclick="closeModal()" class="absolute top-8 left-8 p-2 text-slate-400 hover:text-rose-500 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="text-center mb-8">
+                <div class="w-24 h-24 rounded-full bg-vision-gold/5 border-4 border-vision-gold/10 flex items-center justify-center mx-auto mb-6 text-vision-gold text-4xl font-black transition-transform hover:scale-105">
+                    ${p.name[0]}
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">${p.name}</h3>
+                <p class="text-slate-500 font-medium uppercase tracking-widest text-[0.75rem]">${i18n.t(p.category.toLowerCase()) || p.category}</p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <div class="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-3xl border border-slate-100 dark:border-slate-700/50 text-center transition-colors hover:border-vision-gold/20">
+                    <span class="block text-slate-400 text-[0.65rem] font-bold uppercase tracking-widest mb-1">${i18n.t('status')}</span>
+                    <span class="${statusClasses[p.status] || 'bg-slate-50'} px-3 py-1 rounded-lg text-[0.7rem] font-bold">${i18n.t(statusKey)}</span>
+                </div>
+                <div class="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-3xl border border-slate-100 dark:border-slate-700/50 text-center transition-colors hover:border-vision-gold/20">
+                    <span class="block text-slate-400 text-[0.65rem] font-bold uppercase tracking-widest mb-1">${i18n.t('id')}</span>
+                    <span class="text-slate-800 dark:text-slate-100 font-bold font-nums">#${p.sku}</span>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 dark:bg-slate-800/40 p-6 rounded-3xl border border-slate-100 dark:border-slate-700/50 mb-8">
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-400 text-[0.8125rem] font-bold uppercase tracking-widest">${i18n.t('price')}</span>
+                    <span class="text-xl font-bold text-vision-gold font-nums">${formatCurrency(p.price)}</span>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="editProductPrompt('${p.id}')" class="flex-1 bg-vision-gold text-white py-4 rounded-2xl font-bold text-[0.875rem] shadow-xl shadow-vision-gold/20 transition-all hover:brightness-110 active:scale-95">${i18n.t('editData')}</button>
+                <button onclick="closeModal()" class="px-8 bg-slate-100 dark:bg-slate-800 text-slate-500 py-4 rounded-2xl font-bold text-[0.875rem] transition-all hover:bg-slate-200 dark:hover:bg-slate-700">${i18n.t('close')}</button>
+            </div>
+        </div>
+    `);
+};
+
 window.deleteProduct = (id) => {
-    showConfirmModal(i18n.t('deleteRecord'), 'Are you sure?', `storage.deleteProduct(${id}); refreshModule();`);
+    const p = storage.getProducts().find(x => x.id == id);
+    const name = p ? p.name : id;
+    showConfirmModal(i18n.t('deleteRecord'), `Are you sure you want to delete ${name}?`, `storage.deleteProduct(${id}); refreshModule();`);
 };
