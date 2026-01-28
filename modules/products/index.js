@@ -177,7 +177,7 @@ window.handleProductsSearch = (val) => {
 
 window.addProductPrompt = () => {
     const categories = ['Smartphones', 'Laptops', 'Accessories', 'Tablets', 'General'];
-    const categoryOptions = categories.map(cat => `<option value="${cat}">${i18n.t(cat.toLowerCase()) || cat}</option>`).join('');
+    const categoryOptions = categories.map(cat => `<option value="${cat}" class="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200">${i18n.t(cat.toLowerCase()) || cat}</option>`).join('');
 
     showModal(modalForm(i18n.t('addProduct'), `
         <div class="space-y-5 text-start">
@@ -185,9 +185,12 @@ window.addProductPrompt = () => {
             ${modalInput(i18n.t('sku'), 'prod-sku', 'SKU-XXXX')}
             <div class="space-y-2">
                 <label class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest ps-1">${i18n.t('category')}</label>
-                <select id="prod-category" class="w-full bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none appearance-none">
-                    ${categoryOptions}
-                </select>
+                <div class="relative">
+                    <select id="prod-category" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none appearance-none cursor-pointer">
+                        ${categoryOptions}
+                    </select>
+                    <svg class="w-4 h-4 absolute end-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
             </div>
             ${modalInput(i18n.t('price'), 'prod-price', '1,000')}
         </div>
@@ -218,7 +221,9 @@ window.editProductPrompt = (id) => {
 
     const categories = ['Smartphones', 'Laptops', 'Accessories', 'Tablets', 'General'];
     const categoryOptions = categories.map(cat => `
-        <option value="${cat}" ${p.category === cat ? 'selected' : ''}>${i18n.t(cat.toLowerCase()) || cat}</option>
+        <option value="${cat}" ${p.category === cat ? 'selected' : ''} class="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200">
+            ${i18n.t(cat.toLowerCase()) || cat}
+        </option>
     `).join('');
 
     showModal(modalForm(i18n.t('editData'), `
@@ -226,9 +231,12 @@ window.editProductPrompt = (id) => {
             ${modalInput(i18n.t('productName'), 'prod-name', '', 'text')}
             <div class="space-y-2">
                 <label class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest ps-1">${i18n.t('category')}</label>
-                <select id="prod-category" class="w-full bg-slate-50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none appearance-none">
-                    ${categoryOptions}
-                </select>
+                <div class="relative">
+                    <select id="prod-category" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none appearance-none cursor-pointer">
+                        ${categoryOptions}
+                    </select>
+                    <svg class="w-4 h-4 absolute end-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
             </div>
             ${modalInput(i18n.t('price'), 'prod-price', '', 'text')}
             <input type="hidden" id="prod-id" value="${id}">
