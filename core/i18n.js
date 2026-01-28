@@ -76,7 +76,7 @@ const translations = {
         // New Toggle Keys
         langNameLarge: "English",
         langNameSmall: "EN",
-        themeDay: "نهار",
+        themeDay: "نهاري",
         themeNight: "ليلي",
         // Dashboard specific
         viewMore: "المزيد",
@@ -341,8 +341,8 @@ const translations = {
         // New Toggle Keys
         langNameLarge: "العربية",
         langNameSmall: "عر",
-        themeDay: "Day",
-        themeNight: "Night",
+        themeDay: "light",
+        themeNight: "dark",
         // Dashboard specific
         viewMore: "View More",
         invoiceUpdated: "Invoice updated successfully",
