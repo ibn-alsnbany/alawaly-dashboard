@@ -43,32 +43,74 @@ export const financeModule = {
         )}
             </div>
             
-            <div class="premium-card !p-6">
-                <div class="flex items-center justify-between mb-8">
-                    <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('invoices')}</h3>
-                    <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        <input type="text" id="finance-search" oninput="handleFinanceSearch(this.value)" value="${financeSearchQuery}" placeholder="${i18n.t('searchInvoices')}" class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 premium-card !p-6">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-[0.9375rem] font-bold text-slate-700 dark:text-slate-200">${i18n.t('invoices')}</h3>
+                        <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 px-4 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-700/50">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" id="finance-search" oninput="handleFinanceSearch(this.value)" value="${financeSearchQuery}" placeholder="${i18n.t('searchInvoices')}" class="bg-transparent border-none text-[0.8125rem] focus:ring-0 w-48 text-slate-700 dark:text-slate-300 font-medium outline-none">
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-start">
+                            <thead class="text-[0.75rem] uppercase font-bold text-slate-500 border-b border-slate-50 dark:border-vision-border">
+                                <tr>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('id')}</th>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('customer')}</th>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('amount')}</th>
+                                    <th class="pb-5 px-5 text-start">${i18n.t('status')}</th>
+                                    <th class="pb-5 px-5 text-end">${i18n.lang === 'ar' ? 'الإجراءات' : 'Actions'}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-50 dark:divide-vision-border">
+                                ${invoices.length > 0 ? invoices.map(inv => row(inv.id, inv.customer, inv.amount, inv.status, inv.statusClass)).join('') : `
+                                    <tr><td colspan="5" class="py-12 text-center text-slate-400 font-bold">${i18n.t('noInvoices')}</td></tr>
+                                `}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-start">
-                        <thead class="text-[0.75rem] uppercase font-bold text-slate-500 border-b border-slate-50 dark:border-vision-border">
-                            <tr>
-                                <th class="pb-5 px-5">${i18n.t('id')}</th>
-                                <th class="pb-5 px-5">${i18n.t('customer')}</th>
-                                <th class="pb-5 px-5">${i18n.t('amount')}</th>
-                                <th class="pb-5 px-5 font-center">${i18n.t('status')}</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-slate-50 dark:divide-vision-border">
-                            ${invoices.length > 0 ? invoices.map(inv => row(inv.id, inv.customer, inv.amount, inv.status, inv.statusClass)).join('') : `
-                                <tr><td colspan="4" class="py-12 text-center text-slate-400 font-bold">${i18n.t('noInvoices')}</td></tr>
-                            `}
-                        </tbody>
-                    </table>
+
+                <div class="lg:col-span-1 space-y-6">
+                    <div class="premium-card !p-6 bg-gradient-to-br from-blue-600 to-indigo-700 border-none text-white">
+                        <h3 class="text-lg font-bold mb-6">${i18n.lang === 'ar' ? 'ملخص مالي سريع' : 'Quick Financial Summary'}</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center opacity-90">
+                                <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'الفواتير المدفوعة' : 'Paid Invoices'}</span>
+                                <span class="font-nums font-bold">${storage.getInvoices().filter(i => i.status === 'Paid').length}</span>
+                            </div>
+                            <div class="flex justify-between items-center opacity-90">
+                                <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'الفواتير المعلقة' : 'Pending Invoices'}</span>
+                                <span class="font-nums font-bold">${storage.getInvoices().filter(i => i.status === 'Pending').length}</span>
+                            </div>
+                            <div class="pt-4 border-t border-white/10 flex justify-between items-center">
+                                <span class="text-sm font-bold">${i18n.lang === 'ar' ? 'الإجمالي' : 'Total'}</span>
+                                <span class="text-lg font-bold font-nums">${formatCurrency(storage.getInvoices().reduce((acc, i) => acc + parseFloat(i.amount.replace(/,/g, '')), 0).toLocaleString())}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="premium-card !p-6">
+                        <h3 class="text-[0.9375rem] font-bold mb-4 text-slate-700 dark:text-slate-200">${i18n.lang === 'ar' ? 'الإجراءات السريعة' : 'Quick Actions'}</h3>
+                        <div class="grid grid-cols-1 gap-3">
+                            <button onclick="addInvoicePrompt()" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-vision-gold/5 dark:hover:bg-vision-gold/10 transition-all group border border-transparent hover:border-vision-gold/20">
+                                <div class="w-10 h-10 rounded-lg bg-vision-gold/10 flex items-center justify-center text-vision-gold group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                                </div>
+                                <span class="text-[0.8125rem] font-bold text-slate-600 dark:text-slate-300">${i18n.t('newInvoice')}</span>
+                            </button>
+                            <button onclick="navigateTo('notifications')" class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 hover:bg-blue-500/5 dark:hover:bg-blue-500/10 transition-all group border border-transparent hover:border-blue-500/20">
+                                <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                                </div>
+                                <span class="text-[0.8125rem] font-bold text-slate-600 dark:text-slate-300">${i18n.t('notifications')}</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
 `;
     }
 };
@@ -261,19 +303,19 @@ function row(id, customer, amount, status, statusClass) {
             <td class="py-6 px-5 text-[0.875rem] font-medium text-slate-600 dark:text-slate-300">${translateCustomer(customer)}</td>
             <td class="py-6 px-5 text-[0.875rem] font-semibold text-vision-gold font-nums">${formatCurrency(amount)}</td>
             <td class="py-6 px-5">
-                <div class="flex items-center justify-between">
-                    <span class="${statusClass} px-3.5 py-1.5 rounded-xl text-[0.75rem] font-bold uppercase tracking-wider">${translateStatus(status)}</span>
-                    <div class="flex items-center gap-2 transition-all">
-                        <button onclick="viewInvoice('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-blue-500 hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all shadow-sm" title="${i18n.t('viewDetails')}">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                        </button>
-                        <button onclick="editInvoicePrompt('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-vision-gold hover:border-vision-gold/30 hover:bg-amber-50 dark:hover:bg-vision-gold/10 transition-all shadow-sm" title="${i18n.t('edit')}">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                        </button>
-                        <button onclick="deleteInvoice('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-rose-500 hover:border-rose-200 dark:hover:border-rose-500/30 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all shadow-sm" title="حذف">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                        </button>
-                    </div>
+                <span class="${statusClass} px-3.5 py-1.5 rounded-xl text-[0.75rem] font-bold uppercase tracking-wider">${translateStatus(status)}</span>
+            </td>
+            <td class="py-6 px-5">
+                <div class="flex items-center gap-2 justify-end">
+                    <button onclick="viewInvoice('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-blue-500 hover:border-blue-200 dark:hover:border-blue-500/30 hover:bg-blue-50 dark:hover:bg-blue-500/10 transition-all shadow-sm" title="${i18n.t('viewDetails')}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </button>
+                    <button onclick="editInvoicePrompt('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-vision-gold hover:border-vision-gold/30 hover:bg-amber-50 dark:hover:bg-vision-gold/10 transition-all shadow-sm" title="${i18n.t('edit')}">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    </button>
+                    <button onclick="deleteInvoice('${id}')" class="w-9 h-9 flex items-center justify-center rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-rose-500 hover:border-rose-200 dark:hover:border-rose-500/30 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all shadow-sm" title="حذف">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
                 </div>
             </td>
         </tr>

@@ -157,7 +157,7 @@ window.currencyIcon = () => {
 
 window.formatCurrency = (amount) => {
     const icon = currencyIcon();
-    return i18n.lang === 'ar' ? `${icon} ${amount}` : `${amount} ${icon}`;
+    return i18n.lang === 'ar' ? `${amount} ${icon}` : `${amount} ${icon}`;
 };
 
 // Application Context Handler
