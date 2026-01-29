@@ -34,13 +34,23 @@ export const financeModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
-                ${statCard(i18n.t('revenue'), `<span class="font-nums">${formatCurrency('450,000')}</span>`, `<span class="font-nums">8%-</span>`, 'bg-vision-gold', 'M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm1 17.93V20h-2v-1.07A7.002 7.002 0 015.07 13H4v-2h1.07A7.002 7.002 0 0111 5.07V4h2v1.07A7.002 7.002 0 0118.93 11H20v2h-1.07A7.002 7.002 0 0113 18.93z')}
-                ${statCard(i18n.t('profit'), `<span class="font-nums">${formatCurrency('120,500')}</span>`, `<span class="font-nums">15%+</span>`, 'bg-vision-gold', 'M3 17l6-6 4 4 8-8v6h2V3h-10v2h6l-6 6-4-4L1 15z'
-        )}
-                ${statCard(i18n.t('expenses'), `<span class="font-nums">${formatCurrency('330,000')}</span>`, `<span class="font-nums">5%-</span>`, 'bg-vision-gold', 'M19 7l-6 6-4-4-8 8v-6H1V21h10v-2H5l6-6 4 4 6-6z'
-        )}
-                ${statCard(i18n.t('payments'), `<span class="font-nums">85</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M2 5a2 2 0 012-2h16a2 2 0 012 2v2H2V5zm0 4h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V9zm4 6h6v2H6v-2z'
-        )}
+                ${(() => {
+                const totalSales = storage.getOrders().filter(o => o.status === 'Completed').reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                return statCard(i18n.t('revenue'), `<span class="font-nums">${formatCurrency(totalSales.toLocaleString())}</span>`, `<span class="font-nums">8%+</span>`, 'bg-vision-gold', 'M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm1 17.93V20h-2v-1.07A7.002 7.002 0 015.07 13H4v-2h1.07A7.002 7.002 0 0111 5.07V4h2v1.07A7.002 7.002 0 0118.93 11H20v2h-1.07A7.002 7.002 0 0113 18.93z');
+            })()}
+                ${(() => {
+                const totalSales = storage.getOrders().reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                const expenses = storage.getInvoices().filter(inv => inv.status === 'Paid').reduce((acc, inv) => acc + parseFloat(inv.amount.toString().replace(/,/g, '')), 0);
+                const profit = Math.max(0, totalSales - expenses);
+                return statCard(i18n.t('profit'), `<span class="font-nums">${formatCurrency(profit.toLocaleString())}</span>`, `<span class="font-nums">15%+</span>`, 'bg-vision-gold', 'M3 17l6-6 4 4 8-8v6h2V3h-10v2h6l-6 6-4-4L1 15z');
+            })()}
+                ${(() => {
+                const expenses = storage.getInvoices().filter(inv => inv.status === 'Paid').reduce((acc, inv) => acc + parseFloat(inv.amount.toString().replace(/,/g, '')), 0);
+                return statCard(i18n.t('expenses'), `<span class="font-nums">${formatCurrency(expenses.toLocaleString())}</span>`, `<span class="font-nums">5%-</span>`, 'bg-vision-gold', 'M19 7l-6 6-4-4-8 8v-6H1V21h10v-2H5l6-6 4 4 6-6z');
+            })()}
+                ${(() => {
+                return statCard(i18n.t('payments'), `<span class="font-nums">${storage.getInvoices().length}</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M2 5a2 2 0 012-2h16a2 2 0 012 2v2H2V5zm0 4h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V9zm4 6h6v2H6v-2z');
+            })()}
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">

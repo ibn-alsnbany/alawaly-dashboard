@@ -63,6 +63,47 @@ export const storage = {
     updateOrder: (id, data) => storage.update('vision_orders', id, data, storage.getOrders()),
     deleteOrder: (id) => storage.delete('vision_orders', id, storage.getOrders()),
 
+    // NEW: Centralized Order Processor
+    processOrder: (orderDetails) => {
+        // 1. Add the Order
+        storage.addOrder(orderDetails);
+
+        // 2. Identify and Update Product Stock
+        // For simplicity in this mock, we assume orderDetails might have a productId
+        // If not, we search by name (common in this demo)
+        const products = storage.getProducts();
+        const product = products.find(p => p.name === orderDetails.productName) || products[0];
+
+        if (product) {
+            const newStock = Math.max(0, product.stock - (orderDetails.quantity || 1));
+            storage.updateProduct(product.id, {
+                stock: newStock,
+                status: newStock === 0 ? 'Out of Stock' : (newStock <= 5 ? 'Low Stock' : 'In Stock')
+            });
+
+            // 3. Log Inventory Movement
+            storage.addInventoryLog({
+                productId: product.id,
+                productName: product.name,
+                type: 'out',
+                quantity: orderDetails.quantity || 1,
+                reason: `Sale ${orderDetails.id}`
+            });
+        }
+
+        // 4. Create Finance Invoice
+        storage.addInvoice({
+            id: `#INV-${Date.now().toString().slice(-4)}`,
+            customer: orderDetails.customer,
+            amount: orderDetails.amount,
+            status: 'Paid',
+            date: new Date().toISOString()
+        });
+
+        // 5. Global Notification
+        window.logAction('add', `طلب جديد من ${orderDetails.customer} بمبلغ ${orderDetails.amount} ر.س`);
+    },
+
     // EMPLOYEES (HR)
     getEmployees: () => storage.getAll('vision_employees', [
         { id: 1, name: 'Khaled Mohammed', role: 'Tech Manager', status: 'Active', statusClass: 'bg-green-100 text-green-600' },
@@ -72,6 +113,26 @@ export const storage = {
     addEmployee: (emp) => storage.add('vision_employees', emp, storage.getEmployees()),
     updateEmployee: (id, data) => storage.update('vision_employees', id, data, storage.getEmployees()),
     deleteEmployee: (id) => storage.delete('vision_employees', id, storage.getEmployees()),
+
+    // NEW: HR-User Integration Helper
+    addEmployeeWithUser: (empData) => {
+        // 1. Add Employee
+        const newEmpId = Date.now();
+        storage.addEmployee({ id: newEmpId, ...empData });
+
+        // 2. Add System User Account
+        storage.addUser({
+            id: newEmpId,
+            name: empData.name,
+            email: `${empData.name.toLowerCase().replace(/ /g, '.')}@vision.sa`,
+            dept: 'HR Office', // Default for now
+            role: empData.role === 'Manager' ? 'Manager' : 'Analyst',
+            status: 'bg-emerald-500'
+        });
+
+        // 3. Log Notification
+        window.logAction('add', `تم توظيف ${empData.name} وإنشاء حساب مستخدم له تلقائياً`);
+    },
 
     // PRODUCTS
     getProducts: () => storage.getAll('vision_products', [

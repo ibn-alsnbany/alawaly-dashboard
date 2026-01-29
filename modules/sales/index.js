@@ -41,10 +41,24 @@ export const salesModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
-                ${statCard(i18n.t('orders'), `<span class="font-nums">1,840</span>`, `<span class="font-nums">10%+</span>`, 'bg-vision-gold', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z')}
-                ${statCard(i18n.t('customers'), `<span class="font-nums">12,500</span>`, `<span class="font-nums">3%+</span>`, 'bg-vision-gold', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z')}
-                ${statCard(i18n.t('averageOrder'), `<span class="font-nums">${formatCurrency('250')}</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z')}
-                ${statCard(i18n.t('totalSales'), `<span class="font-nums">${formatCurrency('460,000')}</span>`, `<span class="font-nums">12%+</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
+                ${(() => {
+                const totalQty = storage.getOrders().reduce((acc, o) => acc + (o.quantity || 1), 0);
+                return statCard(i18n.t('orders'), `<span class="font-nums">${storage.getOrders().length}</span>`, `<span class="font-nums">+${totalQty} items</span>`, 'bg-vision-gold', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z');
+            })()}
+                ${(() => {
+                const customers = new Set(storage.getOrders().map(o => o.customer)).size;
+                return statCard(i18n.t('customers'), `<span class="font-nums">${customers}</span>`, `<span class="font-nums">Loyal</span>`, 'bg-vision-gold', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z');
+            })()}
+                ${(() => {
+                const orders = storage.getOrders();
+                const total = orders.reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                const avg = orders.length > 0 ? total / orders.length : 0;
+                return statCard(i18n.t('averageOrder'), `<span class="font-nums">${formatCurrency(Math.round(avg).toLocaleString())}</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z');
+            })()}
+                ${(() => {
+                const total = storage.getOrders().reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                return statCard(i18n.t('totalSales'), `<span class="font-nums">${formatCurrency(total.toLocaleString())}</span>`, `<span class="font-nums">Dynamic</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6');
+            })()}
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -132,38 +146,63 @@ window.handleSalesSearch = (val) => {
 };
 
 window.addOrderPrompt = () => {
+    const products = storage.getProducts();
+    const productOptions = products.map(p => `<option value="${p.id}" data-price="${p.price.replace(/,/g, '')}">${p.name} (${p.price} SAR)</option>`).join('');
+
     showModal(modalForm(i18n.t('createNewOrder'), `
-        <div class="space-y-5">
+        <div class="space-y-5 text-start">
             ${modalInput(i18n.t('customerName'), 'ord-customer', i18n.t('enterCustomerName'))}
-            ${modalInput(i18n.t('orderTotal'), 'ord-amount', '0.00', 'number')}
+            <div class="space-y-2">
+                <label class="text-[0.75rem] font-bold text-slate-400 uppercase tracking-widest ps-1">${i18n.t('productName')}</label>
+                <div class="relative">
+                    <select id="ord-product" onchange="updateOrderAmount(this)" class="w-full bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-2xl px-5 py-4 text-[0.875rem] font-semibold text-slate-700 dark:text-slate-200 focus:border-vision-gold/40 focus:ring-4 focus:ring-vision-gold/5 transition-all outline-none appearance-none cursor-pointer">
+                        <option value="">${i18n.t('select')}...</option>
+                        ${productOptions}
+                    </select>
+                    <svg class="w-4 h-4 absolute end-5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>
+            ${modalInput(i18n.t('quantity'), 'ord-qty', '1', 'number')}
+            ${modalInput(i18n.t('orderTotal'), 'ord-amount', '0.00', 'text')}
         </div>
     `, i18n.t('confirmOrder'), 'submitNewOrder()'));
+
+    // Set default values
+    document.getElementById('ord-qty').value = 1;
+};
+
+window.updateOrderAmount = (select) => {
+    const option = select.options[select.selectedIndex];
+    const price = option.getAttribute('data-price') || 0;
+    const qty = document.getElementById('ord-qty').value || 1;
+    document.getElementById('ord-amount').value = (parseFloat(price) * parseInt(qty)).toLocaleString();
 };
 
 window.submitNewOrder = () => {
     const customer = document.getElementById('ord-customer').value.trim();
+    const productId = document.getElementById('ord-product').value;
+    const productText = document.getElementById('ord-product').options[document.getElementById('ord-product').selectedIndex].text.split('(')[0].trim();
+    const qty = document.getElementById('ord-qty').value;
     const amount = document.getElementById('ord-amount').value;
 
-    if (!customer) {
-        showToast('⚠️ يرجى إدخال اسم العميل');
-        return;
-    }
-    if (!amount || Number(amount) <= 0) {
-        showToast('⚠️ يرجى إدخال مبلغ صحيح');
+    if (!customer || !productId || !amount) {
+        showToast('⚠️ يرجى إكمال كافة البيانات');
         return;
     }
 
-    const newOrder = {
-        id: `#ORD-${Date.now()}`,
+    const orderId = `#ORD-${Date.now().toString().slice(-4)}`;
+    storage.processOrder({
+        id: orderId,
         customer,
-        amount: Number(amount).toLocaleString(),
-        status: 'Processing',
-        statusClass: 'bg-blue-50 text-blue-600'
-    };
+        productName: productText,
+        quantity: parseInt(qty),
+        amount: amount,
+        status: 'Completed',
+        statusClass: 'bg-emerald-50 text-emerald-600'
+    });
 
-    storage.addOrder(newOrder);
     closeModal();
-    showToast('✅ تم إنشاء الطلب بنجاح');
+    showToast(`✅ تم تأكيد الطلب ${orderId}`);
     refreshModule();
 };
 

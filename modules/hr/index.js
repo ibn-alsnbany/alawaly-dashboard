@@ -28,10 +28,13 @@ export const hrModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 w-full">
-                ${statCard(i18n.t('employees'), `<span class="font-nums">154</span>`, `<span class="font-nums">2 +</span>`, 'bg-vision-gold', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z')}
+                ${(() => {
+                const count = storage.getEmployees().length;
+                return statCard(i18n.t('employees'), `<span class="font-nums">${count}</span>`, `<span class="font-nums">+${count}</span>`, 'bg-vision-gold', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z');
+            })()}
                 ${statCard(i18n.t('attendance'), `<span class="font-nums">94%</span>`, `<span class="font-nums">1%-</span>`, 'bg-vision-gold', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
                 ${statCard(i18n.t('leaves'), `<span class="font-nums">8</span>`, `<span class="font-nums">Active</span>`, 'bg-vision-gold', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')}
-                ${statCard(i18n.t('salaries'), `<span class="font-nums">480k</span>`, `<span class="font-nums">5%+</span>`, 'bg-vision-gold', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
+                ${statCard(i18n.t('salaries'), `<span class="font-nums">${storage.getEmployees().length * 6000}</span>`, `<span class="font-nums">Avg 6k</span>`, 'bg-vision-gold', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -190,26 +193,20 @@ window.submitNewEmployee = () => {
     const name = document.getElementById('emp-name').value.trim();
     const role = document.getElementById('emp-role').value.trim();
 
-    if (!name) {
+    if (!name || !role) {
         showToast(`⚠️ ${i18n.t('enterName')}`);
         return;
     }
-    if (!role) {
-        showToast(`⚠️ ${i18n.t('jobTitle')}`);
-        return;
-    }
 
-    const newEmployee = {
+    storage.addEmployeeWithUser({
         name,
         role,
         status: 'Active',
         statusClass: 'bg-green-100 text-green-600'
-    };
+    });
 
-    storage.addEmployee(newEmployee);
     closeModal();
-    logAction('add', `توظيف كادر جديد: ${name}`);
-    showToast(`✅ ${i18n.t('systemUpdated')}`);
+    showToast(`✅ تم توظيف ${name} وإنشاء حسابه`);
     refreshModule();
 };
 
