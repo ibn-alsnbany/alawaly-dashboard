@@ -1,7 +1,8 @@
 import { i18n } from '../../core/i18n.js';
+import { apiService } from '../../core/apiService.js';
 
 export const analyticsModule = {
-    render: () => {
+    render: async () => {
         return `
             <div class="mb-6">
                 <h1 class="text-2xl font-bold mb-1 text-slate-800 dark:text-white">${i18n.t('analytics')}</h1>
@@ -10,14 +11,17 @@ export const analyticsModule = {
 
             <!-- Stats Grid: 4 Columns for better density -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 w-full">
-                ${(() => {
-                const userBase = storage.getUsers().length * 1200 + 145000;
+                ${await (async () => {
+                const users = await apiService.getUsers();
+                const userBase = users.length * 1200 + 145000;
                 return analyticsStatCard(i18n.t('visitors'), `<span class="font-nums">${(userBase / 1000).toFixed(1)}k</span>`, `<span class="font-nums">18%+</span>`, 'bg-vision-gold', 'M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z');
             })()}
                 ${analyticsStatCard(i18n.t('bounceRate'), `<span class="font-nums">32%</span>`, `<span class="font-nums">5%-</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6')}
                 ${analyticsStatCard(i18n.t('sessionDuration'), `<span class="font-nums">4m 32s</span>`, `<span class="font-nums">12%+</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z')}
-                ${(() => {
-                const conversion = Math.round(storage.getOrders().length / (storage.getUsers().length || 1) * 10);
+                ${await (async () => {
+                const orders = await apiService.getOrders();
+                const users = await apiService.getUsers();
+                const conversion = Math.round(orders.length / (users.length || 1) * 10);
                 return analyticsStatCard(i18n.t('avgClickRate'), `<span class="font-nums">${conversion}%</span>`, `<span class="font-nums">2.1%+</span>`, 'bg-vision-gold', 'M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5');
             })()}
             </div>
@@ -47,7 +51,7 @@ export const analyticsModule = {
                 <div class="lg:col-span-1 premium-card !p-6">
                     <h3 class="text-[0.9375rem] font-bold mb-6 text-slate-700 dark:text-slate-200">${i18n.t('teamPerformance')}</h3>
                     <div class="space-y-5">
-                        ${storage.getEmployees().slice(0, 4).map((emp, i) => {
+                        ${(await apiService.getEmployees()).slice(0, 4).map((emp, i) => {
                 const scores = [98, 92, 85, 79];
                 const colors = ['bg-emerald-500', 'bg-emerald-400', 'bg-amber-400', 'bg-blue-400'];
                 return staffItem(emp.name, `<span class="font-nums">${scores[i] || 80}%</span>`, colors[i] || 'bg-slate-400');
