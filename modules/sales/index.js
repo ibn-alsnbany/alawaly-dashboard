@@ -1,5 +1,4 @@
-import { i18n } from '../../core/i18n.js';
-import { storage } from '../../core/storage.js';
+import { apiService } from '../../core/apiService.js';
 
 let salesSearchQuery = '';
 
@@ -18,8 +17,8 @@ function translateStatus(status) {
 }
 
 export const salesModule = {
-    render: () => {
-        let orders = storage.getOrders();
+    render: async () => {
+        let orders = await apiService.getOrders();
 
         if (salesSearchQuery) {
             const q = salesSearchQuery.toLowerCase();
@@ -41,22 +40,25 @@ export const salesModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
-                ${(() => {
-                const totalQty = storage.getOrders().reduce((acc, o) => acc + (o.quantity || 1), 0);
-                return statCard(i18n.t('orders'), `<span class="font-nums">${storage.getOrders().length}</span>`, `<span class="font-nums">+${totalQty} items</span>`, 'bg-vision-gold', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z');
+                ${await (async () => {
+                const allOrders = await apiService.getOrders();
+                const totalQty = allOrders.reduce((acc, o) => acc + (o.quantity || 1), 0);
+                return statCard(i18n.t('orders'), `<span class="font-nums">${allOrders.length}</span>`, `<span class="font-nums">+${totalQty} items</span>`, 'bg-vision-gold', 'M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z');
             })()}
-                ${(() => {
-                const customers = new Set(storage.getOrders().map(o => o.customer)).size;
+                ${await (async () => {
+                const allOrders = await apiService.getOrders();
+                const customers = new Set(allOrders.map(o => o.customer)).size;
                 return statCard(i18n.t('customers'), `<span class="font-nums">${customers}</span>`, `<span class="font-nums">Loyal</span>`, 'bg-vision-gold', 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z');
             })()}
-                ${(() => {
-                const orders = storage.getOrders();
-                const total = orders.reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
-                const avg = orders.length > 0 ? total / orders.length : 0;
+                ${await (async () => {
+                const allOrders = await apiService.getOrders();
+                const total = allOrders.reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                const avg = allOrders.length > 0 ? total / allOrders.length : 0;
                 return statCard(i18n.t('averageOrder'), `<span class="font-nums">${formatCurrency(Math.round(avg).toLocaleString())}</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z');
             })()}
-                ${(() => {
-                const total = storage.getOrders().reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                ${await (async () => {
+                const allOrders = await apiService.getOrders();
+                const total = allOrders.reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
                 return statCard(i18n.t('totalSales'), `<span class="font-nums">${formatCurrency(total.toLocaleString())}</span>`, `<span class="font-nums">Dynamic</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6');
             })()}
             </div>
@@ -94,18 +96,27 @@ export const salesModule = {
                     <div class="premium-card !p-6 bg-gradient-to-br from-emerald-600 to-teal-700 border-none text-white">
                         <h3 class="text-lg font-bold mb-6">${i18n.lang === 'ar' ? 'ملخص المبيعات' : 'Sales Summary'}</h3>
                         <div class="space-y-4">
-                            <div class="flex justify-between items-center opacity-90">
-                                <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'طلبات قيد المعالجة' : 'Orders Processing'}</span>
-                                <span class="font-nums font-bold">${storage.getOrders().filter(o => o.status === 'Processing').length}</span>
-                            </div>
-                            <div class="flex justify-between items-center opacity-90">
-                                <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'طلبات مكتملة' : 'Orders Completed'}</span>
-                                <span class="font-nums font-bold">${storage.getOrders().filter(o => o.status === 'Completed').length}</span>
-                            </div>
-                            <div class="pt-4 border-t border-white/10 flex justify-between items-center">
-                                <span class="text-sm font-bold">${i18n.lang === 'ar' ? 'إجمالي المبيعات' : 'Total Revenue'}</span>
-                                <span class="text-lg font-bold font-nums">${formatCurrency(storage.getOrders().reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0).toLocaleString())}</span>
-                            </div>
+                            ${await (async () => {
+                const allOrders = await apiService.getOrders();
+                const processingCount = allOrders.filter(o => o.status === 'Processing').length;
+                const completedCount = allOrders.filter(o => o.status === 'Completed').length;
+                const totalRevenue = allOrders.reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+
+                return `
+                                    <div class="flex justify-between items-center opacity-90">
+                                        <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'طلبات قيد المعالجة' : 'Orders Processing'}</span>
+                                        <span class="font-nums font-bold">${processingCount}</span>
+                                    </div>
+                                    <div class="flex justify-between items-center opacity-90">
+                                        <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'طلبات مكتملة' : 'Orders Completed'}</span>
+                                        <span class="font-nums font-bold">${completedCount}</span>
+                                    </div>
+                                    <div class="pt-4 border-t border-white/10 flex justify-between items-center">
+                                        <span class="text-sm font-bold">${i18n.lang === 'ar' ? 'إجمالي المبيعات' : 'Total Revenue'}</span>
+                                        <span class="text-lg font-bold font-nums">${formatCurrency(totalRevenue.toLocaleString())}</span>
+                                    </div>
+                                `;
+            })()}
                         </div>
                     </div>
 
@@ -132,11 +143,11 @@ export const salesModule = {
     }
 };
 
-window.handleSalesSearch = (val) => {
+window.handleSalesSearch = async (val) => {
     salesSearchQuery = val;
     const container = document.getElementById('module-container');
     if (container) {
-        container.innerHTML = salesModule.render();
+        container.innerHTML = await salesModule.render();
         const input = document.getElementById('sales-search');
         if (input) {
             input.focus();
@@ -145,8 +156,8 @@ window.handleSalesSearch = (val) => {
     }
 };
 
-window.addOrderPrompt = () => {
-    const products = storage.getProducts();
+window.addOrderPrompt = async () => {
+    const products = await apiService.getProducts();
     const productOptions = products.map(p => `<option value="${p.id}" data-price="${p.price.replace(/,/g, '')}">${p.name} (${p.price} SAR)</option>`).join('');
 
     showModal(modalForm(i18n.t('createNewOrder'), `
@@ -178,7 +189,7 @@ window.updateOrderAmount = (select) => {
     document.getElementById('ord-amount').value = (parseFloat(price) * parseInt(qty)).toLocaleString();
 };
 
-window.submitNewOrder = () => {
+window.submitNewOrder = async () => {
     const customer = document.getElementById('ord-customer').value.trim();
     const productId = document.getElementById('ord-product').value;
     const productText = document.getElementById('ord-product').options[document.getElementById('ord-product').selectedIndex].text.split('(')[0].trim();
@@ -191,7 +202,7 @@ window.submitNewOrder = () => {
     }
 
     const orderId = `#ORD-${Date.now().toString().slice(-4)}`;
-    storage.processOrder({
+    await apiService.processOrder({
         id: orderId,
         customer,
         productName: productText,
@@ -281,10 +292,10 @@ window.viewOrder = (id) => {
     `);
 };
 
-window.deleteOrderItem = (id) => {
+window.deleteOrderItem = async (id) => {
     const title = i18n.t('deleteRecord') || 'حذف السجل';
     const message = (i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذا الطلب؟') + ' (' + id + ')';
-    showConfirmModal(title, message, `storage.deleteOrder('${id}'); logAction('delete', 'تم إلغاء الطلب: ${id}'); showToast('🗑️ تم حذف الطلب ${id}'); refreshModule();`);
+    showConfirmModal(title, message, `(async () => { await apiService.deleteOrder('${id}'); logAction('delete', 'تم إلغاء الطلب: ${id}'); showToast('🗑️ تم حذف الطلب ${id}'); refreshModule(); })()`);
 };
 
 function statCard(title, value, change, color, iconPath) {
