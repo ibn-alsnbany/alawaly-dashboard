@@ -1,12 +1,11 @@
-import { i18n } from '../../core/i18n.js';
-import { storage } from '../../core/storage.js';
+import { apiService } from '../../core/apiService.js';
 
 let inventorySearchQuery = '';
 
 export const inventoryModule = {
-    render: () => {
-        const products = storage.getProducts();
-        const logs = storage.getInventoryLogs();
+    render: async () => {
+        const products = await apiService.getProducts();
+        const logs = await apiService.getInventoryLogs();
 
         let filteredProducts = products;
         if (inventorySearchQuery) {
@@ -166,11 +165,11 @@ function getStatusClass(status) {
     }
 }
 
-window.handleInventorySearch = (val) => {
+window.handleInventorySearch = async (val) => {
     inventorySearchQuery = val;
     const hash = window.location.hash.replace('#', '') || 'dashboard';
     if (hash === 'inventory') {
         const container = document.getElementById('module-container');
-        if (container) container.innerHTML = inventoryModule.render();
+        if (container) container.innerHTML = await inventoryModule.render();
     }
 };
