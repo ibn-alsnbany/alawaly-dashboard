@@ -1,11 +1,10 @@
-import { i18n } from '../../core/i18n.js';
-import { storage } from '../../core/storage.js';
+import { apiService } from '../../core/apiService.js';
 
 let financeSearchQuery = '';
 
 export const financeModule = {
-    render: () => {
-        let invoices = storage.getInvoices();
+    render: async () => {
+        let invoices = await apiService.getInvoices();
 
         // Helpers
         const translateStatus = (s) => {
@@ -34,22 +33,28 @@ export const financeModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10 w-full">
-                ${(() => {
-                const totalSales = storage.getOrders().filter(o => o.status === 'Completed').reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                ${await (async () => {
+                const allInvoices = await apiService.getInvoices();
+                const allOrders = await apiService.getOrders();
+                const totalSales = allOrders.filter(o => o.status === 'Completed').reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
                 return statCard(i18n.t('revenue'), `<span class="font-nums">${formatCurrency(totalSales.toLocaleString())}</span>`, `<span class="font-nums">8%+</span>`, 'bg-vision-gold', 'M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zm1 17.93V20h-2v-1.07A7.002 7.002 0 015.07 13H4v-2h1.07A7.002 7.002 0 0111 5.07V4h2v1.07A7.002 7.002 0 0118.93 11H20v2h-1.07A7.002 7.002 0 0113 18.93z');
             })()}
-                ${(() => {
-                const totalSales = storage.getOrders().reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
-                const expenses = storage.getInvoices().filter(inv => inv.status === 'Paid').reduce((acc, inv) => acc + parseFloat(inv.amount.toString().replace(/,/g, '')), 0);
+                ${await (async () => {
+                const allInvoices = await apiService.getInvoices();
+                const allOrders = await apiService.getOrders();
+                const totalSales = allOrders.reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                const expenses = allInvoices.filter(inv => inv.status === 'Paid').reduce((acc, inv) => acc + parseFloat(inv.amount.toString().replace(/,/g, '')), 0);
                 const profit = Math.max(0, totalSales - expenses);
                 return statCard(i18n.t('profit'), `<span class="font-nums">${formatCurrency(profit.toLocaleString())}</span>`, `<span class="font-nums">15%+</span>`, 'bg-vision-gold', 'M3 17l6-6 4 4 8-8v6h2V3h-10v2h6l-6 6-4-4L1 15z');
             })()}
-                ${(() => {
-                const expenses = storage.getInvoices().filter(inv => inv.status === 'Paid').reduce((acc, inv) => acc + parseFloat(inv.amount.toString().replace(/,/g, '')), 0);
+                ${await (async () => {
+                const allInvoices = await apiService.getInvoices();
+                const expenses = allInvoices.filter(inv => inv.status === 'Paid').reduce((acc, inv) => acc + parseFloat(inv.amount.toString().replace(/,/g, '')), 0);
                 return statCard(i18n.t('expenses'), `<span class="font-nums">${formatCurrency(expenses.toLocaleString())}</span>`, `<span class="font-nums">5%-</span>`, 'bg-vision-gold', 'M19 7l-6 6-4-4-8 8v-6H1V21h10v-2H5l6-6 4 4 6-6z');
             })()}
-                ${(() => {
-                return statCard(i18n.t('payments'), `<span class="font-nums">${storage.getInvoices().length}</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M2 5a2 2 0 012-2h16a2 2 0 012 2v2H2V5zm0 4h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V9zm4 6h6v2H6v-2z');
+                ${await (async () => {
+                const allInvoices = await apiService.getInvoices();
+                return statCard(i18n.t('payments'), `<span class="font-nums">${allInvoices.length}</span>`, `<span class="font-nums">${i18n.t('stable')}</span>`, 'bg-vision-gold', 'M2 5a2 2 0 012-2h16a2 2 0 012 2v2H2V5zm0 4h20v10a2 2 0 01-2 2H4a2 2 0 01-2-2V9zm4 6h6v2H6v-2z');
             })()}
             </div>
             
@@ -88,15 +93,15 @@ export const financeModule = {
                         <div class="space-y-4">
                             <div class="flex justify-between items-center opacity-90">
                                 <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'الفواتير المدفوعة' : 'Paid Invoices'}</span>
-                                <span class="font-nums font-bold">${storage.getInvoices().filter(i => i.status === 'Paid').length}</span>
+                                <span class="font-nums font-bold">${(await apiService.getInvoices()).filter(i => i.status === 'Paid').length}</span>
                             </div>
                             <div class="flex justify-between items-center opacity-90">
                                 <span class="text-sm font-medium">${i18n.lang === 'ar' ? 'الفواتير المعلقة' : 'Pending Invoices'}</span>
-                                <span class="font-nums font-bold">${storage.getInvoices().filter(i => i.status === 'Pending').length}</span>
+                                <span class="font-nums font-bold">${(await apiService.getInvoices()).filter(i => i.status === 'Pending').length}</span>
                             </div>
                             <div class="pt-4 border-t border-white/10 flex justify-between items-center">
                                 <span class="text-sm font-bold">${i18n.lang === 'ar' ? 'الإجمالي' : 'Total'}</span>
-                                <span class="text-lg font-bold font-nums">${formatCurrency(storage.getInvoices().reduce((acc, i) => acc + parseFloat(i.amount.replace(/,/g, '')), 0).toLocaleString())}</span>
+                                <span class="text-lg font-bold font-nums">${formatCurrency((await apiService.getInvoices()).reduce((acc, i) => acc + parseFloat(i.amount.replace(/,/g, '')), 0).toLocaleString())}</span>
                             </div>
                         </div>
                     </div>
@@ -125,11 +130,11 @@ export const financeModule = {
     }
 };
 
-window.handleFinanceSearch = (val) => {
+window.handleFinanceSearch = async (val) => {
     financeSearchQuery = val;
     const container = document.getElementById('module-container');
     if (container) {
-        container.innerHTML = financeModule.render();
+        container.innerHTML = await financeModule.render();
         const input = document.getElementById('finance-search');
         if (input) {
             input.focus();
@@ -150,7 +155,7 @@ window.addInvoicePrompt = () => {
     `, 'إصدار الفاتورة', 'submitNewInvoice()'));
 };
 
-window.submitNewInvoice = () => {
+window.submitNewInvoice = async () => {
     const customer = document.getElementById('inv-customer').value.trim();
     const amount = document.getElementById('inv-amount').value;
     const date = document.getElementById('inv-date').value;
@@ -173,7 +178,7 @@ window.submitNewInvoice = () => {
         statusClass: 'bg-amber-50 text-amber-600'
     };
 
-    storage.addInvoice(newInvoice);
+    await apiService.addInvoice(newInvoice);
     closeModal();
     logAction('add', `إصدار فاتورة جديدة للعميل: ${customer}`);
     showToast('✅ تم إصدار الفاتورة بنجاح');
@@ -181,8 +186,9 @@ window.submitNewInvoice = () => {
 };
 
 
-window.editInvoicePrompt = (id) => {
-    const inv = storage.getInvoices().find(i => i.id === id);
+window.editInvoicePrompt = async (id) => {
+    const invoices = await apiService.getInvoices();
+    const inv = invoices.find(i => i.id === id);
     if (!inv) return;
 
     showModal(modalForm(i18n.t('editInvoice'), `
@@ -202,7 +208,7 @@ window.editInvoicePrompt = (id) => {
     document.getElementById('inv-date').value = inv.date;
 };
 
-window.submitUpdateInvoice = () => {
+window.submitUpdateInvoice = async () => {
     const id = document.getElementById('inv-id').value;
     const customer = document.getElementById('inv-customer').value;
     const amount = document.getElementById('inv-amount').value;
@@ -210,7 +216,7 @@ window.submitUpdateInvoice = () => {
 
     if (!customer || !amount) return alert('يرجى إكمال البيانات');
 
-    storage.updateInvoice(id, {
+    await apiService.updateInvoice(id, {
         customer,
         amount: Number(amount).toLocaleString(),
         date
@@ -221,8 +227,9 @@ window.submitUpdateInvoice = () => {
     refreshModule();
 };
 
-window.viewInvoice = (id) => {
-    const inv = storage.getInvoices().find(i => i.id === id);
+window.viewInvoice = async (id) => {
+    const invoices = await apiService.getInvoices();
+    const inv = invoices.find(i => i.id === id);
     if (!inv) return;
 
     // Helpers
@@ -267,10 +274,10 @@ window.viewInvoice = (id) => {
     `);
 };
 
-window.deleteInvoice = (id) => {
+window.deleteInvoice = async (id) => {
     const title = i18n.t('deleteRecord') || 'حذف السجل';
     const message = (i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذه الفاتورة؟') + ' (' + id + ')';
-    showConfirmModal(title, message, `storage.deleteInvoice('${id}'); logAction('delete', 'تم حذف الفاتورة: ${id}'); showToast('🗑️ تم حذف الفاتورة ${id}'); refreshModule();`);
+    showConfirmModal(title, message, `(async () => { await apiService.deleteInvoice('${id}'); logAction('delete', 'تم حذف الفاتورة: ${id}'); showToast('🗑️ تم حذف الفاتورة ${id}'); refreshModule(); })()`);
 };
 
 function statCard(title, value, change, color, iconPath) {
