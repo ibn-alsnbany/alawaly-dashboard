@@ -1,11 +1,10 @@
-import { i18n } from '../../core/i18n.js';
-import { storage } from '../../core/storage.js';
+import { apiService } from '../../core/apiService.js';
 
 let hrSearchQuery = '';
 
 export const hrModule = {
-    render: () => {
-        let employees = storage.getEmployees();
+    render: async () => {
+        let employees = await apiService.getEmployees();
 
         if (hrSearchQuery) {
             const q = hrSearchQuery.toLowerCase();
@@ -28,13 +27,17 @@ export const hrModule = {
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 w-full">
-                ${(() => {
-                const count = storage.getEmployees().length;
+                ${await (async () => {
+                const allEmployees = await apiService.getEmployees();
+                const count = allEmployees.length;
                 return statCard(i18n.t('employees'), `<span class="font-nums">${count}</span>`, `<span class="font-nums">+${count}</span>`, 'bg-vision-gold', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z');
             })()}
                 ${statCard(i18n.t('attendance'), `<span class="font-nums">94%</span>`, `<span class="font-nums">1%-</span>`, 'bg-vision-gold', 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2')}
                 ${statCard(i18n.t('leaves'), `<span class="font-nums">8</span>`, `<span class="font-nums">Active</span>`, 'bg-vision-gold', 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z')}
-                ${statCard(i18n.t('salaries'), `<span class="font-nums">${storage.getEmployees().length * 6000}</span>`, `<span class="font-nums">Avg 6k</span>`, 'bg-vision-gold', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z')}
+                ${await (async () => {
+                const allEmployees = await apiService.getEmployees();
+                return statCard(i18n.t('salaries'), `<span class="font-nums">${allEmployees.length * 6000}</span>`, `<span class="font-nums">Avg 6k</span>`, 'bg-vision-gold', 'M12 8c-1.657 0-3 1.343-3 3s1.343 3 3 3 3-1.343 3-3-1.343-3-3-3zM17 13v-2M7 13v-2M12 5v3m0 8v3M5 18h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z');
+            })()}
             </div>
             
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -167,11 +170,11 @@ function employeeRow(id, name, role, status, statusClass) {
     `;
 }
 
-window.handleHRSearch = (val) => {
+window.handleHRSearch = async (val) => {
     hrSearchQuery = val;
     const container = document.getElementById('module-container');
     if (container) {
-        container.innerHTML = hrModule.render();
+        container.innerHTML = await hrModule.render();
         const input = document.getElementById('hr-search');
         if (input) {
             input.focus();
@@ -189,7 +192,7 @@ window.addEmployeePrompt = () => {
     `, i18n.t('hireNow'), 'submitNewEmployee()'));
 };
 
-window.submitNewEmployee = () => {
+window.submitNewEmployee = async () => {
     const name = document.getElementById('emp-name').value.trim();
     const role = document.getElementById('emp-role').value.trim();
 
@@ -198,7 +201,7 @@ window.submitNewEmployee = () => {
         return;
     }
 
-    storage.addEmployeeWithUser({
+    await apiService.addEmployeeWithUser({
         name,
         role,
         status: 'Active',
@@ -210,8 +213,9 @@ window.submitNewEmployee = () => {
     refreshModule();
 };
 
-window.editEmployeePrompt = (id) => {
-    const emp = storage.getEmployees().find(e => e.id == id);
+window.editEmployeePrompt = async (id) => {
+    const employees = await apiService.getEmployees();
+    const emp = employees.find(e => e.id == id);
     if (!emp) return;
 
     showModal(modalForm(i18n.t('editEmployeeRecord'), `
@@ -226,22 +230,23 @@ window.editEmployeePrompt = (id) => {
     document.getElementById('emp-role').value = emp.role;
 };
 
-window.submitUpdateEmployee = () => {
+window.submitUpdateEmployee = async () => {
     const id = document.getElementById('emp-id').value;
     const name = document.getElementById('emp-name').value;
     const role = document.getElementById('emp-role').value;
 
     if (!name || !role) return alert(i18n.t('noResults'));
 
-    storage.updateEmployee(id, { name, role });
+    await apiService.updateEmployee(id, { name, role });
     closeModal();
     logAction('edit', `تحديث بيانات الموظف: ${name}`);
     showToast(`✅ ${i18n.t('systemUpdated')}`);
     refreshModule();
 };
 
-window.viewEmployee = (id) => {
-    const emp = storage.getEmployees().find(e => e.id == id);
+window.viewEmployee = async (id) => {
+    const employees = await apiService.getEmployees();
+    const emp = employees.find(e => e.id == id);
     if (!emp) return;
 
     const translateStatus = (s) => {
@@ -285,10 +290,8 @@ window.viewEmployee = (id) => {
     `);
 };
 
-window.deleteEmployee = (id) => {
-    const emp = storage.getEmployees().find(e => e.id == id);
-    const name = emp ? emp.name : id;
-    const title = i18n.t('deleteRecord');
-    const message = i18n.t('confirmDeleteEmployee') + ' (' + name + ')';
-    showConfirmModal(title, message, `storage.deleteEmployee(${id}); logAction('delete', 'تم حذف الموظف: ${name}'); showToast('🗑️ ' + i18n.t('deleteRecord') + ': ${name}'); refreshModule();`);
+window.deleteEmployee = async (id) => {
+    const title = i18n.t('deleteRecord') || 'حذف السجل';
+    const message = (i18n.t('confirmDeleteUser') || 'هل أنت متأكد من حذف هذا الموظف؟') + ' (' + id + ')';
+    showConfirmModal(title, message, `(async () => { await apiService.deleteEmployee('${id}'); logAction('delete', 'تم حذف الموظف: ${id}'); showToast('🗑️ تم حذف الموظف ${id}'); refreshModule(); })()`);
 };
