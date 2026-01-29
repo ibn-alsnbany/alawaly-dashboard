@@ -1,8 +1,7 @@
-import { i18n } from '../../core/i18n.js';
-import { storage } from '../../core/storage.js';
+import { apiService } from '../../core/apiService.js';
 
 export const dashboardModule = {
-    render: () => {
+    render: async () => {
         return `
             <!-- Welcome Header -->
             <div class="mb-8">
@@ -12,23 +11,23 @@ export const dashboardModule = {
 
             <!-- Stats Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 w-full">
-                ${(() => {
-                const completedOrders = storage.getOrders().filter(o => o.status === 'Completed');
-                const totalSales = completedOrders.reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
-                const change = completedOrders.length > 5 ? '+12.5%' : '+0%';
-                return statCard(i18n.t('totalSales'), `<span class="font-nums">${totalSales.toLocaleString()}</span> ` + currencyIcon(), `<span class="font-nums">${change}</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', "navigateTo('sales')");
+                ${await (async () => {
+                const orders = await apiService.getOrders();
+                const completedTotal = orders.filter(o => o.status === 'Completed').reduce((acc, o) => acc + parseFloat(o.amount.replace(/,/g, '')), 0);
+                return statCard(i18n.t('totalSales'), `<span class="font-nums">${completedTotal.toLocaleString()}</span> ` + currencyIcon(), `<span class="font-nums">12.5%+</span>`, 'bg-vision-gold', 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6', "navigateTo('sales')");
             })()}
-                ${(() => {
-                const usersCount = storage.getUsers().length;
-                return statCard(i18n.t('newUsers'), `<span class="font-nums">${usersCount.toLocaleString()}</span>`, `<span class="font-nums">+${usersCount}</span>`, 'bg-vision-gold', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', "navigateTo('users')");
+                ${await (async () => {
+                const users = await apiService.getUsers();
+                const usersCount = users.length;
+                return statCard(i18n.t('newUsers'), `<span class="font-nums">${usersCount.toLocaleString()}</span>`, `<span class="font-nums">3.4%+</span>`, 'bg-vision-gold', 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', "navigateTo('users')");
             })()}
-                ${(() => {
-                const invoices = storage.getInvoices();
+                ${await (async () => {
+                const invoices = await apiService.getInvoices();
                 const totalExpenses = invoices.filter(inv => inv.status === 'Paid').reduce((acc, inv) => acc + parseFloat(inv.amount.toString().replace(/,/g, '')), 0);
                 return statCard(i18n.t('expenses'), `<span class="font-nums">${totalExpenses.toLocaleString()}</span> ` + currencyIcon(), `<span class="font-nums">2.1%-</span>`, 'bg-vision-gold', 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', "navigateTo('finance')");
             })()}
-                ${(() => {
-                const products = storage.getProducts();
+                ${await (async () => {
+                const products = await apiService.getProducts();
                 const lowStock = products.filter(p => p.stock <= 5).length;
                 const stockHealth = Math.round(((products.length - lowStock) / products.length) * 100);
                 return statCard(i18n.t('inventoryHealth'), `<span class="font-nums">${stockHealth}%</span>`, `<span class="font-nums">${lowStock} items low</span>`, stockHealth > 80 ? 'bg-emerald-500' : 'bg-amber-500', 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', "navigateTo('inventory')");
@@ -45,7 +44,7 @@ export const dashboardModule = {
                         <button class="text-[0.75rem] font-semibold text-vision-gold hover:underline">${i18n.t('viewMore')}</button>
                     </div>
                     <div class="space-y-4 flex-1">
-                        ${storage.getNotifications().slice(0, 5).map(notif => {
+                        ${(await apiService.getNotifications()).slice(0, 5).map(notif => {
                 const colors = { add: 'bg-emerald-500', edit: 'bg-amber-500', delete: 'bg-rose-500', info: 'bg-blue-500' };
                 const timeStr = new Date(notif.time).toLocaleTimeString(i18n.lang === 'ar' ? 'ar-SA' : 'en-US', { hour: '2-digit', minute: '2-digit' });
                 return activityItem(notif.message, timeStr, colors[notif.type] || colors.info);
