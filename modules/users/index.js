@@ -1,11 +1,11 @@
 import { i18n } from '../../core/i18n.js';
-import { storage } from '../../core/storage.js';
+import { apiService } from '../../core/apiService.js';
 
 let userSearchQuery = '';
 
 export const usersModule = {
-    render: () => {
-        let users = storage.getUsers();
+    render: async () => {
+        let users = await apiService.getUsers();
 
         // Helpers
         const translateDept = (d) => {
@@ -87,11 +87,11 @@ export const usersModule = {
     }
 };
 
-window.handleUserSearch = (val) => {
+window.handleUserSearch = async (val) => {
     userSearchQuery = val;
     const container = document.getElementById('module-container');
     if (container) {
-        container.innerHTML = usersModule.render();
+        container.innerHTML = await usersModule.render();
         const input = document.getElementById('user-search');
         if (input) {
             input.focus();
@@ -113,88 +113,71 @@ window.addNewUserPrompt = () => {
     `, i18n.t('hireUser'), 'submitNewUser()'));
 };
 
-window.submitNewUser = () => {
-    const name = document.getElementById('user-name').value.trim();
-    const email = document.getElementById('user-email').value.trim();
-    const dept = document.getElementById('user-dept').value.trim();
-    const role = document.getElementById('user-role').value.trim();
+window.submitNewUser = async () => {
+    const name = document.getElementById('usr-name').value.trim();
+    const email = document.getElementById('usr-email').value.trim();
+    const role = document.getElementById('usr-role').value;
 
-    if (!name) {
-        showToast('⚠️ يرجى إدخال اسم الموظف');
-        return;
-    }
-    if (!email) {
-        showToast('⚠️ يرجى إدخال البريد الإلكتروني');
-        return;
-    }
-    // Simple email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showToast('⚠️ يرجى إدخال بريد إلكتروني صحيح');
-        return;
-    }
-    if (!dept || !role) {
-        showToast('⚠️ يرجى إكمال جميع الحقول');
+    if (!name || !email) {
+        showToast(`⚠️ ${i18n.t('enterName')}`);
         return;
     }
 
     const newUser = {
         name,
         email,
-        dept,
         role,
-        status: 'bg-emerald-500'
+        status: 'Active',
+        statusClass: 'bg-emerald-50 text-emerald-600',
+        avatar: 'https://i.pravatar.cc/150?u=' + Date.now()
     };
 
-    storage.addUser(newUser);
+    await apiService.addUser(newUser);
     closeModal();
-    logAction('add', `تم إضافة موظف جديد: ${name}`);
-    showToast(`✅ ${i18n.t('newUserAdded')}`);
-    refreshModule();
-};
-
-
-window.editUserPrompt = (id) => {
-    const user = storage.getUsers().find(u => u.id == id);
-    if (!user) return;
-
-    showModal(modalForm(i18n.t('editUserRecord'), `
-    <div class="space-y-5 text-start">
-        ${modalInput(i18n.t('fullName'), 'user-name', i18n.t('enterName'), 'text')}
-        ${modalInput(i18n.t('email'), 'user-email', 'email@vision.sa')}
-        <div class="grid grid-cols-2 gap-4">
-            ${modalInput(i18n.t('currentDept'), 'user-dept', i18n.t('currentDept'))}
-            ${modalInput(i18n.t('jobTitle'), 'user-role', i18n.t('jobTitle'))}
-        </div>
-        <input type="hidden" id="user-id" value="${id}">
-    </div>
-    `, i18n.t('saveChanges'), 'submitUpdateUser()'));
-
-    // Fill values
-    document.getElementById('user-name').value = user.name;
-    document.getElementById('user-email').value = user.email;
-    document.getElementById('user-dept').value = user.dept;
-    document.getElementById('user-role').value = user.role;
-};
-
-window.submitUpdateUser = () => {
-    const id = document.getElementById('user-id').value;
-    const name = document.getElementById('user-name').value;
-    const email = document.getElementById('user-email').value;
-    const dept = document.getElementById('user-dept').value;
-    const role = document.getElementById('user-role').value;
-
-    if (!name || !email) return alert('يرجى تعبئة كافة الحقول');
-
-    storage.updateUser(id, { name, email, dept, role });
-    closeModal();
-    logAction('edit', `تعديل بيانات الموظف: ${name}`);
+    logAction('add', `إضافة مستخدم جديد: ${name}`);
     showToast(`✅ ${i18n.t('systemUpdated')}`);
     refreshModule();
 };
 
-window.viewUser = (id) => {
-    const user = storage.getUsers().find(u => u.id == id);
+
+window.editUserPrompt = async (id) => {
+    const users = await apiService.getUsers();
+    const user = users.find(u => u.id == id);
+    if (!user) return;
+
+    showModal(modalForm(i18n.t('editUserRecord'), `
+    <div class="space-y-5 text-start">
+        ${modalInput(i18n.t('fullName'), 'usr-name', i18n.t('enterName'), 'text')}
+        ${modalInput(i18n.t('email'), 'usr-email', 'email@vision.sa')}
+        ${modalInput(i18n.t('jobTitle'), 'usr-role', i18n.t('jobTitle'))}
+        <input type="hidden" id="usr-id" value="${id}">
+    </div>
+    `, i18n.t('saveChanges'), 'submitUpdateUser()'));
+
+    // Fill values
+    document.getElementById('usr-name').value = user.name;
+    document.getElementById('usr-email').value = user.email;
+    document.getElementById('usr-role').value = user.role;
+};
+
+window.submitUpdateUser = async () => {
+    const id = document.getElementById('usr-id').value;
+    const name = document.getElementById('usr-name').value;
+    const email = document.getElementById('usr-email').value;
+    const role = document.getElementById('usr-role').value;
+
+    if (!name || !email) return alert(i18n.t('noResults'));
+
+    await apiService.updateUser(id, { name, email, role });
+    closeModal();
+    logAction('edit', `تحديث بيانات المستخدم: ${name}`);
+    showToast(`✅ ${i18n.t('systemUpdated')}`);
+    refreshModule();
+};
+
+window.viewUser = async (id) => {
+    const users = await apiService.getUsers();
+    const user = users.find(u => u.id == id);
     if (!user) return;
 
     // Helpers
@@ -240,12 +223,11 @@ window.viewUser = (id) => {
     `);
 };
 
-window.deleteUserItem = (id) => {
-    const user = storage.getUsers().find(u => u.id == id);
+window.deleteUser = async (id) => {
+    const users = await apiService.getUsers();
+    const user = users.find(u => u.id == id);
     const name = user ? user.name : id;
-    const title = i18n.t('deleteRecord');
-    const message = i18n.t('confirmDeleteUser') + ' (' + name + ')';
-    showConfirmModal(title, message, `storage.deleteUser(${id}); logAction('delete', 'حذف المستخدم: ${name}'); showToast('🗑️ ' + i18n.t('deleteRecord') + ': ${name}'); refreshModule();`);
+    showConfirmModal(i18n.t('deleteRecord'), i18n.t('confirmDeleteUser') + ' (' + name + ')', `(async () => { await apiService.deleteUser(${id}); logAction('delete', 'تم حذف المستخدم: ${name}'); showToast('🗑️ تم الحذف: ${name}'); refreshModule(); })()`);
 };
 
 function userRow(id, name, email, dept, role, statusColor) {
