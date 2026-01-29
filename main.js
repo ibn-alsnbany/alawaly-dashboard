@@ -1,6 +1,7 @@
 import { i18n } from './core/i18n.js';
 import { theme } from './core/theme.js';
 import { storage } from './core/storage.js';
+import { apiService } from './core/apiService.js';
 
 // Cross-Tab Synchronization Layer
 const settingsChannel = new BroadcastChannel('app_settings_channel');
@@ -36,6 +37,7 @@ import { inventoryModule } from './modules/inventory/index.js';
 
 // Expose Core to Global Scope for HTML Event Handlers
 window.storage = storage;
+window.apiService = apiService;
 window.i18n = i18n;
 window.theme = theme;
 
@@ -88,12 +90,13 @@ window.showToast = (message) => {
     setTimeout(() => toast.classList.remove('active'), 3000);
 };
 
-window.refreshModule = () => {
+window.refreshModule = async () => {
     const hash = window.location.hash.replace('#', '') || 'dashboard';
     const container = document.getElementById('module-container');
     if (container) {
         const module = routes[hash] || dashboardModule;
-        container.innerHTML = module.render();
+        // Inject skeleton or loader if needed
+        container.innerHTML = await module.render();
     }
 };
 
@@ -165,7 +168,7 @@ window.formatCurrency = (amount) => {
 };
 
 // Application Context Handler
-function handleRoute() {
+async function handleRoute() {
     const hash = window.location.hash.replace('#', '') || 'dashboard';
     const module = routes[hash];
     const container = document.getElementById('module-container');
@@ -183,18 +186,33 @@ function handleRoute() {
         // Content Injection with Smooth Transition
         container.classList.add('module-exit');
 
-        setTimeout(() => {
-            container.innerHTML = module.render();
-            container.classList.remove('module-exit');
-            container.classList.add('module-enter');
+        // Add a subtle loading state to the container
+        container.style.opacity = '0.5';
+        container.style.pointerEvents = 'none';
 
-            // Cleanup enter class after animation
+        try {
+            const html = await module.render();
+
             setTimeout(() => {
-                container.classList.remove('module-enter');
-            }, 400);
+                container.innerHTML = html;
+                container.classList.remove('module-exit');
+                container.classList.add('module-enter');
+                container.style.opacity = '1';
+                container.style.pointerEvents = 'auto';
 
-            i18n.translatePage(); // Refresh text context
-        }, 150);
+                // Cleanup enter class after animation
+                setTimeout(() => {
+                    container.classList.remove('module-enter');
+                }, 400);
+
+                i18n.translatePage(); // Refresh text context
+            }, 150);
+        } catch (error) {
+            console.error('Failed to render module:', error);
+            container.innerHTML = `<div class="p-20 text-center text-rose-500 font-bold">Error loading module. Please try again.</div>`;
+            container.style.opacity = '1';
+            container.style.pointerEvents = 'auto';
+        }
     }
 }
 
