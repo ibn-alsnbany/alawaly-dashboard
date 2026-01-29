@@ -1,11 +1,10 @@
-import { i18n } from '../../core/i18n.js';
-import { storage } from '../../core/storage.js';
+import { apiService } from '../../core/apiService.js';
 
 let productsSearchQuery = '';
 
 export const productsModule = {
-    render: () => {
-        let products = storage.getProducts();
+    render: async () => {
+        let products = await apiService.getProducts();
 
         if (productsSearchQuery) {
             const q = productsSearchQuery.toLowerCase();
@@ -197,7 +196,7 @@ window.addProductPrompt = () => {
     `, i18n.t('confirm'), 'submitNewProduct()'));
 };
 
-window.submitNewProduct = () => {
+window.submitNewProduct = async () => {
     const name = document.getElementById('prod-name').value.trim();
     const sku = document.getElementById('prod-sku').value.trim();
     const category = document.getElementById('prod-category').value;
@@ -208,15 +207,16 @@ window.submitNewProduct = () => {
         return;
     }
 
-    storage.addProduct({ name, sku, price, category, stock: 10, status: 'In Stock' });
+    await apiService.addProduct({ name, sku, price, category, stock: 10, status: 'In Stock' });
     closeModal();
     logAction('add', `إضافة منتج جديد: ${name}`);
     showToast(`✅ ${i18n.t('systemUpdated')}`);
     refreshModule();
 };
 
-window.editProductPrompt = (id) => {
-    const p = storage.getProducts().find(x => x.id == id);
+window.editProductPrompt = async (id) => {
+    const products = await apiService.getProducts();
+    const p = products.find(x => x.id == id);
     if (!p) return;
 
     const categories = ['Smartphones', 'Laptops', 'Accessories', 'Tablets', 'General'];
@@ -247,19 +247,20 @@ window.editProductPrompt = (id) => {
     document.getElementById('prod-price').value = p.price;
 };
 
-window.submitUpdateProduct = () => {
+window.submitUpdateProduct = async () => {
     const id = document.getElementById('prod-id').value;
     const name = document.getElementById('prod-name').value;
     const category = document.getElementById('prod-category').value;
     const price = document.getElementById('prod-price').value;
 
-    storage.updateProduct(id, { name, category, price });
+    await apiService.updateProduct(id, { name, category, price });
     closeModal();
     refreshModule();
 };
 
-window.viewProduct = (id) => {
-    const p = storage.getProducts().find(x => x.id == id);
+window.viewProduct = async (id) => {
+    const products = await apiService.getProducts();
+    const p = products.find(x => x.id == id);
     if (!p) return;
 
     const statusClasses = {
@@ -308,8 +309,9 @@ window.viewProduct = (id) => {
     `);
 };
 
-window.deleteProduct = (id) => {
-    const p = storage.getProducts().find(x => x.id == id);
+window.deleteProduct = async (id) => {
+    const products = await apiService.getProducts();
+    const p = products.find(x => x.id == id);
     const name = p ? p.name : id;
-    showConfirmModal(i18n.t('deleteRecord'), `Are you sure you want to delete ${name}?`, `storage.deleteProduct(${id}); refreshModule();`);
+    showConfirmModal(i18n.t('deleteRecord'), `Are you sure you want to delete ${name}?`, `(async () => { await apiService.deleteProduct(${id}); refreshModule(); })()`);
 };
